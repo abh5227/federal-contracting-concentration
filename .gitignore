@@ -1,0 +1,10 @@
+# Data stays outside the repo. /data has no trailing slash, so the data symlink is ignored too.
+/data
+/local/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.tmp/
+*.Rhistory
+node_modules/

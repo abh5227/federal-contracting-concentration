@@ -1,0 +1,9 @@
+{
+  "name": "fy2025-column-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the FY2025 USAspending contract column guide (Word + CSV).",
+  "dependencies": {
+    "docx": "9.7.1"
+  }
+}

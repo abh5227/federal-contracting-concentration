@@ -1,0 +1,59 @@
+{
+ "rules": {
+  "cell": "As in src/analyses_v2.py. The awarding agency code as recorded x product or service code x fiscal year. A blank product code is its own value.",
+  "vendor": "As in src/analyses_v2.py. recipient_parent_uei, or recipient_uei when the parent is blank. Rows with both blank form one vendor, '(no ID)'.",
+  "vendor_net": "The sum of federal_action_obligation over a vendor's rows in the cell.",
+  "hhi": "As hhi() in src/analyses_v2.py. 10,000 x the sum of squared shares, where a share is a vendor's net divided by the summed net of vendors with a positive net in the cell. Vendors with a net of zero or less get no share. A cell with no vendor of positive net has no HHI and is counted separately.",
+  "top4": "The sum of the four largest shares under the same rule, in percent. A cell with fewer than four vendors of positive net sums the shares it has, so it scores 100%.",
+  "vendors_per_cell": "Reported two ways for cells with an HHI. Vendors with a positive net (the vendors HHI counts), and every vendor with at least one row in the cell. The median is the middle value over cells (the mean of the two middle values for an even count).",
+  "year_net": "The sum of federal_action_obligation over every row of the fiscal year.",
+  "share_above_threshold": "The summed net of cells whose HHI is strictly above the threshold, divided by the year's net, in percent. Thresholds are 1,800 (2023 Merger Guidelines, highly concentrated) and 2,500 (2010 Horizontal Merger Guidelines, highly concentrated).",
+  "weighted_median": "Dollar-weighted median of HHI (and of top-4 share). Cells with an HHI and a cell net above zero, weighted by the cell net, sorted by the measure. The value at the first cell where the running weight reaches half the total weight.",
+  "single_vendor": "Reported two ways. Cells where every row carries the same vendor, and cells where exactly one vendor has a positive net, so HHI is 10,000.",
+  "bands": "Cells and their summed net by HHI band: 1,500 or less; above 1,500 to 1,800; above 1,800 to 2,500; above 2,500, two or more vendors; 10,000, one vendor. Each band includes its upper bound. The last band holds the cells with exactly one vendor of positive net, and only those.",
+  "largest_cells": "The 20 cells with the largest net in either year, with each year's net, HHI, top-4 share, vendors with a positive net and the largest vendor's share. Labels are the most common agency name and product code description on the cell's rows across both years. Vendors are not named.",
+  "not_applied": "None of the team decisions in config/decisions.csv is applied. MISCELLANEOUS FOREIGN AWARDEES counts as one vendor, negative vendors stay in the cell's net, parent IDs are as recorded, and product codes are used as recorded."
+ },
+ "by_year": [
+  {
+   "fiscal_year": 2024,
+   "year_net": "756390254511.19",
+   "cells": 18243,
+   "vendor_cells": 370791,
+   "cells_with_hhi": 15961,
+   "cells_without_positive_vendor": 2282,
+   "median_positive_vendors_per_cell": "3",
+   "median_all_vendors_per_cell": "4",
+   "cells_hhi_above_1800": 13951,
+   "share_of_year_net_in_cells_above_1800_pct": "46.86",
+   "cells_hhi_above_2500": 12917,
+   "share_of_year_net_in_cells_above_2500_pct": "35.52",
+   "cells_in_weighted_median": 15623,
+   "dollar_weighted_median_hhi": "1576.0",
+   "dollar_weighted_median_top4_pct": "66.4",
+   "cells_one_vendor_on_all_rows": 6010,
+   "cells_one_positive_vendor_hhi_10000": 5550,
+   "net_in_cells_one_positive_vendor_pct": "1.34"
+  },
+  {
+   "fiscal_year": 2025,
+   "year_net": "793189920124.27",
+   "cells": 17203,
+   "vendor_cells": 332582,
+   "cells_with_hhi": 14335,
+   "cells_without_positive_vendor": 2868,
+   "median_positive_vendors_per_cell": "2",
+   "median_all_vendors_per_cell": "4",
+   "cells_hhi_above_1800": 12667,
+   "share_of_year_net_in_cells_above_1800_pct": "59.08",
+   "cells_hhi_above_2500": 11808,
+   "share_of_year_net_in_cells_above_2500_pct": "50.32",
+   "cells_in_weighted_median": 13914,
+   "dollar_weighted_median_hhi": "2548.1",
+   "dollar_weighted_median_top4_pct": "81.7",
+   "cells_one_vendor_on_all_rows": 5974,
+   "cells_one_positive_vendor_hhi_10000": 5252,
+   "net_in_cells_one_positive_vendor_pct": "1.92"
+  }
+ ]
+}

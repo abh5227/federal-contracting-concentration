@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contract Data Health</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Federal contract transactions: data health</h1>
+      <p class="sub" id="sub">Local, read-only. Stage 1 (the proven mirror of every zip) and Stage 2 (flags and profiles).</p>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Pages">
+      <button role="tab" data-view="overview">Overview</button>
+      <button role="tab" data-view="completeness">Completeness</button>
+      <button role="tab" data-view="columns">Column quality</button>
+      <button role="tab" data-view="flags">Flags &amp; outliers</button>
+      <button role="tab" data-view="rows">Rows</button>
+      <button role="tab" data-view="decisions">Decision log</button>
+      <button role="tab" data-view="glossary">Glossary</button>
+    </nav>
+  </header>
+
+  <section class="panel global" aria-label="Global filters">
+    <div class="gf">
+      <label class="field"><span>From FY</span><select id="g-lo"></select></label>
+      <label class="field"><span>To FY</span><select id="g-hi"></select></label>
+      <label class="field grow"><span>Agency</span><select id="g-agency" multiple size="3"></select></label>
+      <label class="field grow"><span>Sub-agency</span><select id="g-subagency" multiple size="3"></select></label>
+      <label class="field"><span>Award type</span><select id="g-award_type" multiple size="3"></select></label>
+      <label class="field"><span>PSC first character</span><select id="g-psc_cat" multiple size="3"></select></label>
+      <div class="gf-buttons">
+        <button type="button" id="g-apply" class="primary">Apply</button>
+        <button type="button" id="g-reset" class="quiet">Reset</button>
+      </div>
+    </div>
+    <p class="hint" id="g-note"></p>
+  </section>
+
+  <div id="error" class="error" role="alert" hidden></div>
+  <p id="status" class="status hint"></p>
+  <main id="view"></main>
+
+  <dialog id="detail" aria-labelledby="detail-h">
+    <div class="detail-head">
+      <h2 id="detail-h">Details</h2>
+      <button type="button" id="detail-close" class="quiet" aria-label="Close">✕</button>
+    </div>
+    <div id="detail-body"></div>
+  </dialog>
+</body>
+</html>

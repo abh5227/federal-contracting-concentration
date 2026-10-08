@@ -1,0 +1,3 @@
+fiscal_year,year_net,cells,vendor_cells,cells_with_hhi,cells_without_positive_vendor,median_positive_vendors_per_cell,median_all_vendors_per_cell,cells_hhi_above_1800,share_of_year_net_in_cells_above_1800_pct,cells_hhi_above_2500,share_of_year_net_in_cells_above_2500_pct,cells_in_weighted_median,dollar_weighted_median_hhi,dollar_weighted_median_top4_pct,cells_one_vendor_on_all_rows,cells_one_positive_vendor_hhi_10000,net_in_cells_one_positive_vendor_pct
+2024,756390254511.19,18243,370791,15961,2282,3,4,13951,46.86,12917,35.52,15623,1576.0,66.4,6010,5550,1.34
+2025,793189920124.27,17203,332582,14335,2868,2,4,12667,59.08,11808,50.32,13914,2548.1,81.7,5974,5252,1.92

@@ -1,0 +1,2290 @@
+[
+ {
+  "name": "Identifiers: transactions, awards, and umbrella agreements",
+  "intro": "These columns say which row is which and which rows belong to the same contract. They are the keys for collapsing a contract's many transactions into one net figure, and for linking each order to the umbrella agreement it was placed under (risk #3 in the pitch).",
+  "counts": {
+   "Core": 5,
+   "Useful": 2,
+   "Skip": 2
+  },
+  "cols": [
+   {
+    "pos": 1,
+    "col": "contract_transaction_unique_key",
+    "meaning": "USAspending's unique ID for this one transaction, built from the agency, contract number, modification number, umbrella contract, and transaction number.",
+    "verdict": "Core",
+    "why": "The row's primary key; the pilot confirmed it is unique."
+   },
+   {
+    "pos": 2,
+    "col": "contract_award_unique_key",
+    "meaning": "USAspending's ID for the whole award the transaction belongs to (starts CONT_AWD_ for contracts and orders, CONT_IDV_ for umbrella agreements).",
+    "verdict": "Core",
+    "why": "The key for collapsing transactions into one net figure per contract; the pilot's recommended award key."
+   },
+   {
+    "pos": 3,
+    "col": "award_id_piid",
+    "meaning": "The contract or order number the agency assigned (Procurement Instrument Identifier).",
+    "verdict": "Core",
+    "why": "Human-readable contract ID and part of the alternate award key. Not unique across agencies by itself."
+   },
+   {
+    "pos": 4,
+    "col": "modification_number",
+    "meaning": "Which change to the contract this row records; the original award is usually 0.",
+    "verdict": "Core",
+    "why": "Separates original awards from modifications, a field the pitch lists as needed."
+   },
+   {
+    "pos": 5,
+    "col": "transaction_number",
+    "meaning": "Extra sequence number used when one modification has several transactions (mainly DoD).",
+    "verdict": "Useful",
+    "why": "Only needed to keep keys unique; not analyzed."
+   },
+   {
+    "pos": 6,
+    "col": "parent_award_agency_id",
+    "meaning": "Agency code of the umbrella agreement (IDV) this order was placed under.",
+    "verdict": "Useful",
+    "why": "Contract numbers can repeat across agencies, so this pins down exactly which umbrella an order belongs to."
+   },
+   {
+    "pos": 7,
+    "col": "parent_award_agency_name",
+    "meaning": "Text label for parent_award_agency_id.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 8,
+    "col": "parent_award_id_piid",
+    "meaning": "Contract number of the umbrella agreement (IDV) this order was placed under; blank for standalone contracts.",
+    "verdict": "Core",
+    "why": "Needed to measure at the umbrella level as well as the job level (risk #3)."
+   },
+   {
+    "pos": 9,
+    "col": "parent_award_modification_number",
+    "meaning": "Modification number of the umbrella agreement when this order referenced it.",
+    "verdict": "Skip",
+    "why": "The umbrella's own change history does not affect who was paid."
+   }
+  ]
+ },
+ {
+  "name": "Dollar amounts",
+  "intro": "Only one dollar column is the right one to sum: federal_action_obligation. Most of the others are running totals or contract ceilings repeated on every row, so summing them double-counts. The emergency-funding columns exist only from FY2020 onward.",
+  "counts": {
+   "Core": 1,
+   "Useful": 1,
+   "Skip": 10
+  },
+  "cols": [
+   {
+    "pos": 10,
+    "col": "federal_action_obligation",
+    "meaning": "Dollars obligated by this transaction; negative when money is taken back (a deobligation).",
+    "verdict": "Core",
+    "why": "The money column. The $793.19B total and every vendor share come from summing it."
+   },
+   {
+    "pos": 11,
+    "col": "total_dollars_obligated",
+    "meaning": "Cumulative dollars obligated on the whole award across all years, repeated on its transaction rows.",
+    "verdict": "Skip",
+    "why": "A running total, so summing it double-counts. Use only for spot checks."
+   },
+   {
+    "pos": 12,
+    "col": "total_outlayed_amount_for_overall_award",
+    "meaning": "Total actually paid out on the whole award, from agencies' financial reports.",
+    "verdict": "Skip",
+    "why": "Outlays are payments rather than commitments, are award-level rather than per-year, and are only reported in recent years."
+   },
+   {
+    "pos": 13,
+    "col": "base_and_exercised_options_value",
+    "meaning": "Change in the contract's current value (base plus exercised options) from this transaction.",
+    "verdict": "Skip",
+    "why": "Measures contract value, not money committed. Obligations are the standard measure and what GAO's total uses."
+   },
+   {
+    "pos": 14,
+    "col": "current_total_value_of_award",
+    "meaning": "Cumulative current value of the award (base plus exercised options).",
+    "verdict": "Skip",
+    "why": "A running total of contract value; double-counts if summed."
+   },
+   {
+    "pos": 15,
+    "col": "base_and_all_options_value",
+    "meaning": "Change in the contract's potential value, including options not yet exercised, from this transaction.",
+    "verdict": "Skip",
+    "why": "A ceiling, not spending; many options are never exercised."
+   },
+   {
+    "pos": 16,
+    "col": "potential_total_value_of_award",
+    "meaning": "Cumulative potential value if every option were exercised.",
+    "verdict": "Skip",
+    "why": "A ceiling, not spending."
+   },
+   {
+    "pos": 17,
+    "col": "disaster_emergency_fund_codes_for_overall_award",
+    "meaning": "Codes showing which emergency or disaster appropriations (e.g., COVID-19 relief, the infrastructure law) paid for any part of the award.",
+    "verdict": "Useful",
+    "why": "Flags pandemic-era awards that could distort 2020\u201321 trends. Exists only from FY2020."
+   },
+   {
+    "pos": 18,
+    "col": "outlayed_amount_from_COVID-19_supplementals_for_overall_award",
+    "meaning": "Amount paid out on the award from COVID-19 relief funds.",
+    "verdict": "Skip",
+    "why": "Award-level and payments-based; the emergency-fund code flag is enough."
+   },
+   {
+    "pos": 19,
+    "col": "obligated_amount_from_COVID-19_supplementals_for_overall_award",
+    "meaning": "Amount obligated on the award from COVID-19 relief funds.",
+    "verdict": "Skip",
+    "why": "A lifetime award total, so it can't be subtracted from one year; use the emergency-fund code flag instead."
+   },
+   {
+    "pos": 20,
+    "col": "outlayed_amount_from_IIJA_supplemental_for_overall_award",
+    "meaning": "Amount paid out on the award from Infrastructure Investment and Jobs Act funds.",
+    "verdict": "Skip",
+    "why": "Award-level and payments-based; only FY2022 onward."
+   },
+   {
+    "pos": 21,
+    "col": "obligated_amount_from_IIJA_supplemental_for_overall_award",
+    "meaning": "Amount obligated on the award from Infrastructure Investment and Jobs Act funds.",
+    "verdict": "Skip",
+    "why": "A lifetime award total; only FY2022 onward."
+   }
+  ]
+ },
+ {
+  "name": "Dates",
+  "intro": "The action date decides which fiscal year a transaction counts in. The other dates describe when work happens, which matters only if you want contract length as an explanatory feature.",
+  "counts": {
+   "Core": 2,
+   "Useful": 2,
+   "Skip": 3
+  },
+  "cols": [
+   {
+    "pos": 22,
+    "col": "action_date",
+    "meaning": "Date the transaction was signed.",
+    "verdict": "Core",
+    "why": "Determines the fiscal year; the pilot confirmed every row falls in FY2025."
+   },
+   {
+    "pos": 23,
+    "col": "action_date_fiscal_year",
+    "meaning": "Federal fiscal year of the action date (October through September).",
+    "verdict": "Core",
+    "why": "The year dimension of the concentration table."
+   },
+   {
+    "pos": 24,
+    "col": "period_of_performance_start_date",
+    "meaning": "Date work under the contract begins.",
+    "verdict": "Useful",
+    "why": "With the end date, gives contract length, a possible RQ3 feature (long contracts lock in incumbents)."
+   },
+   {
+    "pos": 25,
+    "col": "period_of_performance_current_end_date",
+    "meaning": "Date work is currently scheduled to end, counting only exercised options.",
+    "verdict": "Useful",
+    "why": "The other half of contract length."
+   },
+   {
+    "pos": 26,
+    "col": "period_of_performance_potential_end_date",
+    "meaning": "Latest end date if every option is exercised.",
+    "verdict": "Skip",
+    "why": "Adds little beyond the current end date for this project."
+   },
+   {
+    "pos": 27,
+    "col": "ordering_period_end_date",
+    "meaning": "For umbrella agreements, the last date orders can be placed.",
+    "verdict": "Skip",
+    "why": "Describes the umbrella's window, not spending."
+   },
+   {
+    "pos": 28,
+    "col": "solicitation_date",
+    "meaning": "Date the solicitation (request for bids) was issued.",
+    "verdict": "Skip",
+    "why": "About the bidding timeline, not who won. As far as I know it is only reported in recent years; check how often it is filled."
+   }
+  ]
+ },
+ {
+  "name": "Who bought it: awarding agency and office",
+  "intro": "The awarding agency is the department whose contracting office signed the contract. This is the \u201cagency\u201d in the concentration table. Analyze on the codes, because names have changed over time (see the agency name-changes document).",
+  "counts": {
+   "Core": 2,
+   "Useful": 4,
+   "Skip": 0
+  },
+  "cols": [
+   {
+    "pos": 29,
+    "col": "awarding_agency_code",
+    "meaning": "3-digit code of the department or independent agency that awarded the contract.",
+    "verdict": "Core",
+    "why": "The agency dimension."
+   },
+   {
+    "pos": 30,
+    "col": "awarding_agency_name",
+    "meaning": "Text label for awarding_agency_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 31,
+    "col": "awarding_sub_agency_code",
+    "meaning": "4-digit code of the sub-agency that awarded it (e.g., Army, Navy, Defense Logistics Agency).",
+    "verdict": "Core",
+    "why": "Needed if you measure below department level, and part of the alternate award key."
+   },
+   {
+    "pos": 32,
+    "col": "awarding_sub_agency_name",
+    "meaning": "Text label for awarding_sub_agency_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 33,
+    "col": "awarding_office_code",
+    "meaning": "Code for the specific contracting office.",
+    "verdict": "Useful",
+    "why": "The finest buyer level; good for drilling into where concentration sits, too fine for the main measure."
+   },
+   {
+    "pos": 34,
+    "col": "awarding_office_name",
+    "meaning": "Text label for awarding_office_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   }
+  ]
+ },
+ {
+  "name": "Whose money it was: funding agency and office",
+  "intro": "Usually the same as the awarding agency, but not always: some agencies (GSA is the classic case) buy on behalf of others. Measuring by funding agency is a useful robustness check.",
+  "counts": {
+   "Core": 0,
+   "Useful": 4,
+   "Skip": 2
+  },
+  "cols": [
+   {
+    "pos": 35,
+    "col": "funding_agency_code",
+    "meaning": "3-digit code of the agency that provided most of the money for this transaction.",
+    "verdict": "Useful",
+    "why": "Robustness check: when one agency buys for others, the awarding agency can look more concentrated than the real customer."
+   },
+   {
+    "pos": 36,
+    "col": "funding_agency_name",
+    "meaning": "Text label for funding_agency_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 37,
+    "col": "funding_sub_agency_code",
+    "meaning": "4-digit code of the funding sub-agency.",
+    "verdict": "Useful",
+    "why": "Same robustness check at sub-agency level."
+   },
+   {
+    "pos": 38,
+    "col": "funding_sub_agency_name",
+    "meaning": "Text label for funding_sub_agency_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 39,
+    "col": "funding_office_code",
+    "meaning": "Code for the office that provided the funds.",
+    "verdict": "Skip",
+    "why": "Finer than any robustness check needs."
+   },
+   {
+    "pos": 40,
+    "col": "funding_office_name",
+    "meaning": "Text label for funding_office_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   }
+  ]
+ },
+ {
+  "name": "Budget accounts behind the award",
+  "intro": "These come from agencies' financial reports rather than the contract record, and are attached at the award level. They describe budget accounting, not who was paid, and the link between financial and award data only exists from FY2017.",
+  "counts": {
+   "Core": 0,
+   "Useful": 0,
+   "Skip": 4
+  },
+  "cols": [
+   {
+    "pos": 41,
+    "col": "treasury_accounts_funding_this_award",
+    "meaning": "Treasury Account Symbols (the budget accounts) that paid for the award.",
+    "verdict": "Skip",
+    "why": "Budget accounting detail; only linked from FY2017, so it can't support an 18-year trend."
+   },
+   {
+    "pos": 42,
+    "col": "federal_accounts_funding_this_award",
+    "meaning": "Federal accounts (groupings of Treasury accounts) that paid for the award.",
+    "verdict": "Skip",
+    "why": "Same as above."
+   },
+   {
+    "pos": 43,
+    "col": "object_classes_funding_this_award",
+    "meaning": "Budget object classes (spending categories such as advisory services or equipment) charged.",
+    "verdict": "Skip",
+    "why": "The product and service code already says what was bought, for every year."
+   },
+   {
+    "pos": 44,
+    "col": "program_activities_funding_this_award",
+    "meaning": "Agency program activities charged.",
+    "verdict": "Skip",
+    "why": "Budget detail with the same FY2017 limit."
+   }
+  ]
+ },
+ {
+  "name": "Funding source and registration flags",
+  "intro": "Two short flag pairs. Foreign funding matters because Foreign Military Sales sit inside DoD's totals; the registration exception helps explain vendors with missing IDs.",
+  "counts": {
+   "Core": 0,
+   "Useful": 4,
+   "Skip": 0
+  },
+  "cols": [
+   {
+    "pos": 45,
+    "col": "foreign_funding",
+    "meaning": "Whether a foreign government or international organization paid for the purchase (e.g., Foreign Military Sales).",
+    "verdict": "Useful",
+    "why": "Lets you test whether DoD results hold without purchases made for foreign governments."
+   },
+   {
+    "pos": 46,
+    "col": "foreign_funding_description",
+    "meaning": "Text label for foreign_funding.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 47,
+    "col": "sam_exception",
+    "meaning": "Code for why the vendor wasn't required to register in SAM.gov (e.g., classified work, some overseas vendors).",
+    "verdict": "Useful",
+    "why": "Helps explain vendors with missing IDs or parent IDs, which matters for the parent rollup."
+   },
+   {
+    "pos": 48,
+    "col": "sam_exception_description",
+    "meaning": "Text label for sam_exception.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   }
+  ]
+ },
+ {
+  "name": "Who was paid: vendor identity",
+  "intro": "After dollars, the vendor and parent IDs are the most important columns. The government switched vendor IDs from DUNS to UEI in April 2022, so the 18-year series needs both, bridged with a crosswalk. As far as I know, parent links came from Dun & Bradstreet's corporate family data before 2022 and from SAM.gov registrations after, so their quality varies by era; the pitch's plan to hand-check the top 100 recipients is the right safeguard.",
+  "counts": {
+   "Core": 4,
+   "Useful": 5,
+   "Skip": 1
+  },
+  "cols": [
+   {
+    "pos": 49,
+    "col": "recipient_uei",
+    "meaning": "12-character Unique Entity ID from SAM.gov, the official vendor ID since April 2022.",
+    "verdict": "Core",
+    "why": "Vendor identifier for recent years."
+   },
+   {
+    "pos": 50,
+    "col": "recipient_duns",
+    "meaning": "9-digit DUNS number, the vendor ID used before April 2022.",
+    "verdict": "Core",
+    "why": "Vendor identifier for 2008\u20132022; needs a crosswalk to UEI."
+   },
+   {
+    "pos": 51,
+    "col": "recipient_name",
+    "meaning": "Vendor name as standardized by USAspending.",
+    "verdict": "Useful",
+    "why": "For display and hand-checks. Never group by name, since spellings vary."
+   },
+   {
+    "pos": 52,
+    "col": "recipient_name_raw",
+    "meaning": "Vendor name exactly as reported on the transaction.",
+    "verdict": "Useful",
+    "why": "Shows the name at the time, which helps when hand-checking acquisitions."
+   },
+   {
+    "pos": 53,
+    "col": "recipient_doing_business_as_name",
+    "meaning": "Vendor's trade name, if different from its legal name.",
+    "verdict": "Skip",
+    "why": "The ID, not the trade name, identifies the firm."
+   },
+   {
+    "pos": 54,
+    "col": "cage_code",
+    "meaning": "Commercial and Government Entity code, a DoD-assigned ID for a vendor location.",
+    "verdict": "Useful",
+    "why": "Backup ID for hand-checking defense vendors. It identifies a site, not a company."
+   },
+   {
+    "pos": 55,
+    "col": "recipient_parent_uei",
+    "meaning": "UEI of the vendor's highest-level owner.",
+    "verdict": "Core",
+    "why": "The rollup key for counting real firms (step 2 of the pitch)."
+   },
+   {
+    "pos": 56,
+    "col": "recipient_parent_duns",
+    "meaning": "DUNS of the vendor's highest-level owner (before 2022).",
+    "verdict": "Core",
+    "why": "Rollup key for the older years."
+   },
+   {
+    "pos": 57,
+    "col": "recipient_parent_name",
+    "meaning": "Parent company name as standardized by USAspending.",
+    "verdict": "Useful",
+    "why": "Display and hand-checks of the top 100."
+   },
+   {
+    "pos": 58,
+    "col": "recipient_parent_name_raw",
+    "meaning": "Parent company name exactly as reported.",
+    "verdict": "Useful",
+    "why": "Hand-checks, especially around acquisitions."
+   }
+  ]
+ },
+ {
+  "name": "Vendor location and contact details",
+  "intro": "The vendor's registered address and contact details. Concentration is about which firms win, not where they sit, so none of these are needed.",
+  "counts": {
+   "Core": 0,
+   "Useful": 0,
+   "Skip": 15
+  },
+  "cols": [
+   {
+    "pos": 59,
+    "col": "recipient_country_code",
+    "meaning": "Country code of the vendor's address.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 60,
+    "col": "recipient_country_name",
+    "meaning": "Text label for recipient_country_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 61,
+    "col": "recipient_address_line_1",
+    "meaning": "Vendor's street address.",
+    "verdict": "Skip",
+    "why": "Contact detail with no analytic use."
+   },
+   {
+    "pos": 62,
+    "col": "recipient_address_line_2",
+    "meaning": "Second line of the vendor's street address.",
+    "verdict": "Skip",
+    "why": "Contact detail with no analytic use."
+   },
+   {
+    "pos": 63,
+    "col": "recipient_city_name",
+    "meaning": "Vendor's city.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 64,
+    "col": "prime_award_transaction_recipient_county_fips_code",
+    "meaning": "Federal (FIPS) code for the vendor's county.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 65,
+    "col": "recipient_county_name",
+    "meaning": "Vendor's county.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 66,
+    "col": "prime_award_transaction_recipient_state_fips_code",
+    "meaning": "Federal (FIPS) code for the vendor's state.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 67,
+    "col": "recipient_state_code",
+    "meaning": "Two-letter code for the vendor's state.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 68,
+    "col": "recipient_state_name",
+    "meaning": "Text label for recipient_state_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 69,
+    "col": "recipient_zip_4_code",
+    "meaning": "Vendor's ZIP+4 code.",
+    "verdict": "Skip",
+    "why": "Where the vendor is located says nothing about its market share; out of scope unless you add a geographic angle."
+   },
+   {
+    "pos": 70,
+    "col": "prime_award_transaction_recipient_cd_original",
+    "meaning": "Vendor's congressional district at the time of the transaction.",
+    "verdict": "Skip",
+    "why": "Political geography; out of scope."
+   },
+   {
+    "pos": 71,
+    "col": "prime_award_transaction_recipient_cd_current",
+    "meaning": "Vendor's congressional district under current boundaries.",
+    "verdict": "Skip",
+    "why": "Political geography; out of scope."
+   },
+   {
+    "pos": 72,
+    "col": "recipient_phone_number",
+    "meaning": "Vendor's phone number.",
+    "verdict": "Skip",
+    "why": "Contact detail with no analytic use."
+   },
+   {
+    "pos": 73,
+    "col": "recipient_fax_number",
+    "meaning": "Vendor's fax number.",
+    "verdict": "Skip",
+    "why": "Contact detail with no analytic use."
+   }
+  ]
+ },
+ {
+  "name": "Where the work is done",
+  "intro": "Place of performance: where the work happens or goods are delivered. Out of scope for a national, agency-level measure.",
+  "counts": {
+   "Core": 0,
+   "Useful": 0,
+   "Skip": 11
+  },
+  "cols": [
+   {
+    "pos": 74,
+    "col": "primary_place_of_performance_country_code",
+    "meaning": "Country where the work is performed.",
+    "verdict": "Skip",
+    "why": "Could separate overseas work, but agency and product already capture most of that."
+   },
+   {
+    "pos": 75,
+    "col": "primary_place_of_performance_country_name",
+    "meaning": "Text label for primary_place_of_performance_country_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 76,
+    "col": "primary_place_of_performance_city_name",
+    "meaning": "City where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 77,
+    "col": "prime_award_transaction_place_of_performance_county_fips_code",
+    "meaning": "Federal (FIPS) code for the county where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 78,
+    "col": "primary_place_of_performance_county_name",
+    "meaning": "County where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 79,
+    "col": "prime_award_transaction_place_of_performance_state_fips_code",
+    "meaning": "Federal (FIPS) code for the state where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 80,
+    "col": "primary_place_of_performance_state_code",
+    "meaning": "Two-letter code for the state where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 81,
+    "col": "primary_place_of_performance_state_name",
+    "meaning": "Text label for primary_place_of_performance_state_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 82,
+    "col": "primary_place_of_performance_zip_4",
+    "meaning": "ZIP+4 code where the work is performed.",
+    "verdict": "Skip",
+    "why": "Where work happens is out of scope for a national, agency-level measure."
+   },
+   {
+    "pos": 83,
+    "col": "prime_award_transaction_place_of_performance_cd_original",
+    "meaning": "Congressional district of the work at the time of the transaction.",
+    "verdict": "Skip",
+    "why": "Political geography; out of scope."
+   },
+   {
+    "pos": 84,
+    "col": "prime_award_transaction_place_of_performance_cd_current",
+    "meaning": "Congressional district of the work under current boundaries.",
+    "verdict": "Skip",
+    "why": "Political geography; out of scope."
+   }
+  ]
+ },
+ {
+  "name": "Award type and contract structure",
+  "intro": "These say what kind of instrument a row is (a standalone contract, an order under an umbrella agreement, or the umbrella agreement itself), whether the umbrella was awarded to one vendor or many, and how the contract is priced. They drive two pitch decisions: whether to include IDV rows, and how to measure at both the job and umbrella levels.",
+  "counts": {
+   "Core": 4,
+   "Useful": 14,
+   "Skip": 4
+  },
+  "cols": [
+   {
+    "pos": 85,
+    "col": "award_or_idv_flag",
+    "meaning": "Whether the row is an award (a contract or order) or an IDV (the umbrella agreement itself).",
+    "verdict": "Core",
+    "why": "IDV rows carry about $14.7B themselves in FY2025; needed for the include-or-exclude decision."
+   },
+   {
+    "pos": 86,
+    "col": "award_type_code",
+    "meaning": "Award type: A = BPA call, B = purchase order, C = delivery order, D = definitive contract. IDV rows use idv_type_code instead.",
+    "verdict": "Core",
+    "why": "Separates standalone contracts from orders under umbrellas; a candidate RQ3 \u201ccontract type\u201d."
+   },
+   {
+    "pos": 87,
+    "col": "award_type",
+    "meaning": "Text label for award_type_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 88,
+    "col": "idv_type_code",
+    "meaning": "For IDV rows, the kind of umbrella: A = governmentwide acquisition contract (GWAC), B = indefinite delivery contract, C = Federal Supply Schedule, D = basic ordering agreement, E = blanket purchase agreement.",
+    "verdict": "Useful",
+    "why": "Describes umbrella vehicles, relevant to risk #3."
+   },
+   {
+    "pos": 89,
+    "col": "idv_type",
+    "meaning": "Text label for idv_type_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 90,
+    "col": "multiple_or_single_award_idv_code",
+    "meaning": "For IDV rows: whether the umbrella was awarded to multiple vendors (M) or one (S).",
+    "verdict": "Useful",
+    "why": "On order rows, use parent_award_single_or_multiple_code instead."
+   },
+   {
+    "pos": 91,
+    "col": "multiple_or_single_award_idv",
+    "meaning": "Text label for multiple_or_single_award_idv_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 92,
+    "col": "type_of_idc_code",
+    "meaning": "For indefinite delivery contracts: indefinite quantity, requirements, or definite quantity.",
+    "verdict": "Skip",
+    "why": "Finer than needed; vehicle type and single-or-multiple award cover risk #3."
+   },
+   {
+    "pos": 93,
+    "col": "type_of_idc",
+    "meaning": "Text label for type_of_idc_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 94,
+    "col": "type_of_contract_pricing_code",
+    "meaning": "Pricing arrangement, e.g., firm-fixed-price, cost-plus, or time-and-materials.",
+    "verdict": "Core",
+    "why": "The pitch's \u201ccontract type\u201d for RQ3."
+   },
+   {
+    "pos": 95,
+    "col": "type_of_contract_pricing",
+    "meaning": "Text label for type_of_contract_pricing_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 106,
+    "col": "contract_bundling_code",
+    "meaning": "Whether the requirement was bundled: several requirements combined in a way that makes it hard for small businesses to compete.",
+    "verdict": "Useful",
+    "why": "A direct mechanism of consolidation and a candidate RQ3 feature. Check how often it is filled."
+   },
+   {
+    "pos": 107,
+    "col": "contract_bundling",
+    "meaning": "Text label for contract_bundling_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 166,
+    "col": "program_acronym",
+    "meaning": "Short name of a contract program or vehicle, mainly on umbrella agreements.",
+    "verdict": "Useful",
+    "why": "Names the umbrella vehicle, which helps interpret risk #3 results. Check how often it is filled."
+   },
+   {
+    "pos": 167,
+    "col": "parent_award_type_code",
+    "meaning": "Kind of umbrella agreement this order was placed under (GWAC, indefinite delivery contract, Federal Supply Schedule, basic ordering agreement, blanket purchase agreement).",
+    "verdict": "Useful",
+    "why": "Lets you separate, for example, Federal Supply Schedule orders from other orders."
+   },
+   {
+    "pos": 168,
+    "col": "parent_award_type",
+    "meaning": "Text label for parent_award_type_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 169,
+    "col": "parent_award_single_or_multiple_code",
+    "meaning": "Whether the umbrella this order falls under was awarded to one vendor or many.",
+    "verdict": "Core",
+    "why": "Exactly the distinction in risk #3: on multiple-award vehicles, individual jobs are competed among the holders."
+   },
+   {
+    "pos": 170,
+    "col": "parent_award_single_or_multiple",
+    "meaning": "Text label for parent_award_single_or_multiple_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 184,
+    "col": "consolidated_contract_code",
+    "meaning": "Whether requirements previously bought under separate contracts were consolidated into this one.",
+    "verdict": "Useful",
+    "why": "Same reasoning as bundling. Check how often it is filled and which years it exists."
+   },
+   {
+    "pos": 185,
+    "col": "consolidated_contract",
+    "meaning": "Text label for consolidated_contract_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 188,
+    "col": "multi_year_contract_code",
+    "meaning": "Whether it is a multiyear contract, which buys several years of requirements at once (mostly large DoD programs).",
+    "verdict": "Skip",
+    "why": "Rare; contract length from the dates covers the same idea."
+   },
+   {
+    "pos": 189,
+    "col": "multi_year_contract",
+    "meaning": "Text label for multi_year_contract_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   }
+  ]
+ },
+ {
+  "name": "What was bought",
+  "intro": "The product and service code (PSC) is the \u201ccategory\u201d in the concentration table, and the pitch's coarser-category check can use its first one or two characters. NAICS is the natural alternative category. Both code lists were revised during 2008\u20132025, so categories need a year-to-year crosswalk.",
+  "counts": {
+   "Core": 1,
+   "Useful": 5,
+   "Skip": 12
+  },
+  "cols": [
+   {
+    "pos": 104,
+    "col": "product_or_service_code",
+    "meaning": "4-character code for what was bought. Codes starting with a digit are products (the first two digits give the product group); codes starting with a letter are services or research (e.g., A = research and development, R = professional support services).",
+    "verdict": "Core",
+    "why": "The category dimension. Coarser versions come from its first one or two characters."
+   },
+   {
+    "pos": 105,
+    "col": "product_or_service_code_description",
+    "meaning": "Text label for product_or_service_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 108,
+    "col": "dod_claimant_program_code",
+    "meaning": "DoD-only code grouping purchases into broad programs (e.g., aircraft, ships, ammunition).",
+    "verdict": "Skip",
+    "why": "DoD-only; the product and service code already says what was bought for every agency."
+   },
+   {
+    "pos": 109,
+    "col": "dod_claimant_program_description",
+    "meaning": "Text label for dod_claimant_program_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 110,
+    "col": "naics_code",
+    "meaning": "6-digit North American Industry Classification System code for the work, chosen by the contracting officer.",
+    "verdict": "Useful",
+    "why": "Alternative category for the robustness check. NAICS is revised every five years, so it also needs a crosswalk."
+   },
+   {
+    "pos": 111,
+    "col": "naics_description",
+    "meaning": "Text label for naics_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 112,
+    "col": "recovered_materials_sustainability_code",
+    "meaning": "Whether recycled-content or other sustainability requirements apply.",
+    "verdict": "Skip",
+    "why": "Environmental compliance, not market share."
+   },
+   {
+    "pos": 113,
+    "col": "recovered_materials_sustainability",
+    "meaning": "Text label for recovered_materials_sustainability_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 116,
+    "col": "dod_acquisition_program_code",
+    "meaning": "DoD code for the specific weapons system or major program the purchase supports.",
+    "verdict": "Useful",
+    "why": "Could tie DoD results to major programs (the pitch's CRS figure). DoD-only; check how often it is filled."
+   },
+   {
+    "pos": 117,
+    "col": "dod_acquisition_program_description",
+    "meaning": "Text label for dod_acquisition_program_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 118,
+    "col": "information_technology_commercial_item_category_code",
+    "meaning": "For IT purchases: whether the item is commercially available, modified, or custom.",
+    "verdict": "Skip",
+    "why": "Narrow IT-only detail; the commercial-item procedures flag covers the idea for all purchases."
+   },
+   {
+    "pos": 119,
+    "col": "information_technology_commercial_item_category",
+    "meaning": "Text label for information_technology_commercial_item_category_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 120,
+    "col": "epa_designated_product_code",
+    "meaning": "Whether the item is on EPA's list of products that must contain recovered materials.",
+    "verdict": "Skip",
+    "why": "Environmental compliance, not market share."
+   },
+   {
+    "pos": 121,
+    "col": "epa_designated_product",
+    "meaning": "Text label for epa_designated_product_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 122,
+    "col": "country_of_product_or_service_origin_code",
+    "meaning": "Country where the product was made or the service originates.",
+    "verdict": "Skip",
+    "why": "Buy American compliance, not vendor shares."
+   },
+   {
+    "pos": 123,
+    "col": "country_of_product_or_service_origin",
+    "meaning": "Text label for country_of_product_or_service_origin_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 124,
+    "col": "place_of_manufacture_code",
+    "meaning": "Whether the product was manufactured in the U.S. or abroad (Buy American reporting).",
+    "verdict": "Skip",
+    "why": "Buy American compliance, not vendor shares."
+   },
+   {
+    "pos": 125,
+    "col": "place_of_manufacture",
+    "meaning": "Text label for place_of_manufacture_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   }
+  ]
+ },
+ {
+  "name": "Description and reason for the action",
+  "intro": "Free-text descriptions are for reading, not grouping. The action type is the most useful column here: it explains negative amounts and flags novations, where a contract is transferred to a new company after a merger or acquisition.",
+  "counts": {
+   "Core": 0,
+   "Useful": 4,
+   "Skip": 3
+  },
+  "cols": [
+   {
+    "pos": 96,
+    "col": "transaction_description",
+    "meaning": "Free-text description of this transaction.",
+    "verdict": "Useful",
+    "why": "Hand-checks and spot audits; too inconsistent to group on."
+   },
+   {
+    "pos": 97,
+    "col": "prime_award_base_transaction_description",
+    "meaning": "Free-text description from the award's original transaction, i.e., what the contract is for.",
+    "verdict": "Useful",
+    "why": "A better summary of the contract than per-modification text."
+   },
+   {
+    "pos": 98,
+    "col": "action_type_code",
+    "meaning": "Reason for the modification, e.g., funding only, exercising an option, change order, termination, closeout, or novation.",
+    "verdict": "Useful",
+    "why": "Explains deobligations and flags novations, which are direct evidence of mergers and acquisitions."
+   },
+   {
+    "pos": 99,
+    "col": "action_type",
+    "meaning": "Text label for action_type_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 101,
+    "col": "number_of_actions",
+    "meaning": "Count of actions reported in this one record.",
+    "verdict": "Skip",
+    "why": "A reporting count; it doesn't change dollars."
+   },
+   {
+    "pos": 102,
+    "col": "inherently_governmental_functions",
+    "meaning": "For service contracts: whether the work is closely associated with inherently governmental functions.",
+    "verdict": "Skip",
+    "why": "Workforce policy compliance, not market share."
+   },
+   {
+    "pos": 103,
+    "col": "inherently_governmental_functions_description",
+    "meaning": "Text label for inherently_governmental_functions.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   }
+  ]
+ },
+ {
+  "name": "Competition: was it bid, and by how many",
+  "intro": "The heart of RQ3 (\u201csole-source awards\u201d). One nuance matters: as far as I know, for orders under umbrella agreements extent_competed reflects how the umbrella was competed, while fair_opportunity_limited_sources records whether the individual order was competed among the holders. Measuring both is how to handle risk #3. Confirm this in the FPDS data dictionary before relying on it.",
+  "counts": {
+   "Core": 4,
+   "Useful": 11,
+   "Skip": 13
+  },
+  "cols": [
+   {
+    "pos": 100,
+    "col": "solicitation_identifier",
+    "meaning": "The solicitation number the contract was bid under.",
+    "verdict": "Skip",
+    "why": "Links awards from the same solicitation; not needed for the measure."
+   },
+   {
+    "pos": 128,
+    "col": "extent_competed_code",
+    "meaning": "Whether the award was competed: A = full and open, B = not available for competition, C = not competed, D = full and open after excluding sources (e.g., a set-aside), E = follow-on to a competed action, F/G = competed/not competed under simplified procedures, CDO/NDO = competitive/non-competitive delivery order.",
+    "verdict": "Core",
+    "why": "The pitch's \u201cwhether it was competed\u201d and the main sole-source measure for RQ3."
+   },
+   {
+    "pos": 129,
+    "col": "extent_competed",
+    "meaning": "Text label for extent_competed_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 130,
+    "col": "solicitation_procedures_code",
+    "meaning": "How offers were requested, e.g., negotiated, sealed bid, simplified acquisition, or only one source.",
+    "verdict": "Useful",
+    "why": "\u201cOnly one source\u201d corroborates the sole-source flag."
+   },
+   {
+    "pos": 131,
+    "col": "solicitation_procedures",
+    "meaning": "Text label for solicitation_procedures_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 132,
+    "col": "type_of_set_aside_code",
+    "meaning": "Whether the award was reserved for a category of small business (e.g., small business, 8(a), HUBZone, service-disabled veteran-owned, women-owned), and which.",
+    "verdict": "Core",
+    "why": "Set-asides spread money to small firms by design; the pitch lists this field."
+   },
+   {
+    "pos": 133,
+    "col": "type_of_set_aside",
+    "meaning": "Text label for type_of_set_aside_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 134,
+    "col": "evaluated_preference_code",
+    "meaning": "Whether a price-evaluation preference for a small-business category was applied.",
+    "verdict": "Skip",
+    "why": "Rare; the set-aside field captures the main small-business effect."
+   },
+   {
+    "pos": 135,
+    "col": "evaluated_preference",
+    "meaning": "Text label for evaluated_preference_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 136,
+    "col": "research_code",
+    "meaning": "Whether the award is part of the SBIR or STTR small-business research programs, and which phase.",
+    "verdict": "Skip",
+    "why": "Narrow program flag; the research product and service codes cover R&D."
+   },
+   {
+    "pos": 137,
+    "col": "research",
+    "meaning": "Text label for research_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 138,
+    "col": "fair_opportunity_limited_sources_code",
+    "meaning": "For orders under multiple-award umbrellas: whether the order was competed among the holders, or which exception applied (e.g., urgency, only one capable source, follow-on, minimum guarantee).",
+    "verdict": "Core",
+    "why": "The job-level competition measure needed for risk #3."
+   },
+   {
+    "pos": 139,
+    "col": "fair_opportunity_limited_sources",
+    "meaning": "Text label for fair_opportunity_limited_sources_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 140,
+    "col": "other_than_full_and_open_competition_code",
+    "meaning": "The legal justification given for not competing (e.g., only one responsible source, urgency, authorized by statute).",
+    "verdict": "Useful",
+    "why": "Explains why sole-source awards weren't competed; good RQ3 detail."
+   },
+   {
+    "pos": 141,
+    "col": "other_than_full_and_open_competition",
+    "meaning": "Text label for other_than_full_and_open_competition_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 142,
+    "col": "number_of_offers_received",
+    "meaning": "Number of bids or offers received.",
+    "verdict": "Core",
+    "why": "The pitch's \u201chow many bid\u201d; competitions that drew a single offer are a known warning sign."
+   },
+   {
+    "pos": 143,
+    "col": "commercial_item_acquisition_procedures_code",
+    "meaning": "Whether simplified commercial-item procedures (FAR Part 12) were used.",
+    "verdict": "Useful",
+    "why": "A rough split between off-the-shelf and government-unique purchases, a plausible RQ3 feature."
+   },
+   {
+    "pos": 144,
+    "col": "commercial_item_acquisition_procedures",
+    "meaning": "Text label for commercial_item_acquisition_procedures_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 145,
+    "col": "small_business_competitiveness_demonstration_program",
+    "meaning": "Flag for an SBA demonstration program covering certain industries.",
+    "verdict": "Skip",
+    "why": "Narrow program flag."
+   },
+   {
+    "pos": 146,
+    "col": "simplified_procedures_for_certain_commercial_items_code",
+    "meaning": "Whether the commercial-items test program's simplified procedures (for larger commercial purchases) were used.",
+    "verdict": "Skip",
+    "why": "Procedural detail beyond the commercial-item flag."
+   },
+   {
+    "pos": 147,
+    "col": "simplified_procedures_for_certain_commercial_items",
+    "meaning": "Text label for simplified_procedures_for_certain_commercial_items_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 148,
+    "col": "a76_fair_act_action_code",
+    "meaning": "Whether the award resulted from an A-76 public-private competition (government employees versus contractors).",
+    "verdict": "Skip",
+    "why": "Rarely used in this period."
+   },
+   {
+    "pos": 149,
+    "col": "a76_fair_act_action",
+    "meaning": "Text label for a76_fair_act_action_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 150,
+    "col": "fed_biz_opps_code",
+    "meaning": "Whether the opportunity was publicly posted on FedBizOpps (now SAM.gov).",
+    "verdict": "Useful",
+    "why": "Another openness signal for RQ3."
+   },
+   {
+    "pos": 151,
+    "col": "fed_biz_opps",
+    "meaning": "Text label for fed_biz_opps_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 152,
+    "col": "local_area_set_aside_code",
+    "meaning": "Whether the award was reserved for local firms in a declared disaster area.",
+    "verdict": "Skip",
+    "why": "Rare and situational."
+   },
+   {
+    "pos": 153,
+    "col": "local_area_set_aside",
+    "meaning": "Text label for local_area_set_aside_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 154,
+    "col": "price_evaluation_adjustment_preference_percent_difference",
+    "meaning": "Percentage price preference applied when evaluating offers.",
+    "verdict": "Skip",
+    "why": "Rare; see evaluated preference."
+   }
+  ]
+ },
+ {
+  "name": "Contract terms, clauses, and compliance flags",
+  "intro": "Mostly flags recording which laws or clauses apply. They matter for compliance research, not for measuring vendor shares. Two are worth keeping: interagency authority (who really bought it) and national interest action (emergency spending spikes).",
+  "counts": {
+   "Core": 0,
+   "Useful": 4,
+   "Skip": 30
+  },
+  "cols": [
+   {
+    "pos": 126,
+    "col": "subcontracting_plan_code",
+    "meaning": "Whether the vendor had to submit a small-business subcontracting plan.",
+    "verdict": "Skip",
+    "why": "Concerns subcontracts, which aren't in this file."
+   },
+   {
+    "pos": 127,
+    "col": "subcontracting_plan",
+    "meaning": "Text label for subcontracting_plan_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 155,
+    "col": "clinger_cohen_act_planning_code",
+    "meaning": "Whether an IT purchase complied with Clinger-Cohen Act planning rules.",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 156,
+    "col": "clinger_cohen_act_planning",
+    "meaning": "Text label for clinger_cohen_act_planning_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 157,
+    "col": "materials_supplies_articles_equipment_code",
+    "meaning": "Whether the Walsh-Healey Act (labor standards for manufacturing and supply contracts) applies.",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 158,
+    "col": "materials_supplies_articles_equipment",
+    "meaning": "Text label for materials_supplies_articles_equipment_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 159,
+    "col": "labor_standards_code",
+    "meaning": "Whether the Service Contract Act (wage rules for service workers) applies.",
+    "verdict": "Skip",
+    "why": "Labor-law compliance. One outside source reports this pair was swapped in the August 2026 archive and correct in September."
+   },
+   {
+    "pos": 160,
+    "col": "labor_standards",
+    "meaning": "Text label for labor_standards_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 161,
+    "col": "construction_wage_rate_requirements_code",
+    "meaning": "Whether Davis-Bacon (construction wage) requirements apply.",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 162,
+    "col": "construction_wage_rate_requirements",
+    "meaning": "Text label for construction_wage_rate_requirements_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 163,
+    "col": "interagency_contracting_authority_code",
+    "meaning": "Legal authority used when one agency buys for another (e.g., the Economy Act).",
+    "verdict": "Useful",
+    "why": "Identifies purchases made for another agency; pairs with the funding-agency check."
+   },
+   {
+    "pos": 164,
+    "col": "interagency_contracting_authority",
+    "meaning": "Text label for interagency_contracting_authority_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 165,
+    "col": "other_statutory_authority",
+    "meaning": "Free-text name of any other statute authorizing the purchase.",
+    "verdict": "Skip",
+    "why": "Free text with no analytic use here."
+   },
+   {
+    "pos": 171,
+    "col": "major_program",
+    "meaning": "Agency-entered name of a major program the purchase supports.",
+    "verdict": "Skip",
+    "why": "Free text with no standard spelling."
+   },
+   {
+    "pos": 172,
+    "col": "national_interest_action_code",
+    "meaning": "Code for a declared national emergency the purchase supported (e.g., a named hurricane, COVID-19).",
+    "verdict": "Useful",
+    "why": "Flags emergency spending spikes across all years, which could distort trend shapes."
+   },
+   {
+    "pos": 173,
+    "col": "national_interest_action",
+    "meaning": "Text label for national_interest_action_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 174,
+    "col": "cost_or_pricing_data_code",
+    "meaning": "Whether the vendor had to provide certified cost or pricing data.",
+    "verdict": "Skip",
+    "why": "Price-negotiation oversight, not market share."
+   },
+   {
+    "pos": 175,
+    "col": "cost_or_pricing_data",
+    "meaning": "Text label for cost_or_pricing_data_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 176,
+    "col": "cost_accounting_standards_clause_code",
+    "meaning": "Whether Cost Accounting Standards apply.",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 177,
+    "col": "cost_accounting_standards_clause",
+    "meaning": "Text label for cost_accounting_standards_clause_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 178,
+    "col": "government_furnished_property_code",
+    "meaning": "Whether the government provides equipment or property to the vendor.",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 179,
+    "col": "government_furnished_property",
+    "meaning": "Text label for government_furnished_property_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 180,
+    "col": "sea_transportation_code",
+    "meaning": "Whether supplies may ship by sea (Cargo Preference Act).",
+    "verdict": "Skip",
+    "why": "Legal or clause compliance, not market share."
+   },
+   {
+    "pos": 181,
+    "col": "sea_transportation",
+    "meaning": "Text label for sea_transportation_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 182,
+    "col": "undefinitized_action_code",
+    "meaning": "Whether work began before the contract terms were final (a letter contract or undefinitized action).",
+    "verdict": "Skip",
+    "why": "Interesting as an urgency signal, but too narrow for the main analysis."
+   },
+   {
+    "pos": 183,
+    "col": "undefinitized_action",
+    "meaning": "Text label for undefinitized_action_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 186,
+    "col": "performance_based_service_acquisition_code",
+    "meaning": "Whether a service contract is performance-based (pays for outcomes rather than hours).",
+    "verdict": "Skip",
+    "why": "Contract management practice, not market share."
+   },
+   {
+    "pos": 187,
+    "col": "performance_based_service_acquisition",
+    "meaning": "Text label for performance_based_service_acquisition_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 190,
+    "col": "contract_financing_code",
+    "meaning": "Type of financing provided, e.g., progress payments or performance-based payments.",
+    "verdict": "Skip",
+    "why": "Payment terms, not market share."
+   },
+   {
+    "pos": 191,
+    "col": "contract_financing",
+    "meaning": "Text label for contract_financing_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 192,
+    "col": "purchase_card_as_payment_method_code",
+    "meaning": "Whether the purchase was paid with a government purchase card.",
+    "verdict": "Skip",
+    "why": "Card buys are small, so they barely move a dollar-weighted index."
+   },
+   {
+    "pos": 193,
+    "col": "purchase_card_as_payment_method",
+    "meaning": "Text label for purchase_card_as_payment_method_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 194,
+    "col": "contingency_humanitarian_or_peacekeeping_operation_code",
+    "meaning": "Whether the purchase supported a contingency, humanitarian, or peacekeeping operation (which raises purchase thresholds).",
+    "verdict": "Skip",
+    "why": "National interest action covers emergency spending more cleanly."
+   },
+   {
+    "pos": 195,
+    "col": "contingency_humanitarian_or_peacekeeping_operation",
+    "meaning": "Text label for contingency_humanitarian_or_peacekeeping_operation_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   }
+  ]
+ },
+ {
+  "name": "Vendor size and socioeconomic status",
+  "intro": "Flags from the vendor's registration describing its size and the preference programs it qualifies for. They describe who the vendor is, not how concentrated the market is, and the set-aside field already records when a preference shaped an award. Three are worth keeping.",
+  "counts": {
+   "Core": 0,
+   "Useful": 4,
+   "Skip": 26
+  },
+  "cols": [
+   {
+    "pos": 196,
+    "col": "alaskan_native_corporation_owned_firm",
+    "meaning": "Whether the vendor is owned by an Alaska Native Corporation.",
+    "verdict": "Useful",
+    "why": "ANC-owned firms can receive large sole-source awards under SBA's 8(a) program, a known source of uncompeted awards."
+   },
+   {
+    "pos": 197,
+    "col": "american_indian_owned_business",
+    "meaning": "Whether the vendor is American Indian-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 198,
+    "col": "indian_tribe_federally_recognized",
+    "meaning": "Whether the vendor is a federally recognized tribe.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 199,
+    "col": "native_hawaiian_organization_owned_firm",
+    "meaning": "Whether the vendor is owned by a Native Hawaiian Organization.",
+    "verdict": "Skip",
+    "why": "Ownership category; the 8(a) flag captures the program effect."
+   },
+   {
+    "pos": 200,
+    "col": "tribally_owned_firm",
+    "meaning": "Whether the vendor is tribally owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 201,
+    "col": "veteran_owned_business",
+    "meaning": "Whether the vendor is veteran-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 202,
+    "col": "service_disabled_veteran_owned_business",
+    "meaning": "Whether the vendor is service-disabled veteran-owned (eligible for SDVOSB set-asides).",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 203,
+    "col": "woman_owned_business",
+    "meaning": "Whether the vendor is woman-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 204,
+    "col": "women_owned_small_business",
+    "meaning": "Whether the vendor is a women-owned small business under SBA's WOSB program.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 205,
+    "col": "economically_disadvantaged_women_owned_small_business",
+    "meaning": "Whether the vendor is an economically disadvantaged women-owned small business.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 206,
+    "col": "joint_venture_women_owned_small_business",
+    "meaning": "Whether the vendor is a women-owned small business joint venture.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 207,
+    "col": "joint_venture_economic_disadvantaged_women_owned_small_bus",
+    "meaning": "Whether the vendor is an economically disadvantaged women-owned small business joint venture.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 208,
+    "col": "minority_owned_business",
+    "meaning": "Whether the vendor is minority-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 209,
+    "col": "subcontinent_asian_asian_indian_american_owned_business",
+    "meaning": "Whether the vendor is owned by Subcontinent Asian (Asian-Indian) Americans.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 210,
+    "col": "asian_pacific_american_owned_business",
+    "meaning": "Whether the vendor is Asian-Pacific American-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 211,
+    "col": "black_american_owned_business",
+    "meaning": "Whether the vendor is Black American-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 212,
+    "col": "hispanic_american_owned_business",
+    "meaning": "Whether the vendor is Hispanic American-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 213,
+    "col": "native_american_owned_business",
+    "meaning": "Whether the vendor is Native American-owned.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 214,
+    "col": "other_minority_owned_business",
+    "meaning": "Whether the vendor is owned by another minority group.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 215,
+    "col": "contracting_officers_determination_of_business_size",
+    "meaning": "Text label for contracting_officers_determination_of_business_size_code.",
+    "verdict": "Useful",
+    "why": "Readable label for display; analyze on the code, since label wording can change over the years."
+   },
+   {
+    "pos": 216,
+    "col": "contracting_officers_determination_of_business_size_code",
+    "meaning": "The contracting officer's determination of whether the vendor was small or other-than-small for this award.",
+    "verdict": "Useful",
+    "why": "Shows how much of each market goes to small firms versus the largest, the pitch's \u201cblind spot\u201d framing."
+   },
+   {
+    "pos": 217,
+    "col": "emerging_small_business",
+    "meaning": "Whether the vendor is an \u201cemerging small business\u201d (a size category from an older program).",
+    "verdict": "Skip",
+    "why": "Narrow size category; the business-size determination covers it."
+   },
+   {
+    "pos": 218,
+    "col": "community_developed_corporation_owned_firm",
+    "meaning": "Whether the vendor is owned by a community development corporation.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 219,
+    "col": "labor_surplus_area_firm",
+    "meaning": "Whether the vendor is located in a labor surplus (high-unemployment) area.",
+    "verdict": "Skip",
+    "why": "Location-based preference, not market share."
+   },
+   {
+    "pos": 279,
+    "col": "dot_certified_disadvantage",
+    "meaning": "Whether the Department of Transportation certified the vendor as a disadvantaged business enterprise.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 280,
+    "col": "self_certified_small_disadvantaged_business",
+    "meaning": "Whether the vendor self-certified as a small disadvantaged business.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 281,
+    "col": "small_disadvantaged_business",
+    "meaning": "Whether the vendor is a small disadvantaged business.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 282,
+    "col": "c8a_program_participant",
+    "meaning": "Whether the vendor participates in SBA's 8(a) Business Development program.",
+    "verdict": "Useful",
+    "why": "8(a) sole-source awards are a recognized path to large uncompeted awards."
+   },
+   {
+    "pos": 283,
+    "col": "historically_underutilized_business_zone_hubzone_firm",
+    "meaning": "Whether the vendor is a certified HUBZone firm.",
+    "verdict": "Skip",
+    "why": "Describes who owns the vendor, not how much of a market it holds; the set-aside field records when a preference program shaped the award."
+   },
+   {
+    "pos": 284,
+    "col": "sba_certified_8a_joint_venture",
+    "meaning": "Whether the vendor is an SBA-certified 8(a) joint venture.",
+    "verdict": "Skip",
+    "why": "The 8(a) participant flag covers the program effect."
+   }
+  ]
+ },
+ {
+  "name": "Vendor organization type",
+  "intro": "Flags describing what kind of entity the vendor is: government, corporation, nonprofit, university, and so on. Only one matters here: federally funded research and development centers (FFRDCs), which are sole-source by design and can make an agency look concentrated.",
+  "counts": {
+   "Core": 0,
+   "Useful": 1,
+   "Skip": 60
+  },
+  "cols": [
+   {
+    "pos": 114,
+    "col": "domestic_or_foreign_entity_code",
+    "meaning": "Whether the vendor is a U.S. or foreign entity.",
+    "verdict": "Skip",
+    "why": "Ownership nationality, not market share; the parent IDs handle ownership."
+   },
+   {
+    "pos": 115,
+    "col": "domestic_or_foreign_entity",
+    "meaning": "Text label for domestic_or_foreign_entity_code.",
+    "verdict": "Skip",
+    "why": "Label for a code this guide skips."
+   },
+   {
+    "pos": 220,
+    "col": "us_federal_government",
+    "meaning": "Whether the vendor is part of the U.S. federal government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 221,
+    "col": "federally_funded_research_and_development_corp",
+    "meaning": "Whether the vendor operates a federally funded research and development center (e.g., some national laboratories).",
+    "verdict": "Useful",
+    "why": "FFRDCs are sole-source by design; test whether agencies like Energy look different with and without them."
+   },
+   {
+    "pos": 222,
+    "col": "federal_agency",
+    "meaning": "Whether the vendor is a federal agency.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 223,
+    "col": "us_state_government",
+    "meaning": "Whether the vendor is a state government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 224,
+    "col": "us_local_government",
+    "meaning": "Whether the vendor is a local government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 225,
+    "col": "city_local_government",
+    "meaning": "Whether the vendor is a city government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 226,
+    "col": "county_local_government",
+    "meaning": "Whether the vendor is a county government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 227,
+    "col": "inter_municipal_local_government",
+    "meaning": "Whether the vendor is an inter-municipal government body.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 228,
+    "col": "local_government_owned",
+    "meaning": "Whether the vendor is owned by a local government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 229,
+    "col": "municipality_local_government",
+    "meaning": "Whether the vendor is a municipality.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 230,
+    "col": "school_district_local_government",
+    "meaning": "Whether the vendor is a school district.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 231,
+    "col": "township_local_government",
+    "meaning": "Whether the vendor is a township.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 232,
+    "col": "us_tribal_government",
+    "meaning": "Whether the vendor is a tribal government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 233,
+    "col": "foreign_government",
+    "meaning": "Whether the vendor is a foreign government.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 234,
+    "col": "organizational_type",
+    "meaning": "Vendor's organization type as recorded (e.g., corporation, partnership, government).",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 235,
+    "col": "corporate_entity_not_tax_exempt",
+    "meaning": "Whether the vendor is a taxable corporation.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 236,
+    "col": "corporate_entity_tax_exempt",
+    "meaning": "Whether the vendor is a tax-exempt corporation.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 237,
+    "col": "partnership_or_limited_liability_partnership",
+    "meaning": "Whether the vendor is a partnership or limited liability partnership.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 238,
+    "col": "sole_proprietorship",
+    "meaning": "Whether the vendor is a sole proprietorship.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 239,
+    "col": "small_agricultural_cooperative",
+    "meaning": "Whether the vendor is a small agricultural cooperative.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 240,
+    "col": "international_organization",
+    "meaning": "Whether the vendor is an international organization.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 241,
+    "col": "us_government_entity",
+    "meaning": "Whether the vendor is a U.S. government entity.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 242,
+    "col": "community_development_corporation",
+    "meaning": "Whether the vendor is a community development corporation.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 243,
+    "col": "domestic_shelter",
+    "meaning": "Whether the vendor is a domestic shelter.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 244,
+    "col": "educational_institution",
+    "meaning": "Whether the vendor is an educational institution.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 245,
+    "col": "foundation",
+    "meaning": "Whether the vendor is a foundation.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 246,
+    "col": "hospital_flag",
+    "meaning": "Whether the vendor is a hospital.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 247,
+    "col": "manufacturer_of_goods",
+    "meaning": "Whether the vendor manufactures goods.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 248,
+    "col": "veterinary_hospital",
+    "meaning": "Whether the vendor is a veterinary hospital.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 249,
+    "col": "hispanic_servicing_institution",
+    "meaning": "Whether the vendor is a Hispanic-serving institution.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 250,
+    "col": "receives_contracts",
+    "meaning": "Whether the vendor's registration says it seeks contracts.",
+    "verdict": "Skip",
+    "why": "Registration purpose; every row in this file is a contract."
+   },
+   {
+    "pos": 251,
+    "col": "receives_financial_assistance",
+    "meaning": "Whether the vendor's registration says it seeks grants and other assistance.",
+    "verdict": "Skip",
+    "why": "Registration purpose; every row in this file is a contract."
+   },
+   {
+    "pos": 252,
+    "col": "receives_contracts_and_financial_assistance",
+    "meaning": "Whether the vendor's registration says it seeks both contracts and assistance.",
+    "verdict": "Skip",
+    "why": "Registration purpose; every row in this file is a contract."
+   },
+   {
+    "pos": 253,
+    "col": "airport_authority",
+    "meaning": "Whether the vendor is an airport authority.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 254,
+    "col": "council_of_governments",
+    "meaning": "Whether the vendor is a council of governments.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 255,
+    "col": "housing_authorities_public_tribal",
+    "meaning": "Whether the vendor is a public or tribal housing authority.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 256,
+    "col": "interstate_entity",
+    "meaning": "Whether the vendor is an interstate entity.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 257,
+    "col": "planning_commission",
+    "meaning": "Whether the vendor is a planning commission.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 258,
+    "col": "port_authority",
+    "meaning": "Whether the vendor is a port authority.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 259,
+    "col": "transit_authority",
+    "meaning": "Whether the vendor is a transit authority.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 260,
+    "col": "subchapter_scorporation",
+    "meaning": "Whether the vendor is a Subchapter S corporation.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 261,
+    "col": "limited_liability_corporation",
+    "meaning": "Whether the vendor is a limited liability company.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 262,
+    "col": "foreign_owned",
+    "meaning": "Whether the vendor is foreign-owned and located.",
+    "verdict": "Skip",
+    "why": "Ownership nationality, not market share; the parent IDs handle ownership."
+   },
+   {
+    "pos": 263,
+    "col": "for_profit_organization",
+    "meaning": "Whether the vendor is a for-profit organization.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 264,
+    "col": "nonprofit_organization",
+    "meaning": "Whether the vendor is a nonprofit organization.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 265,
+    "col": "other_not_for_profit_organization",
+    "meaning": "Whether the vendor is another kind of not-for-profit organization.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 266,
+    "col": "the_ability_one_program",
+    "meaning": "Whether the vendor is an AbilityOne nonprofit (employing people who are blind or have significant disabilities; a source the law requires agencies to use).",
+    "verdict": "Skip",
+    "why": "A small share of dollars, and a mandatory source by law."
+   },
+   {
+    "pos": 267,
+    "col": "private_university_or_college",
+    "meaning": "Whether the vendor is a private university or college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 268,
+    "col": "state_controlled_institution_of_higher_learning",
+    "meaning": "Whether the vendor is a state-controlled college or university.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 269,
+    "col": "1862_land_grant_college",
+    "meaning": "Whether the vendor is an 1862 land-grant college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 270,
+    "col": "1890_land_grant_college",
+    "meaning": "Whether the vendor is an 1890 land-grant college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 271,
+    "col": "1994_land_grant_college",
+    "meaning": "Whether the vendor is a 1994 (tribal) land-grant college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 272,
+    "col": "minority_institution",
+    "meaning": "Whether the vendor is a minority-serving institution.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 273,
+    "col": "historically_black_college",
+    "meaning": "Whether the vendor is a historically Black college or university.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 274,
+    "col": "tribal_college",
+    "meaning": "Whether the vendor is a tribal college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 275,
+    "col": "alaskan_native_servicing_institution",
+    "meaning": "Whether the vendor is an Alaska Native-serving institution.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 276,
+    "col": "native_hawaiian_servicing_institution",
+    "meaning": "Whether the vendor is a Native Hawaiian-serving institution.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 277,
+    "col": "school_of_forestry",
+    "meaning": "Whether the vendor is a school of forestry.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   },
+   {
+    "pos": 278,
+    "col": "veterinary_college",
+    "meaning": "Whether the vendor is a veterinary college.",
+    "verdict": "Skip",
+    "why": "Describes what kind of entity the vendor is, not how much of a market it holds."
+   }
+  ]
+ },
+ {
+  "name": "Executive compensation",
+  "intro": "Names and pay of the vendor's five most highly compensated executives, reported when the vendor meets federal thresholds. Not needed, and it is personal data you don't need to carry around.",
+  "counts": {
+   "Core": 0,
+   "Useful": 0,
+   "Skip": 10
+  },
+  "cols": [
+   {
+    "pos": 285,
+    "col": "highly_compensated_officer_1_name",
+    "meaning": "Name of the vendor's #1 most highly paid executive, reported only when the vendor meets federal reporting thresholds.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 286,
+    "col": "highly_compensated_officer_1_amount",
+    "meaning": "Total compensation of that #1 executive.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 287,
+    "col": "highly_compensated_officer_2_name",
+    "meaning": "Name of the vendor's #2 most highly paid executive, reported only when the vendor meets federal reporting thresholds.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 288,
+    "col": "highly_compensated_officer_2_amount",
+    "meaning": "Total compensation of that #2 executive.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 289,
+    "col": "highly_compensated_officer_3_name",
+    "meaning": "Name of the vendor's #3 most highly paid executive, reported only when the vendor meets federal reporting thresholds.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 290,
+    "col": "highly_compensated_officer_3_amount",
+    "meaning": "Total compensation of that #3 executive.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 291,
+    "col": "highly_compensated_officer_4_name",
+    "meaning": "Name of the vendor's #4 most highly paid executive, reported only when the vendor meets federal reporting thresholds.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 292,
+    "col": "highly_compensated_officer_4_amount",
+    "meaning": "Total compensation of that #4 executive.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 293,
+    "col": "highly_compensated_officer_5_name",
+    "meaning": "Name of the vendor's #5 most highly paid executive, reported only when the vendor meets federal reporting thresholds.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   },
+   {
+    "pos": 294,
+    "col": "highly_compensated_officer_5_amount",
+    "meaning": "Total compensation of that #5 executive.",
+    "verdict": "Skip",
+    "why": "Executive pay is not market share, and it is personal data you don't need to store."
+   }
+  ]
+ },
+ {
+  "name": "Links and record history",
+  "intro": "A link to each award's page and two dates that track the record itself. Both dates help with the reporting-lag and snapshot questions that came up in the pilot.",
+  "counts": {
+   "Core": 0,
+   "Useful": 3,
+   "Skip": 0
+  },
+  "cols": [
+   {
+    "pos": 295,
+    "col": "usaspending_permalink",
+    "meaning": "Link to the award's page on USAspending.gov.",
+    "verdict": "Useful",
+    "why": "One-click access when hand-checking the top 100 recipients."
+   },
+   {
+    "pos": 296,
+    "col": "initial_report_date",
+    "meaning": "Date the transaction was first reported.",
+    "verdict": "Useful",
+    "why": "Measures reporting lag, which helps decide where to cut the newest year (the 90-day DoD lag)."
+   },
+   {
+    "pos": 297,
+    "col": "last_modified_date",
+    "meaning": "Date the record was last changed.",
+    "verdict": "Useful",
+    "why": "Separates timing differences from real gaps when comparing snapshots, and shows which years are still changing."
+   }
+  ]
+ }
+]
