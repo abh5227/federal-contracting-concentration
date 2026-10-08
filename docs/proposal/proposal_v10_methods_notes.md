@@ -1,10 +1,10 @@
-# Methods notes for proposal version 9
+# Methods notes for proposal version 10
 
-These notes explain the analysis and evaluation in `docs/proposal/proposal_v9.md` in plain terms, with quick examples. The proposal has room for about one sentence per method, so the rest lives here, for the team and for questions in class. Numbers marked *made up* only illustrate a method. They are not results. Citations in brackets use the proposal's reference numbers.
+These notes explain the analysis and evaluation in `docs/proposal/proposal_v10.md` in plain terms, with quick examples. The proposal has room for about one sentence per method, so the rest lives here, for the team and for questions in class. Numbers marked *made up* only illustrate a method. They are not results. Citations in brackets use the proposal's reference numbers.
 
 ## 1. The analysis, step by step
 
-1. **Score each segment.** A segment is one awarding agency, one product code and one fiscal year. We compute its HHI and its top-4 share. In DoD's fixed-wing aircraft purchases for FY2025, the largest vendor held 76%, so that vendor alone puts the HHI at 76² = 5,776 or more.
+1. **Score each segment.** A segment is one awarding agency, one product code and one fiscal year. We compute its HHI and its top-4 share. In DoD's fixed-wing aircraft purchases for FY2025, the largest vendor held 76%, so that vendor alone puts the HHI at 76 × 76 = 5,776 or more.
 2. **Form trend lines.** One agency and one product code, scored in every year from FY2008 to FY2025, give a line of up to 18 points. There are thousands of these lines.
 3. **Sort the lines into shapes, for question 2.** k-means clustering finds a handful of typical shapes and puts each line with the one it most resembles. Typical shapes might look like these *made-up* ones.
    - Flat near 1,500.
@@ -23,7 +23,7 @@ Rising means concentration went up over time. More of an agency's money for a pr
 
 The example from our pitch works over time too. In FY2008 an agency splits $100M on a product evenly across five vendors, so the HHI is 2,000. By FY2025 one vendor gets $80M and the other four get $5M each, so the HHI is 6,500. The line rose from 2,000 to 6,500. In plain words, the agency came to rely on one vendor.
 
-**The rule in version 9.** A line is rising if its average HHI over its last 3 years is at least 500 points above its average over its first 3 years. The analysis is repeated with cutoffs of 250 and 1,000 points. Yearly scores bounce around, and averaging over 3 years softens the effect of one large award.
+**The rule in version 10.** A line is rising if its average HHI over its last 3 years is at least 500 points above its average over its first 3 years. The analysis is repeated with cutoffs of 250 and 1,000 points. Yearly scores bounce around, and averaging over 3 years softens the effect of one large award.
 
 | Line (*made up*) | First 3 years, average | Last 3 years, average | Rising? |
 |---|---|---|---|
@@ -53,8 +53,8 @@ The share is the dollars on not-competed rows divided by all of the line's dolla
 
 **Three complications.**
 1. **Follow-ons, code E.** The original contract was competed, but the follow-on went to the same firm without a new competition. It could count either way. Counting it both ways, as a robustness run, is the simplest answer.
-2. **Orders under umbrella contracts.** These are the pitch's "twenty firms win a slot" deals. Our column guide says `extent_competed` describes how the umbrella was competed, and `fair_opportunity_limited_sources` records whether each order was competed among the holders. The guide flags this as unconfirmed. Should it hold, a $50M order handed straight to one holder can still show as competed. Version 9 measures the share both ways, for the umbrella and for the order, as the pitch planned.
-3. **Competed with only one offer.** An award can be competed on paper and still draw a single offer. Hyatt [7] counts that as competition that was not effective. Offers received is coded consistently only from FY2012 to FY2017, so this feature covers those years alone.
+2. **Orders under umbrella contracts.** These are the pitch's "twenty firms win a slot" deals. Our column guide says `extent_competed` describes how the umbrella was competed, and `fair_opportunity_limited_sources` records whether each order was competed among the holders. The guide flags this as unconfirmed. Should it hold, a $50M order handed straight to one holder can still show as competed. Version 10 measures the share both ways, for the umbrella and for the order, as the pitch planned.
+3. **Competed with only one offer.** An award can be competed on paper and still draw a single offer. Hyatt [7] counts that as competition that was not effective. Offers received is coded consistently only from FY2012 to FY2017, so for now this feature covers those years alone. The team will look for another source that could fill the other years.
 
 ## 4. The two models for question 3
 
@@ -83,7 +83,7 @@ It is a standard classification tree (CART). Each split is chosen to make the tw
 
 **Why both.** The regression gives the size of each feature's effect. The tree catches combinations, such as sole-source awards mattering mostly for research. Both pointing at the same features is more convincing than either alone.
 
-**Better than nothing.** Both models must predict rising better than a baseline that knows only the agency and the line's size. A failure is still a result. The honest answer to question 3 would then be that nothing beyond agency and size stands out.
+**Better than nothing.** Both models must predict rising better than a baseline that knows only the agency and the line's size. The gain in AUC must be at least 0.05, about 5 more pairs ranked correctly out of every 100, so the gain is large enough to matter. Its 95% bootstrap interval must also stay above zero, so the gain is not luck. With thousands of lines even a tiny gain can pass a test of luck alone, which is why the rule needs both parts. A failure is still a result. The honest answer to question 3 would then be that nothing beyond agency and size stands out.
 
 **What the models cannot say.** They find what goes together. Suppose sole-source awards go with rising lines. Sole-sourcing could push purchases toward one vendor. A vendor that already dominates could also win sole-source follow-on work because no one else can do it. Both stories fit the same numbers, which is why the proposal claims no causes.
 
@@ -95,17 +95,18 @@ It is a standard classification tree (CART). Each split is chosen to make the tw
 | Data decisions | Rerun with each alternative choice on the nine open decisions | Count negative vendor totals as zero in place of keeping them. Fixed-wing aircraft should still rise, and we report how many segments change band. |
 | Robustness | The pattern must survive other ways of measuring | Use top-4 share in place of HHI, code group 15 (aircraft) in place of 1510, a start in FY2012, and 3-year windows so one large award cannot fake a jump. |
 | Clusters | The shapes must be real and stable | A silhouette width of at least 0.25 means the groups are distinct. Resample the lines 100 times and sort them again. The groupings must agree, with a mean adjusted Rand index of at least 0.6, where 1 means identical and 0 means chance. |
-| Descriptive models | The features must predict rising better than agency and size alone | Hide a fifth of the lines, train on the rest, predict the hidden fifth, and repeat 5 times. AUC is the chance that a rising line outscores a line that did not rise, and 0.5 is a coin flip. A *made-up* baseline of 0.62 against our 0.71 passes, and our 0.63 would fail. |
+| Descriptive models | The features must predict rising better than agency and size alone | Hide a fifth of the lines, train on the rest, predict the hidden fifth, and repeat 5 times. AUC is the chance that a rising line outscores a line that did not rise, and 0.5 is a coin flip. The gain must be at least 0.05, and its 95% bootstrap interval must stay above zero. A *made-up* baseline of 0.62 against our 0.71 passes, and our 0.63 would fail. |
 | Face validity | Known cases should come out right | Aircraft carriers come from one shipyard, so that purchase should score near the top. |
 
 ## 6. Decisions still open for the team
 
-1. **The 500-point cutoff for rising.** Version 9 proposes it. The team can change it before the first run.
+1. **The 500-point cutoff for rising.** Version 10 proposes it. The team can change it before the first run.
 2. **Code E, follow-ons to a competed action.** Count it as competed, as not competed, or both ways.
 3. **The umbrella-order field.** Confirm in the FPDS data dictionary what `extent_competed` and `fair_opportunity_limited_sources` record for orders.
 4. **Sole-source shares outside 0% to 100%.** Cap them or flag the lines.
 5. **The thin-line rule.** Fix the minimum years and dollars before any clustering run.
 6. **Scaling the lines.** Keep centering and scaling, or cluster on the change from the first year.
-7. **The methods and thresholds.** k-means, silhouette width of 0.25, adjusted Rand index of 0.6, the L1 regression and the tree were proposed in the first draft of the proposal. The team has not yet agreed to them.
+7. **The methods and thresholds.** k-means, silhouette width of 0.25, adjusted Rand index of 0.6, the L1 regression and the tree are proposed. The team will fix them before the first run. The AUC rule, a gain of at least 0.05 with a 95% interval above zero, is agreed.
 8. **The price index** for charts in constant FY2025 dollars.
 9. **The word "segment"** for one agency, product code and year. Alternatives are "market" and "agency-product-year".
+10. **Another source for offers received.** FY2012 to FY2017 is the window for now. The team will look for data that could fill the other years.

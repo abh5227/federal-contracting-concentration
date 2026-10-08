@@ -43,6 +43,10 @@ from . import audit, config, convert, inventory, manifest, stage0
 PROOF_DIR = config.INTEGRITY_DIR / "stage1"
 MONEY = config.OBLIGATION_COL
 HEADROOM_BYTES = 20 * 1024**3
+# Bytes of Layer A per byte of zip, for the disk check before any year is built. Measured on the 18 years of
+# the 2026-09-06 release: 19.84 GB of Parquet for 27.11 GB of zips (0.732), 0.705 (FY2013) to 0.751 (FY2024)
+# by year. 0.76 sits above every year, so the check never asks for less room than a real build used.
+FIRST_RUN_RATIO = 0.76
 
 
 def now() -> str:
@@ -234,24 +238,44 @@ def layer_a_files(fy: int) -> list[Path]:
     return [config.layer_a_dir(fy) / x["parquet"] for x in listing["members"]]
 
 
+def no_zips_message() -> str:
+    return (f"No Stage 0 zips found in {config.RELEASE_DIR}. Put the yearly zips in place first: "
+            "python -m src.stage0 organize --source <folder holding the zips>. Nothing was built.")
+
+
+def nearest_existing(path: Path) -> Path:
+    while not path.exists():
+        path = path.parent
+    return path
+
+
 def disk_check(log=print) -> dict:
-    ref_dir = config.layer_a_dir(2025) if (config.layer_a_dir(2025) / "_files.json").exists() else config.layer_a_legacy_dir(2025)
-    ref_bytes = sum(p.stat().st_size for p in ref_dir.glob("*.parquet"))
-    ref_zip = config.stage0_zip(2025).stat().st_size
+    present = config.years_present()
+    if not present:
+        raise SystemExit(no_zips_message())
+    built = [fy for fy in present if (config.layer_a_dir(fy) / "_files.json").exists()]
+    layer_a = {fy: sum(p.stat().st_size for p in config.layer_a_dir(fy).glob("*.parquet")) for fy in built}
+    if built:                                       # scale by what this machine has already built
+        ref_bytes, ref_zip = sum(layer_a.values()), sum(config.stage0_zip(fy).stat().st_size for fy in built)
+        ratio = ref_bytes / ref_zip
+        basis = (f"{len(built)} built year(s): {ref_bytes:,} bytes of Layer A for {ref_zip:,} bytes of zips "
+                 f"({ratio:.3f}), scaled by each zip's size")
+    else:                                           # a first run: the ratio measured on the 18 years we built
+        ratio = FIRST_RUN_RATIO
+        basis = (f"no year built yet: {FIRST_RUN_RATIO} bytes of Layer A per zip byte (measured 0.705 to 0.751 by "
+                 "year, 0.732 overall), scaled by each zip's size")
     projected, rows = 0, []
-    for fy in config.years_present():
-        done = (config.layer_a_dir(fy) / "_files.json").exists()
-        size = (sum(p.stat().st_size for p in config.layer_a_dir(fy).glob("*.parquet")) if done
-                else int(ref_bytes * config.stage0_zip(fy).stat().st_size / ref_zip))
+    for fy in present:
+        done = fy in built
+        size = layer_a[fy] if done else int(ratio * config.stage0_zip(fy).stat().st_size)
         rows.append({"fiscal_year": fy, "built": done, "layer_a_bytes": size})
         projected += 0 if done else size
-    largest_member = max(i.file_size for fy in config.years_present()
+    largest_member = max(i.file_size for fy in present
                          for i in __import__("zipfile").ZipFile(config.stage0_zip(fy)).infolist())
-    free = shutil.disk_usage(config.DATA_DIR).free
+    free = shutil.disk_usage(nearest_existing(config.DATA_DIR)).free     # data/ may not exist yet on a fresh clone
     need = projected + largest_member + HEADROOM_BYTES
     res = {"free_bytes": free, "projected_new_layer_a_bytes": projected, "largest_member_bytes": largest_member,
-           "headroom_bytes": HEADROOM_BYTES, "need_bytes": need, "ok": free > need, "per_year": rows,
-           "basis": f"FY2025 Layer A {ref_bytes:,} bytes for a {ref_zip:,}-byte zip, scaled by each zip's size"}
+           "headroom_bytes": HEADROOM_BYTES, "need_bytes": need, "ok": free > need, "per_year": rows, "basis": basis}
     log(f"Disk: {free / 1e9:.0f} GB free; projected new Layer A {projected / 1e9:.1f} GB + largest extracted member "
         f"{largest_member / 1e9:.1f} GB + 20 GB headroom = {need / 1e9:.1f} GB -> {'OK' if res['ok'] else 'TOO TIGHT'}")
     return res
@@ -362,11 +386,18 @@ def main(argv: list[str] | None = None) -> int:
     r = sub.add_parser("recheck")
     r.add_argument("--fy", type=int, action="append", help="fiscal year(s); default: every proven year")
     a = p.parse_args(argv)
+    if a.mode in ("report", "recheck") and not any(progress_path(fy).exists() for fy in config.years_in_scope()):
+        print(f"No Stage 1 year has been built on this machine ({PROOF_DIR} holds no proof), so there is nothing to "
+              "report or recheck, and the committed report was left as it is. Build first: python -m src.stage1 build")
+        return 1
     if a.mode == "report":
         write_report()
         return 0
     if a.mode == "recheck":
         years = a.fy or [fy for fy in config.years_present() if (config.layer_a_dir(fy) / "_files.json").exists()]
+        if not years:
+            print("No proven Stage 1 year has its zip in Stage 0, so there is nothing to recheck.")
+            return 1
         res = [recheck_year(fy, log=lambda s: print(s, flush=True)) for fy in sorted(years)]
         (PROOF_DIR / "recheck.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
         bad = [r["fiscal_year"] for r in res if r["status"] != "PASS"]
@@ -378,6 +409,7 @@ def main(argv: list[str] | None = None) -> int:
     if not disk["ok"]:
         print("Stop: disk space is tight; nothing built.")
         return 1
+    config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     years = a.fy or config.years_present()
     status = {}
     for fy in sorted(years, reverse=True):

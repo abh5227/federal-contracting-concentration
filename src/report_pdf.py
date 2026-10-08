@@ -1,15 +1,17 @@
-"""reports/integrity/integrity_report.pdf: the integrity and completeness findings as a PDF, with charts.
+"""Build a markdown report as a PDF, with charts: the integrity findings, the proposal, the glossary and others.
 
-    python -m src.report_pdf                                     # version 1 (the default, unchanged)
-    python -m src.report_pdf --in docs/integrity_findings_v2.md --out reports/integrity/integrity_report_v2.pdf
-    python -m src.report_pdf --plain --in docs/proposal/proposal_v1.md --out reports/proposal/proposal_v1.pdf
+    python -m src.report_pdf --in docs/integrity_findings_v3.md --out <new path>.pdf
+    python -m src.report_pdf --plain --in docs/proposal/proposal_vN.md --out reports/proposal/proposal_vN.pdf
+
+--in and --out are both required. Every report PDF in reports/ is a frozen version, so the command has no
+default that could rebuild one. Build a new version under a new name.
 
 --plain is for submission documents such as the proposal: no "Generated" subtitle under the title, a footer
 that holds only the page number, and a compact page (0.6 inch margins, 10 pt body text at 1.35 line spacing,
 smaller headings, and entries under a "References" heading at 9 pt) so a page-limited document fits. Without it,
 every document builds exactly as before.
 
-By default the narrative is docs/integrity_findings.md, so the PDF and the doc never disagree. Each
+The PDF is built from the markdown it names, so the PDF and the doc never disagree. Each
 `<!-- figure: NAME -->` line in it is replaced by a chart drawn from the committed reports
 (reports/integrity/*.csv) and Stage 2 outputs (data/integrity/). The charts are plain SVG written
 here (no plotting library), and headless Chrome prints the page to PDF. Nothing in Stage 0, 1 or 2
@@ -21,6 +23,7 @@ from __future__ import annotations
 import csv
 import html
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -34,11 +37,20 @@ import duckdb
 
 from . import config, stage1, stage2
 
-SRC_MD = config.DOCS_DIR / "integrity_findings.md"
+SRC_MD = config.DOCS_DIR / "integrity_findings.md"  # version 1's source, which build_html still styles as version 1
 REP = config.INTEGRITY_REPORTS_DIR
-OUT_PDF = REP / "integrity_report.pdf"
 WORK = config.SCRATCH_DIR / "report_pdf"
-CHROME = Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+# Where Chrome or Chromium usually sits on macOS, Linux and Windows. CHROME_PATH comes first, the system path last.
+CHROME_PLACES = [
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser",
+    "/snap/bin/chromium",
+    r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    os.path.join(os.environ.get("LOCALAPPDATA", ""), "Google", "Chrome", "Application", "chrome.exe"),
+]
+CHROME_NAMES = ["google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome"]
 
 BLUE, ORANGE, GREEN, PURPLE, RED, GREY, TEAL = "#2b6cb0", "#dd6b20", "#2f855a", "#6b46c1", "#c53030", "#a0aec0", "#319795"
 INK, MUTED, GRID = "#1a202c", "#4a5568", "#e2e8f0"
@@ -653,13 +665,31 @@ def build_html(src_md: Path | None = None, plain: bool = False, paper: bool = Fa
             f"<style>{css}</style></head><body>{body}</body></html>")
 
 
+def find_chrome() -> Path | None:
+    """Chrome or Chromium: the CHROME_PATH environment variable if set, then the usual places, then the system path."""
+    if os.environ.get("CHROME_PATH"):
+        p = Path(os.environ["CHROME_PATH"]).expanduser()
+        return p if p.is_file() else None
+    for place in CHROME_PLACES:
+        if Path(place).is_file():
+            return Path(place)
+    for name in CHROME_NAMES:
+        if found := shutil.which(name):
+            return Path(found)
+    return None
+
+
 def print_pdf(html_path: Path, pdf_path: Path) -> None:
-    if not CHROME.exists():
-        raise SystemExit(f"Chrome not found at {CHROME}; the HTML is at {html_path}")
+    chrome = find_chrome()
+    if chrome is None:
+        why = (f"CHROME_PATH is set to {os.environ['CHROME_PATH']}, which is not a file" if os.environ.get("CHROME_PATH")
+               else "it is in none of the usual places and not on the system path")
+        raise SystemExit(f"Chrome or Chromium was not found: {why}. Install one, or set CHROME_PATH to its program "
+                         f"file, and run again. The HTML is ready at {html_path}")
     profile = Path(tempfile.mkdtemp(prefix="report_pdf_chrome_"))
     tmp = pdf_path.with_suffix(".pdf.tmp")
     try:
-        subprocess.run([str(CHROME), "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
+        subprocess.run([str(chrome), "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
                         "--disable-background-networking", "--disable-component-update", "--disable-sync",
                         "--disable-extensions", "--disable-default-apps", f"--user-data-dir={profile}",
                         "--no-pdf-header-footer", f"--print-to-pdf={tmp}", html_path.as_uri()],
@@ -675,8 +705,8 @@ def print_pdf(html_path: Path, pdf_path: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     import argparse
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--in", dest="src", type=Path, default=SRC_MD, help="markdown source (default: docs/integrity_findings.md)")
-    p.add_argument("--out", type=Path, default=OUT_PDF, help="PDF to write (default: reports/integrity/integrity_report.pdf)")
+    p.add_argument("--in", dest="src", type=Path, required=True, help="markdown source, such as docs/integrity_findings_v3.md")
+    p.add_argument("--out", type=Path, required=True, help="PDF to write, under a new name (report PDFs in reports/ are frozen)")
     p.add_argument("--plain", action="store_true",
                    help="submission document: no 'Generated' subtitle, and only the page number in the footer")
     p.add_argument("--paper", action="store_true",
@@ -685,7 +715,7 @@ def main(argv: list[str] | None = None) -> int:
     src = a.src if a.src.is_absolute() else config.REPO_ROOT / a.src
     out = a.out if a.out.is_absolute() else config.REPO_ROOT / a.out
     WORK.mkdir(parents=True, exist_ok=True)
-    html_path = WORK / ("integrity_report.html" if out.resolve() == OUT_PDF.resolve() else f"{out.stem}.html")
+    html_path = WORK / f"{out.stem}.html"
     html_path.write_text(build_html(src, plain=a.plain, paper=a.paper), encoding="utf-8")
     print_pdf(html_path, out)
     pages = out.read_bytes().count(b"/Type /Page") - out.read_bytes().count(b"/Type /Pages")

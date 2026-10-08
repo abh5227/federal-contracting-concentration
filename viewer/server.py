@@ -198,7 +198,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--quiet", action="store_true")
     a = p.parse_args(argv)
     t0 = time.time()
-    server, hdb, rdb = make_server(a.port, quiet=a.quiet)
+    try:
+        server, hdb, rdb = make_server(a.port, quiet=a.quiet)
+    except health.NoData as e:
+        print(f"Dashboard not started. {e}", file=sys.stderr)
+        return 1
     print(f"Dashboard: {len(rdb.years)} fiscal years present ({min(rdb.years)}-{max(rdb.years)}), "
           f"pending: {', '.join('FY' + str(y) for y in hdb.pending) or 'none'}. Ready in {time.time() - t0:.1f}s.")
     print(f"Open http://{HOST}:{server.server_address[1]}/  (Ctrl+C to stop)")

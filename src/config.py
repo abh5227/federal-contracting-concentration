@@ -236,8 +236,8 @@ GAO_REFERENCE = {
              "corrections between those dates are one expected source of a gap.",
 }
 
-# Glossary (config/glossary.csv, built by tools/build_glossary.py into docs/glossary_v2.md, the latest version,
-# and shown in the dashboard)
+# Glossary (config/glossary.csv, the source the dashboard shows and tools/build_glossary.py builds each numbered
+# glossary version in docs/ from)
 GLOSSARY_CSV = REPO_ROOT / "config" / "glossary.csv"
 GOV_SOURCES_CSV = REPO_ROOT / "config" / "gov_sources.csv"
 GLOSSARY_CATEGORIES = ["Data systems and files", "Award structure", "Money", "Identifiers", "Codes",

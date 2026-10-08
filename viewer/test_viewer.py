@@ -34,11 +34,11 @@ from pathlib import Path
 import duckdb
 
 from src import config, stage1, stage2
+from src.report_pdf import find_chrome
 
 from . import health
 from .server import make_server
 
-CHROME = Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
 FLAG_COUNTS = config.INTEGRITY_REPORTS_DIR / "flag_counts.csv"
 
 
@@ -185,13 +185,15 @@ def run_checks(c: Client, res: Results, hdb) -> None:
             ORDER BY recipient_name ASC NULLS LAST, contract_transaction_unique_key ASC LIMIT 100 OFFSET 100""").fetchall()
     s, r, _ = c.json("/api/rows", {"g": gy, "f": json.dumps([["awarding_agency_code", "is", "036"]]), "sort": "recipient_name",
                                    "dir": "asc", "page": "2"})
-    res.add("rows page contents = independent query", s == 200 and [k[0] for k in r["keys"]] == [d[0] for d in direct],
-            f"{len(r['keys'])} keys compared")
+    # Two empty lists are equal, so the check also needs keys on both sides: an empty page proves nothing.
+    res.add("rows page contents = independent query", s == 200 and len(direct) > 0 and
+            [k[0] for k in r["keys"]] == [d[0] for d in direct], f"{len(r['keys'])} keys compared, {len(direct)} expected")
 
-    # 8. Flag click-through: rows with flag J02 = flag_counts.csv J02 total
+    # 8. Flag click-through: rows with flag J02 = flag_counts.csv J02 total (0 = 0 would prove nothing, so J02 must fire)
     j02 = sum(v for (f, _), v in want.items() if f == "J02")
     s, t, ms = c.json("/api/totals", {"g": g_all, "flag": "J02"})
-    res.add("flag filter J02 rows = flag_counts.csv", s == 200 and t["rows"] == j02, f"{t['rows']:,} vs {j02:,}; {ms:.0f} ms")
+    res.add("flag filter J02 rows = flag_counts.csv", s == 200 and j02 > 0 and t["rows"] == j02,
+            f"{t['rows']:,} vs {j02:,}{'' if j02 else ' (no J02 rows to compare)'}; {ms:.0f} ms")
 
     # 9. Decision save: appears in the decisions file; data unchanged
     before = data_fingerprint()
@@ -275,8 +277,9 @@ def run_timings(c: Client) -> list[dict]:
 
 
 def run_render(base: str, out_dir: Path) -> list[dict]:
-    if not CHROME.exists():
-        return [{"check": "render", "status": "SKIP", "detail": "Chrome not found"}]
+    chrome = find_chrome()
+    if chrome is None:
+        return [{"check": "render", "status": "SKIP", "detail": "Chrome not found (set CHROME_PATH to its program file)"}]
     results = []
     # Each expected text is produced only by app.js (never in index.html), so it proves the page rendered.
     views = [("overview", "/", "What jumps off the page"), ("completeness", "/?view=completeness", "Month × year"),
@@ -290,8 +293,8 @@ def run_render(base: str, out_dir: Path) -> list[dict]:
     try:
         for name, path, expect in views:
             png = out_dir / f"dashboard_{name}.png"
-            subprocess.run([str(CHROME), *flags, f"--screenshot={png}", base + path], capture_output=True, timeout=300)
-            dom = subprocess.run([str(CHROME), *flags, "--dump-dom", base + path], capture_output=True, timeout=300, text=True).stdout
+            subprocess.run([str(chrome), *flags, f"--screenshot={png}", base + path], capture_output=True, timeout=300)
+            dom = subprocess.run([str(chrome), *flags, "--dump-dom", base + path], capture_output=True, timeout=300, text=True).stdout
             ok = (png.exists() and png.stat().st_size > 10_000 and expect in dom and "Error:" not in dom
                   and "FY2008" in dom)                       # the global filter lists were filled by the script
             results.append({"check": f"render: {name}", "status": "PASS" if ok else "FAIL",
@@ -307,15 +310,20 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out", type=Path, default=None)
     p.add_argument("--no-browser", action="store_true")
     a = p.parse_args(argv)
+    t0 = time.perf_counter()
+    try:
+        server, hdb, _ = make_server(0, quiet=True)
+    except health.NoData as e:                      # a fresh clone: nothing to check yet, which is not a failure
+        print(f"SKIPPED: every dashboard check, because there is no data to check. {e}")
+        return 0
     out_dir = a.out or Path(tempfile.mkdtemp(prefix="dashboard_test_"))
     out_dir.mkdir(parents=True, exist_ok=True)
-    # Decisions go to a copy, so the test never touches the team's real log.
+    # Decisions go to a copy, so the test never touches the team's real log. The server reads the
+    # module-level path only when a decision is saved, so switching it here, before serving, is enough.
     tmp_dec = out_dir / "decisions_copy.csv"
     if health.DECISIONS.exists():
         shutil.copy(health.DECISIONS, tmp_dec)
     health.DECISIONS = tmp_dec
-    t0 = time.perf_counter()
-    server, hdb, _ = make_server(0, quiet=True)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{server.server_address[1]}"
     print(f"Dashboard started for testing at {base} in {time.perf_counter() - t0:.1f}s\n")

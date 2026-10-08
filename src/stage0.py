@@ -16,7 +16,7 @@ deleted). The moved file is re-hashed (by `download.register`, which also writes
 its manifest row) and must have the same SHA-256. Then the zip is made read-only
 (chmod a-w); after all moves, the release folder is too. Undo with `chmod u+w`.
 
-In-scope years without a zip (FY2015 for now) get a manifest placeholder row with
+In-scope years without a zip (pending years) get a manifest placeholder row with
 no SHA-256, marked "pending - not yet downloaded". FY2026 (and any other year
 outside FIRST_FY..LAST_FY) goes to RELEASE_DIR/_out_of_scope and is recorded as
 "out of scope - not a pipeline input". Restartable: a zip already in place with
@@ -43,7 +43,7 @@ from . import config, download, inventory, manifest
 VERIFY_DIR = config.INTEGRITY_DIR / "stage0"
 CHUNK = 8 * 1024 * 1024
 BOM = codecs.BOM_UTF8
-PENDING_NOTE = "PENDING - not yet downloaded (the FY2015 download of 2026-10-05 failed: 0-byte file)"
+PENDING_NOTE = "PENDING - not yet downloaded"
 OUT_OF_SCOPE_NOTE = "out of scope - not a pipeline input"
 ZIP_RE = re.compile(r"^FY(\d{4})_All_Contracts_Full_(\d{8})\.zip$")
 
@@ -161,6 +161,14 @@ def find_zips(sources: list[Path], only_fy: set[int] | None = None) -> list[Path
     return found
 
 
+def no_zips_message(sources: list[Path], only_fy: set[int] | None = None) -> str:
+    missing = [str(s) for s in sources if not Path(s).expanduser().is_dir()]
+    years = f" for FY{', FY'.join(str(fy) for fy in sorted(only_fy))}" if only_fy else ""
+    return (f"Stop: no zip named like FY2025_All_Contracts_Full_20260906.zip{years} in "
+            f"{', '.join(str(s) for s in sources)}"
+            + (f" (not a folder: {', '.join(missing)})" if missing else "") + ".")
+
+
 def verify_many(paths: list[Path], workers: int = 4) -> list[dict]:
     with ProcessPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(verify_zip, paths))
@@ -206,6 +214,8 @@ def ensure_placeholders() -> None:
 def organize(sources: list[Path], only_fy: set[int] | None = None, log=print) -> list[dict]:
     """Verify, then move into Stage 0, re-hash, register, make read-only. Stops on any verification problem."""
     paths = find_zips(sources, only_fy)
+    if not paths:                                   # a mistyped --source must not rewrite the inventory or the manifest
+        raise SystemExit(no_zips_message(sources, only_fy) + " Nothing was moved or written.")
     by_fy: dict[int, list[Path]] = {}
     for p in paths:
         by_fy.setdefault(int(ZIP_RE.match(p.name)[1]), []).append(p)
@@ -348,7 +358,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     only = set(a.only_fy) if a.only_fy else None
     if a.mode == "verify":
-        res = verify_many(find_zips(a.source, only))
+        paths = find_zips(a.source, only)
+        if not paths:
+            print(no_zips_message(a.source, only) + " Nothing was checked.", file=sys.stderr)
+            return 1
+        res = verify_many(paths)
         for r in sorted(res, key=lambda r: r["fiscal_year"] or 0):
             print(f"FY{r['fiscal_year']} {r['file_name']}: crc={r['all_crc_ok']} utf8={r['all_utf8_ok']} "
                   f"bom={r['any_bom']} header=FY2025:{r['headers_match_fy2025']} header_only={r['header_only_members']} "

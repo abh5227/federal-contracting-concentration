@@ -1,4 +1,5 @@
-"""Tests for Stage 0 and Stage 1 and the code-review fixes they carry (S1, S3, S4, S5, N9).
+"""Tests for Stages 0 to 2 and the code-review fixes they carry (S1, S3, S4, S5, N9), for commands that must stop
+plainly when data is missing, and for the measure (HHI, the top-4 share and the vendor rule) on tables checked by hand.
 
     .venv/bin/python -m tests.test_stages          # standard library only (pytest is not installed)
     .venv/bin/pytest tests/                        # the same tests, if pytest is installed
@@ -269,6 +270,157 @@ def test_add_year_refreshes_cross_year_results(tmp_path: Path) -> None:
     assert any(d["target"] == "B03" and d["status"] == "proposed" for d in dec)
     for p in (tmp_path / "raw" / "release_2026-09-06",):
         os.chmod(p, 0o755)
+
+
+# ------------------------------------------------------------ no command overwrites committed results
+
+
+def files_under(folder: Path) -> dict[str, str]:
+    return {str(p.relative_to(folder)): p.read_text() for p in sorted(folder.rglob("*")) if p.is_file()}
+
+
+def test_analyses_stop_without_yearly_data_and_keep_committed_tables(tmp_path: Path) -> None:
+    """With no yearly data, src.analyses_v2 stops with a plain message and leaves the committed tables as they were."""
+    v2 = tmp_path / "out" / "reports" / "integrity" / "v2"
+    v2.mkdir(parents=True)
+    (v2 / "negative_vendor_totals.csv").write_text("fiscal_year,cells\n2025,3\n")
+    (v2 / "headline.json").write_text('{"kept": true}\n')
+    before = files_under(tmp_path / "out")
+    r = run(tmp_path, "src.analyses_v2")
+    assert r.returncode == 1 and "No yearly data found" in r.stdout and "Traceback" not in r.stderr, r.stdout + r.stderr
+    assert files_under(tmp_path / "out") == before
+
+
+def test_stage0_organize_without_zips_stops_and_writes_nothing(tmp_path: Path) -> None:
+    """organize pointed at a folder with no zips, or at a mistyped path, stops and leaves everything as it was."""
+    reports = tmp_path / "out" / "reports" / "integrity"
+    reports.mkdir(parents=True)
+    (reports / "stage0_inventory.md").write_text("committed inventory\n")
+    (tmp_path / "empty").mkdir()
+    for src in (tmp_path / "empty", tmp_path / "no_such_folder"):
+        r = run(tmp_path, "src.stage0", "organize", "--source", str(src))
+        assert r.returncode == 1 and "Stop: no zip named like" in r.stderr and "Traceback" not in r.stderr, r.stderr
+    assert "not a folder" in r.stderr
+    r = run(tmp_path, "src.stage0", "verify", "--source", str(tmp_path / "empty"))
+    assert r.returncode == 1 and "Nothing was checked" in r.stderr, r.stderr
+    assert files_under(tmp_path / "out") == {"reports/integrity/stage0_inventory.md": "committed inventory\n"}
+    assert not (tmp_path / "raw").exists()
+
+
+def test_report_pdf_requires_in_and_out(tmp_path: Path) -> None:
+    """report_pdf has no default source or output, so no run can rebuild a frozen report PDF by default."""
+    for args in ((), ("--in", "docs/integrity_findings_v3.md"), ("--out", str(tmp_path / "x.pdf"))):
+        r = run(tmp_path, "src.report_pdf", *args)
+        assert r.returncode == 2 and "required" in r.stderr and "Traceback" not in r.stderr, r.stderr
+    assert not (tmp_path / "x.pdf").exists() and not (tmp_path / "out").exists()
+
+
+# ------------------------------------------------------------ a fresh clone runs or fails clearly
+
+
+def test_fresh_clone_commands_print_one_plain_line(tmp_path: Path) -> None:
+    """With no zips and no data, each command stops with a plain message (no traceback) and builds nothing."""
+    expect = {("src.stage1", "disk"): "No Stage 0 zips found", ("src.stage1", "build"): "No Stage 0 zips found",
+              ("src.stage1", "report"): "No Stage 1 year has been built", ("src.stages", "refresh"): "No Stage 0 zips found",
+              ("src.stage2", "all"): "No year is proven in Stage 1", ("src.stage2", "cross"): "No year has finished Stage 2",
+              ("viewer.server",): "Dashboard not started"}
+    for args, words in expect.items():
+        r = run(tmp_path, *args)
+        out = r.stdout + r.stderr
+        assert r.returncode == 1 and words in out and "Traceback" not in out, (args, out[-1500:])
+    r = run(tmp_path, "viewer.test_viewer")
+    assert r.returncode == 0 and "SKIPPED: every dashboard check" in r.stdout and "Traceback" not in r.stderr, r.stdout + r.stderr
+    assert not (tmp_path / "out").exists() and not (tmp_path / "raw").exists()
+
+
+def test_disk_check_uses_the_fixed_ratio_before_any_year_is_built(tmp_path: Path) -> None:
+    """On a first run the disk check projects Layer A from the measured ratio, and creates no folder."""
+    assert organize(tmp_path, make_zip(tmp_path / "downloads", [csv_bytes([record(i) for i in range(1, 6)])]).parent).returncode == 0
+    zip_bytes = (tmp_path / "raw" / "release_2026-09-06" / ZIP_NAME).stat().st_size
+    code = ("import json; from src import stage1; r = stage1.disk_check(log=lambda s: None); "
+            "print(json.dumps([r['projected_new_layer_a_bytes'], r['basis'], stage1.FIRST_RUN_RATIO]))")
+    r = subprocess.run([sys.executable, "-c", code], cwd=REPO, capture_output=True, text=True,
+                       env={**os.environ, "PILOT_OUTPUT_ROOT": str(tmp_path / "out"), "PILOT_RAW_ROOT": str(tmp_path / "raw")})
+    assert r.returncode == 0, r.stderr
+    projected, basis, ratio = json.loads(r.stdout)
+    assert ratio == 0.76 and projected == int(ratio * zip_bytes) and basis.startswith("no year built yet"), (projected, basis)
+    assert not (tmp_path / "out" / "data" / "parquet").exists()
+    os.chmod(tmp_path / "raw" / "release_2026-09-06", 0o755)
+
+
+# ------------------------------------------------------------ the measure, on tables checked by hand
+# Each table runs through src/concentration_prelim.py's year_summary, the code behind the proposal's figures, which
+# uses the vendor rule (VENDOR) and hhi() of src/analyses_v2.py. One segment is one agency and product code in a year.
+
+MEASURE = """
+import json, sys
+from src import concentration_prelim as cp
+cp.files = lambda fy: [sys.argv[1]]                 # read the hand-built table in place of a year's Layer A
+out, _, per_cell = cp.year_summary(2025)
+print(json.dumps({"out": out, "cells": {"|".join(k): v for k, v in per_cell.items()}}, default=str))
+"""
+
+
+def measure(tmp: Path, rows: list[tuple[str, str, str, str]]) -> dict:
+    """rows: (product code, parent UEI, own UEI, dollars), all for agency 097. Returns each segment's
+    (net, HHI, top-4 share %, vendors with a positive net, largest share %) and the year summary."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    path = tmp / "segments.parquet"
+    cols = ["product_or_service_code", "recipient_parent_uei", "recipient_uei", "federal_action_obligation"]
+    table = {c: [r[i] for r in rows] for i, c in enumerate(cols)}
+    pq.write_table(pa.table({"awarding_agency_code": ["097"] * len(rows), **table}), path)
+    env = {**os.environ, "PILOT_OUTPUT_ROOT": str(tmp / "out"), "PILOT_RAW_ROOT": str(tmp / "raw")}
+    r = subprocess.run([sys.executable, "-c", MEASURE, str(path)], cwd=REPO, env=env, capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    return json.loads(r.stdout)
+
+
+def num(x) -> float | None:
+    return None if x is None else round(float(x), 6)
+
+
+def test_measure_five_equal_vendors_give_hhi_2000_and_top4_80(tmp_path: Path) -> None:
+    got = measure(tmp_path, [("1510", f"P{i}", f"U{i}", "20000000.00") for i in range(5)])["cells"]["097|1510"]
+    assert (num(got[1]), num(got[2]), got[3]) == (2000.0, 80.0, 5), got
+
+
+def test_measure_one_large_and_four_small_vendors_give_hhi_6500_and_top4_95(tmp_path: Path) -> None:
+    """$80M and four $5M. The $80M sits on two rows under one parent with different own UEIs, and one $5M vendor
+    has no parent, so it counts under its own UEI: the vendor rule is exercised too."""
+    rows = [("1905", "BIG", "B1", "50000000.00"), ("1905", "BIG", "B2", "30000000.00"), ("1905", "", "OWN5", "5000000.00")]
+    rows += [("1905", f"S{i}", f"U{i}", "5000000.00") for i in range(3)]
+    got = measure(tmp_path, rows)["cells"]["097|1905"]
+    assert (num(got[1]), num(got[2]), got[3], num(got[4])) == (6500.0, 95.0, 5, 80.0), got
+
+
+def test_measure_one_vendor_gives_hhi_10000(tmp_path: Path) -> None:
+    got = measure(tmp_path, [("Q201", "ONLY", "U1", "7.00"), ("Q201", "ONLY", "U2", "3.00")])["cells"]["097|Q201"]
+    assert (num(got[1]), num(got[2]), got[3]) == (10000.0, 100.0, 1), got
+
+
+def test_measure_leaves_a_vendor_with_a_negative_net_out_of_the_shares(tmp_path: Path) -> None:
+    """A $60 and a $40 vendor, and one that nets to -$50 (an obligation and a larger deobligation). Shares are
+    taken over the $100 of positive nets, as the code does today, so HHI is 60² + 40² = 5,200."""
+    rows = [("AD25", "A", "A", "60.00"), ("AD25", "B", "B", "40.00"), ("AD25", "C", "C", "25.00"), ("AD25", "C", "C", "-75.00")]
+    got = measure(tmp_path, rows)["cells"]["097|AD25"]
+    assert (num(got[0]), num(got[1]), num(got[2]), got[3]) == (50.0, 5200.0, 100.0, 2), got
+
+
+def test_measure_gives_no_score_where_every_vendor_nets_to_zero_or_less(tmp_path: Path) -> None:
+    rows = [("Y199", "A", "A", "-10.00"), ("Y199", "B", "B", "5.00"), ("Y199", "B", "B", "-5.00"), ("1510", "P", "U", "1.00")]
+    res = measure(tmp_path, rows)
+    got = res["cells"]["097|Y199"]
+    assert (num(got[0]), got[1], got[2], got[3]) == (-10.0, None, None, 0), got
+    assert (res["out"]["cells"], res["out"]["cells_with_hhi"], res["out"]["cells_without_positive_vendor"]) == (2, 1, 1), res["out"]
+
+
+def test_measure_pools_rows_with_no_vendor_id_as_one_vendor_current_behavior_pending_d0034(tmp_path: Path) -> None:
+    """Records today's behavior, which decision D0034 may change: rows with neither a parent nor an own UEI all
+    become one vendor, '(no ID)'. Three such $10 rows and one named $10 vendor score as $30 and $10: HHI 6,250."""
+    rows = [("7030", "", "", "10.00"), ("7030", " ", "", "10.00"), ("7030", "", "", "10.00"), ("7030", "N", "N", "10.00")]
+    got = measure(tmp_path, rows)["cells"]["097|7030"]
+    assert (num(got[1]), got[3], num(got[4])) == (6250.0, 2, 75.0), got
 
 
 # ----------------------------------------------------------------------------------------- runner

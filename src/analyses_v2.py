@@ -426,6 +426,10 @@ ANALYSES = {"figure1_diagnostic": figure1_diagnostic, "pairs_leftover": pairs_le
 
 def main(argv: list[str] | None = None) -> int:
     names = (argv if argv is not None else sys.argv[1:]) or list(ANALYSES)
+    if not years():                                 # never replace committed tables with empty ones
+        print("No yearly data found: no fiscal year has its Stage 0 zip and finished Stage 1 and Stage 2 outputs. "
+              f"Nothing was written to {OUT}. Build the stages first: python -m src.stages refresh")
+        return 1
     OUT.mkdir(parents=True, exist_ok=True)
     head = OUT / "headline.json"
     if head.exists():

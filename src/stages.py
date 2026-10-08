@@ -29,10 +29,14 @@ from . import config, integrity_report, stage0, stage1, stage2
 
 
 def refresh(log=print) -> int:
+    if not config.years_present():
+        log(stage1.no_zips_message())
+        return 1
     disk = stage1.disk_check(log)
     if not disk["ok"]:
         log("Stop: disk space is tight.")
         return 1
+    config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     for fy in sorted(config.years_present(), reverse=True):
         prog = stage1.build_year(fy, log)
         stage1.write_report(log)

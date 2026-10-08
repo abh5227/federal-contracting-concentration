@@ -36,6 +36,18 @@ class BadRequest(ValueError):
     pass
 
 
+class NoData(FileNotFoundError):
+    """Stages 1 and 2 have not been built on this machine. The message is meant to be printed as it is."""
+
+
+def no_data_message(missing: list[Path]) -> str:
+    shown = ", ".join(os.path.relpath(p, config.OUTPUT_ROOT) for p in missing[:3])
+    more = f" and {len(missing) - 3} more" if len(missing) > 3 else ""
+    return ("The dashboard needs Stages 1 and 2 built on this machine, and their outputs are missing "
+            f"({shown}{more}). Build them with python -m src.stages refresh after placing the yearly zips "
+            "with python -m src.stage0 organize (README, Getting the data).")
+
+
 def q(name: str) -> str:
     return '"' + name.replace('"', '""') + '"'
 
@@ -79,9 +91,11 @@ class HealthDB:
         }
         optional = {"parent_test"}                      # only exists once FY2018-FY2022 are profiled
         views = {k: v for k, v in views.items() if k not in optional or all(p.exists() for p in v)}
-        missing = [str(p) for ps in views.values() for p in ps if not p.exists()]
+        missing = [p for ps in views.values() for p in ps if not p.exists()]
+        if not self.years:
+            missing.insert(0, stage2.year_dir(config.LAST_FY) / "_done.json")
         if missing:
-            raise FileNotFoundError(f"Stage 2 outputs missing (run python -m src.stage2 all): {missing[:5]}")
+            raise NoData(no_data_message(missing))
         for name, paths in views.items():
             self.con.execute(f"CREATE VIEW {name} AS SELECT * FROM read_parquet({lit_list(paths)})")
         self.catalog = stage2.catalog()

@@ -14,7 +14,8 @@ Outputs (data/integrity/):
                                       fiscal_year, flag_id (year-local flags + cross-year B03)
   fy{YYYY}/*.parquet                  per-year profiles (column profile, top values, months, agencies, ...)
   cross/*.parquet                     cross-year results
-FY2015 is pending (not yet downloaded): cross-year comparisons that would need it are skipped and say so.
+A pending year (in scope but not yet downloaded) is left out of the cross-year comparisons that would need it,
+and they say so.
 """
 
 from __future__ import annotations
@@ -38,7 +39,7 @@ CROSS = OUT / "cross"
 CATALOG = config.REPO_ROOT / "config" / "flag_catalog.csv"
 KEY, AWARD, MONEY = "contract_transaction_unique_key", "contract_award_unique_key", "federal_action_obligation"
 RELEASE_DAY = "2026-09-06"
-PENDING_NOTE = "FY2015 is pending (not yet downloaded); skipped, not flagged."
+PENDING_NOTE = "A pending year (not yet downloaded) is skipped and never flagged."
 
 # ---- fixed values from config/flag_catalog.csv (written before this ran) -----------------------
 PLACEHOLDER_WORDS = ["UNKNOWN", "UNK", "N/A", "NA", "N\\A", "NONE", "NULL", "NIL", "NAN", "-", "--", ".", "?", "TBD",
@@ -546,9 +547,17 @@ def main(argv: list[str] | None = None) -> int:
             build_year(fy, log, force=a.force)
         return 0
     if a.mode in ("years", "all"):
+        if not proven:
+            print("No year is proven in Stage 1 on this machine, so Stage 2 has nothing to read. Nothing was built. "
+                  "Run python -m src.stages refresh, or python -m src.stage1 build first.")
+            return 1
         for fy in sorted(proven, reverse=True):
             build_year(fy, log)
     if a.mode in ("cross", "all"):
+        if not present_years():
+            print("No year has finished Stage 2 on this machine, so there is nothing to compare across years. "
+                  "Nothing was built. Run python -m src.stage2 years first.")
+            return 1
         build_cross(log)
     if a.mode == "all":
         from . import integrity_report

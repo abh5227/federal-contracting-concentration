@@ -1,4 +1,4 @@
-"""Preliminary concentration figures for FY2024 and FY2025, for the project proposal (docs/proposal/proposal_v1.md).
+"""Preliminary concentration figures for FY2024 and FY2025, for the project proposal (docs/proposal/).
 
     python -m src.concentration_prelim
 
@@ -74,10 +74,15 @@ def median(xs: list) -> Decimal:
     return Decimal(s[n // 2]) if n % 2 else (Decimal(s[n // 2 - 1]) + Decimal(s[n // 2])) / 2
 
 
+def dsum(xs) -> Decimal:
+    """A sum of dollars that starts at Decimal(0), so an empty group sums to Decimal 0 and not the integer 0."""
+    return sum(xs, Decimal(0))
+
+
 def weighted_median(pairs: list[tuple[Decimal, Decimal]]) -> Decimal:
     """pairs of (value, weight > 0): the value at the first point where the running weight reaches half the total."""
     pairs = sorted(pairs, key=lambda p: p[0])
-    half, run = sum(w for _, w in pairs) / 2, Decimal(0)
+    half, run = dsum(w for _, w in pairs) / 2, Decimal(0)
     for v, w in pairs:
         run += w
         if run >= half:
@@ -96,16 +101,16 @@ def year_summary(fy: int) -> tuple[dict, list[dict], dict]:
     per_cell = {}                                   # cell -> (net, hhi, top4, positive vendors, largest share), for largest_cells
     for k, nets in cells.items():
         pos = sorted((n for n in nets if n > 0), reverse=True)
-        per_cell[k] = (sum(nets), hhi(nets) if pos else None, sum(pos[:4]) * 100 / sum(pos) if pos else None, len(pos),
-                       pos[0] * 100 / sum(pos) if pos else None)
+        per_cell[k] = (dsum(nets), hhi(nets) if pos else None, dsum(pos[:4]) * 100 / dsum(pos) if pos else None, len(pos),
+                       pos[0] * 100 / dsum(pos) if pos else None)
     out = {"fiscal_year": fy, "year_net": year_net.quantize(Decimal("0.01")), "cells": len(cells), "vendor_cells": len(rows)}
     scored = []                                     # (hhi, top4, cell net, positive vendors, all vendors)
     for nets in cells.values():
         pos = sorted((n for n in nets if n > 0), reverse=True)
         if not pos:
             continue
-        tot = sum(pos)
-        scored.append((hhi(nets), sum(pos[:4]) * 100 / tot, sum(nets), len(pos), len(nets)))
+        tot = dsum(pos)
+        scored.append((hhi(nets), dsum(pos[:4]) * 100 / tot, dsum(nets), len(pos), len(nets)))
     out["cells_with_hhi"] = len(scored)
     out["cells_without_positive_vendor"] = len(cells) - len(scored)
     out["median_positive_vendors_per_cell"] = median([s[3] for s in scored])
@@ -113,22 +118,22 @@ def year_summary(fy: int) -> tuple[dict, list[dict], dict]:
     for t in THRESHOLDS:
         sel = [s for s in scored if s[0] > t]
         out[f"cells_hhi_above_{t}"] = len(sel)
-        out[f"share_of_year_net_in_cells_above_{t}_pct"] = (sum(s[2] for s in sel) * 100 / year_net).quantize(Decimal("0.01"))
+        out[f"share_of_year_net_in_cells_above_{t}_pct"] = (dsum(s[2] for s in sel) * 100 / year_net).quantize(Decimal("0.01"))
     w = [s for s in scored if s[2] > 0]
     out["cells_in_weighted_median"] = len(w)
     out["dollar_weighted_median_hhi"] = weighted_median([(s[0], s[2]) for s in w]).quantize(Decimal("0.1"))
     out["dollar_weighted_median_top4_pct"] = weighted_median([(s[1], s[2]) for s in w]).quantize(Decimal("0.1"))
     out["cells_one_vendor_on_all_rows"] = sum(1 for nets in cells.values() if len(nets) == 1)
     out["cells_one_positive_vendor_hhi_10000"] = sum(1 for s in scored if s[3] == 1)
-    out["net_in_cells_one_positive_vendor_pct"] = (sum(s[2] for s in scored if s[3] == 1) * 100 / year_net).quantize(Decimal("0.01"))
+    out["net_in_cells_one_positive_vendor_pct"] = (dsum(s[2] for s in scored if s[3] == 1) * 100 / year_net).quantize(Decimal("0.01"))
     bands = []
     for name, lo, hi in BANDS:
         if lo is None and hi is None:
             sel = [s for s in scored if s[3] == 1]
         else:
             sel = [s for s in scored if s[3] > 1 and (lo is None or s[0] > lo) and (hi is None or s[0] <= hi)]
-        bands.append({"fiscal_year": fy, "hhi_band": name, "cells": len(sel), "net": sum(s[2] for s in sel).quantize(Decimal("0.01")),
-                      "share_of_year_net_pct": (sum(s[2] for s in sel) * 100 / year_net).quantize(Decimal("0.01"))})
+        bands.append({"fiscal_year": fy, "hhi_band": name, "cells": len(sel), "net": dsum(s[2] for s in sel).quantize(Decimal("0.01")),
+                      "share_of_year_net_pct": (dsum(s[2] for s in sel) * 100 / year_net).quantize(Decimal("0.01"))})
     return out, bands, per_cell
 
 

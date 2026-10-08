@@ -1,4 +1,4 @@
-# Glossary of terms for the contract concentration project (version 3)
+# Glossary of terms for the contract concentration project (version 4)
 
 Find a term in the index by category or in the entries A to Z. Each entry gives a plain summary, why the term matters to our measure, where it shows up, an official definition where one exists, and a source to read more.
 
@@ -20,7 +20,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 **Oversight and law (18).** CIGIE · classified contract · deviation · DFARS · eCFR · FAR · FAR Council · FAR subpart 4.6 · Federal Acquisition Circular · Federal Register · GAO · GSA · inspector general · lapse in appropriations · OMB · PGI · Revolutionary FAR Overhaul · SBA
 
-**Our pipeline (38).** benchmark · benchmark bound · benchmark figure · cell · decision log · DuckDB · Emerson pair · exclusions ledger · flag · flag catalog · funding agency 999 · label drift · late-reported row · Layer A · Layer B · lineage columns · manifest · MD5 · MISCELLANEOUS FOREIGN AWARDEES · negative vendor total · parent test · Parquet · PASS/WARN/FAIL · placeholder vendor · release date · reversal pair · row fingerprint · row-count jump · SHA-256 · Stage 0 · Stage 1 · Stage 2 · Stage 3 · thin month · US Mint rows · vendor · vendor share · vendor-cell
+**Our pipeline (39).** benchmark · benchmark bound · benchmark figure · cell · decision log · DuckDB · Emerson pair · exclusions ledger · flag · flag catalog · funding agency 999 · label drift · late-reported row · Layer A · Layer B · lineage columns · manifest · MD5 · MISCELLANEOUS FOREIGN AWARDEES · negative vendor total · parent test · Parquet · PASS/WARN/FAIL · placeholder vendor · release date · reversal pair · row fingerprint · row-count jump · segment · SHA-256 · Stage 0 · Stage 1 · Stage 2 · Stage 3 · thin month · US Mint rows · vendor · vendor share · vendor-cell
 
 ## Entries A to Z
 
@@ -114,7 +114,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 *Data systems and files.* Also called archive, award data archive files. A USAspending download page with ready-made zip files of award transactions, one per fiscal year. New files come out each month. We use the All Agencies, Contracts, Full files from the 2026-09-06 release.
 
-**Why it matters here.** It is our only data source. We hold 18 of its zips, FY2008 to FY2025, about 88.7 million rows.
+**Why it matters here.** It is our only data source. We hold 18 of its zips, FY2008 to FY2025, about 88.8 million rows.
 
 **Shows up in.** `data/manifest.csv`, `docs/data_stages.md` (Stage 0), `docs/source_choice.md`, `README.md`
 
@@ -842,7 +842,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 *Money.* Also called federal_action_obligation, action obligation. The dollar amount on one transaction row. It is positive for new money and negative for money taken back.
 
-**Why it matters here.** It is the only amount we sum. All 88.7 million rows net to $10.51 trillion.
+**Why it matters here.** It is the only amount we sum. All 88.8 million rows net to $10.51 trillion.
 
 **Shows up in.** `federal_action_obligation`, `docs/research/government_documented_gaps_v3.md`
 
@@ -1264,7 +1264,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 **Why it matters here.** Results for FY2008 to FY2023 may be read against these older bands, which are looser than the 2023 ones.
 
-**Shows up in.** `docs/proposal/proposal_v9.md`
+**Shows up in.** `docs/proposal/proposal_v10.md`
 
 > Mergers resulting in highly concentrated markets that involve an increase in the HHI of more than 200 points will be presumed to be likely to enhance market power.
 
@@ -1278,7 +1278,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 **Why it matters here.** Comparing cell HHIs with 1,800 gives a familiar yardstick, though the guidelines were written for mergers.
 
-**Shows up in.** `docs/proposal/proposal_v9.md`
+**Shows up in.** `docs/proposal/proposal_v10.md`
 
 > Markets with an HHI greater than 1,800 are highly concentrated, and a change of more than 100 points is a significant increase.
 
@@ -2100,6 +2100,18 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 **Related.** set-aside · small business concern.
 
+#### segment
+
+*Our pipeline.* One market in our measure: one awarding agency, one product code and one fiscal year. The integrity report calls the same unit a cell.
+
+**Why it matters here.** HHI and the top-4 share are computed once per segment. There are 365,402 segments across FY2008 to FY2025.
+
+**Shows up in.** `docs/proposal/proposal_v10.md`, `docs/decision_log.md`
+
+**Source.** This is a project definition.
+
+**Related.** cell · vendor-cell · HHI · top-4 share · awarding agency · PSC · fiscal year.
+
 #### Senior Accountable Official
 
 *Data systems and files.* Also called SAO. The official at each agency who signs off on the agency's DATA Act data each quarter.
@@ -2200,7 +2212,7 @@ Find a term in the index by category or in the entries A to Z. Each entry gives 
 
 *Our pipeline.* Also called mirror, Stage 1 mirror. A lossless copy of every row and all 297 columns in Parquet, with every value kept as text. Two independent readers prove it matches the zips, file by file.
 
-**Why it matters here.** It lets us query 88.7 million rows quickly without trusting a conversion we have not checked.
+**Why it matters here.** It lets us query 88.8 million rows quickly without trusting a conversion we have not checked.
 
 **Shows up in.** `data/parquet/layer_a/fy{YYYY}/20260906/`, `docs/data_stages.md` (Stage 1), `reports/integrity/stage1_mirror_proof.md`
 
