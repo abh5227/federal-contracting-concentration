@@ -276,7 +276,7 @@ def test_add_year_refreshes_cross_year_results(tmp_path: Path) -> None:
 
 
 def files_under(folder: Path) -> dict[str, str]:
-    return {str(p.relative_to(folder)): p.read_text() for p in sorted(folder.rglob("*")) if p.is_file()}
+    return {p.relative_to(folder).as_posix(): p.read_text() for p in sorted(folder.rglob("*")) if p.is_file()}
 
 
 def test_analyses_stop_without_yearly_data_and_keep_committed_tables(tmp_path: Path) -> None:

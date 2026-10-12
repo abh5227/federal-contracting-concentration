@@ -91,9 +91,6 @@ def csv_to_layer_a(csv_path: Path, member_name: str, member_idx: int, columns: l
     out_path.parent.mkdir(parents=True, exist_ok=True)
     rows_written = 0
     t0 = time.time()
-    reader = pacsv.open_csv(csv_path, read_options=read_opts, parse_options=parse_opts, convert_options=conv_opts)
-    if reader.schema.names != columns:
-        raise ValueError(f"{member_name}: header read by pyarrow differs from the inventory header")
     def stop_on_rejects() -> None:
         if rejects:
             rejects_path.parent.mkdir(parents=True, exist_ok=True)
@@ -101,18 +98,24 @@ def csv_to_layer_a(csv_path: Path, member_name: str, member_idx: int, columns: l
             raise RuntimeError(f"{member_name}: {len(rejects)} row(s) pyarrow could not parse; "
                                f"Layer A not published for this member. Rows saved to {rejects_path}.")
 
-    with pq.ParquetWriter(tmp_out, schema, compression=config.PARQUET_COMPRESSION) as writer:
-        for batch in reader:
-            stop_on_rejects()
-            n = batch.num_rows
-            first = rows_written + 1
-            arrays = list(batch.columns) + [
-                pa.array([member_name] * n, pa.string()),
-                pa.array([member_idx] * n, pa.int16()),
-                pa.array(range(first, first + n), pa.int64()),
-            ]
-            writer.write_table(pa.Table.from_arrays(arrays, schema=schema))
-            rows_written += n
+    # The file is opened here and closed on the way out, even when a reject stops the member: the reader alone
+    # keeps its handle while the exception is live, and Windows cannot delete the scratch CSV until it is closed.
+    with pa.OSFile(str(csv_path), "r") as source:
+        reader = pacsv.open_csv(source, read_options=read_opts, parse_options=parse_opts, convert_options=conv_opts)
+        if reader.schema.names != columns:
+            raise ValueError(f"{member_name}: header read by pyarrow differs from the inventory header")
+        with pq.ParquetWriter(tmp_out, schema, compression=config.PARQUET_COMPRESSION) as writer:
+            for batch in reader:
+                stop_on_rejects()
+                n = batch.num_rows
+                first = rows_written + 1
+                arrays = list(batch.columns) + [
+                    pa.array([member_name] * n, pa.string()),
+                    pa.array([member_idx] * n, pa.int16()),
+                    pa.array(range(first, first + n), pa.int64()),
+                ]
+                writer.write_table(pa.Table.from_arrays(arrays, schema=schema))
+                rows_written += n
     stop_on_rejects()
     tmp_out.replace(out_path)
     return {"member": member_name, "rows_written": rows_written, "rejected_rows": len(rejects),
