@@ -10,4 +10,5 @@ band_changes,"A cell changes band when its band under a variant differs from its
 drivers,"For each pair of consecutive years under V1, each cell's change in net dollars counted above 2,500 (its net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way."
 face_validity,"Each year's V1 score for the cells in FACE_VALIDITY."
 example_row,"The largest FY2025 row by amount in the example segment (EXAMPLE: Veterans Affairs, Q201 managed healthcare), as published."
+competition,"Civilian dollars under V1 by extent_competed group (competed, sole source, follow-on, blank or other) and the share with limited sources on the order, for segments with HHI above 2,500 against the rest. Competition on an order may describe its umbrella contract, which the FPDS data dictionary should confirm."
 civilian,"The public-sector view: every awarding agency except the Department of Defense (097), under V1. Top segments are the 10 largest FY2025 civilian cells with HHI above 2,500. Vendor names are the parent name, or the own name, carrying the most dollars that year."

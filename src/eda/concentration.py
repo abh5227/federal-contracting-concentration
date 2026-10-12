@@ -47,6 +47,7 @@ RULES = {
                "net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way.",
     "face_validity": "Each year's V1 score for the cells in FACE_VALIDITY.",
     "example_row": "The largest FY2025 row by amount in the example segment (EXAMPLE: Veterans Affairs, Q201 managed healthcare), as published.",
+    "competition": "Civilian dollars under V1 by extent_competed group (competed, sole source, follow-on, blank or other) and the share with limited sources on the order, for segments with HHI above 2,500 against the rest. Competition on an order may describe its umbrella contract, which the FPDS data dictionary should confirm.",
     "civilian": "The public-sector view: every awarding agency except the Department of Defense (097), under V1. Top segments are the 10 largest FY2025 civilian cells with HHI above 2,500. Vendor names are the parent name, or the own name, carrying the most dollars that year.",
 }
 
@@ -287,9 +288,31 @@ def civilian() -> None:
             pv, v, names.get(v, "") if fy == res[-1][0] else "") for fy, n, h, t, pv, v in res])
 
 
+def competition() -> None:
+    """How civilian dollars were awarded, in concentrated segments (HHI above 2,500) and in the rest, under V1."""
+    pct = lambda col: f"ROUND(100 * SUM({col}) / SUM(v.net_v1), 2)"
+    shares = (f"ROUND(SUM(v.net_v1), 2) AS net, {pct('v1_competed')} AS competed_pct, {pct('v1_sole_source')} AS sole_source_pct, "
+              f"{pct('v1_follow_on')} AS follow_on_pct, {pct('v1_competition_blank + v1_competition_other')} AS blank_or_other_pct, "
+              f"{pct('v1_order_limited')} AS order_limited_sources_pct, {pct('v1_vehicle')} AS orders_under_vehicles_pct, "
+              f"{pct('v1_fixed_price')} AS fixed_price_pct")
+    src = (f"FROM {VC} v JOIN {CE} c ON c.variant = 'V1' AND (c.fiscal_year, c.ag, c.psc) = (v.fiscal_year, v.ag, v.psc) "
+           f"WHERE v.rows_v1 > 0 AND v.ag <> '{DOD}'")
+    group = "CASE WHEN c.hhi > 2500 THEN 'concentrated' ELSE 'rest' END"
+    query("civilian_competition_by_year", f"SELECT v.fiscal_year, {group} AS segments, {shares} {src} GROUP BY 1, 2 ORDER BY 1, 2")
+    query("civilian_competition_all_years", f"SELECT {group} AS segments, {shares} {src} GROUP BY 1 ORDER BY 1")
+    query("civilian_competition_by_agency", f"""
+        SELECT a.label_latest AS agency, {shares} {src.replace('WHERE', f'AND TRUE LEFT JOIN {AGENCY_LABELS} a ON a.code = v.ag WHERE', 1)}
+          AND v.fiscal_year = {config.LAST_FY} AND c.hhi > 2500 GROUP BY 1 ORDER BY 2 DESC LIMIT 10""")
+    query("civilian_competition_top_segments", f"""
+        SELECT a.label_latest AS agency, v.psc, p.label_latest AS psc_label, ROUND(any_value(c.hhi), 1) AS hhi, {shares}
+        {src.replace('WHERE', f'AND TRUE LEFT JOIN {AGENCY_LABELS} a ON a.code = v.ag LEFT JOIN {PSC_LABELS} p ON p.code = v.psc WHERE', 1)}
+          AND v.fiscal_year = {config.LAST_FY} AND c.hhi > 2500 GROUP BY 1, 2, 3 ORDER BY SUM(v.net_v1) DESC LIMIT 10""")
+
+
 STEPS = {"spending": spending, "by_year": by_year, "band_changes": band_changes, "by_group": by_group,
          "vendor_floor": vendor_floor, "drivers": drivers, "face_validity": face_validity,
-         "example_row": example_row, "civilian": civilian}
+         "example_row": example_row, "civilian": civilian,
+         "competition": competition}
 
 
 def main(argv: list[str] | None = None) -> int:
