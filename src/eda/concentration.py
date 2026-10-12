@@ -46,6 +46,7 @@ RULES = {
     "drivers": "For each pair of consecutive years under V1, each cell's change in net dollars counted above 2,500 (its "
                "net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way.",
     "face_validity": "Each year's V1 score for the cells in FACE_VALIDITY.",
+    "example_row": "The largest FY2025 row by amount in DoD's fixed-wing aircraft segment (1510), as published.",
 }
 
 
@@ -207,8 +208,20 @@ def face_validity() -> None:
         WHERE variant = 'V1' AND (c.ag, c.psc) IN ({cells}) ORDER BY 1, 2, 4""")
 
 
+def example_row() -> None:
+    """The largest FY2025 row in DoD's fixed-wing aircraft segment, shown in the deck as what one row of the data is."""
+    from ..analyses_v2 import files
+    query("example_row", f"""
+        SELECT action_date, awarding_agency_name, awarding_sub_agency_name, product_or_service_code,
+               product_or_service_code_description, recipient_parent_name, recipient_name, federal_action_obligation,
+               extent_competed, type_of_contract_pricing, award_id_piid
+        FROM read_parquet({files(2025)!r}) WHERE awarding_agency_code = '{DOD}' AND product_or_service_code = '1510'
+        ORDER BY TRY_CAST(federal_action_obligation AS DOUBLE) DESC LIMIT 1""")
+
+
 STEPS = {"spending": spending, "by_year": by_year, "band_changes": band_changes, "by_group": by_group,
-         "vendor_floor": vendor_floor, "drivers": drivers, "face_validity": face_validity}
+         "vendor_floor": vendor_floor, "drivers": drivers, "face_validity": face_validity,
+         "example_row": example_row}
 
 
 def main(argv: list[str] | None = None) -> int:

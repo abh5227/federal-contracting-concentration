@@ -186,20 +186,22 @@ Phases 1 to 6, 7a and 8 can run as soon as Stages 1 and 2 are built. Phase 7b wa
 
 ## The presentation
 
-The first results go to the team and the class in a 5-minute talk, as a PowerPoint deck. The class knows the project in outline, so the deck opens with a short recap and spends the rest on what the exploration found. Six slides fit 5 minutes, with backup slides for questions.
+The first results go to the team and the class in a 5-minute talk, as a PowerPoint deck. A first version led with findings, and the class could not follow it without the method, so the deck now tells the project as a story: the question, the data, how it was processed, how concentration is measured, the first findings, and what they mean. Each main slide ends with one plain-language line, "What this means".
 
 | Slide | Message | Evidence | Time |
 |---|---|---|---|
-| 1. Title | Vendor concentration in federal contracting: first look at 18 years | | 10 s |
-| 2. The project in one slide | One question, one measure, one dataset: HHI for every agency, product and year, over 88.8 million rows checked against GAO | The HHI example from the proposal, and the totals check | 40 s |
-| 3. Concentration over 18 years | How the share of dollars in highly concentrated segments moved from FY2008 to FY2025 | Phase 3, `concentration_by_year` under V1, with V0 beside it | 70 s |
-| 4. The location of concentration | Defense against civilian, products, services and research, and how much money sits in single-vendor segments | Phase 3, `concentration_dod_civilian`, `concentration_by_kind`, `hhi_by_vendor_count` | 60 s |
-| 5. The product code problem | The code changes in FY2012 and FY2021 cut 18 years into eras of 4, 9 and 5 years, and the money on codes that stop or start | Phase 4, `psc_break_fy2012`, `psc_break_fy2021`, `line_lengths` | 60 s |
-| 6. What is next | How much HHI moves by chance against the 500-point cutoff, and the decisions the team takes next | Phase 5, `noise_by_size`, `rising_counts` | 60 s |
+| 1. Title | Is federal contract money going to fewer companies? | | 10 s |
+| 2. The question | Many vendors or a few: two small markets with HHI 2,000 and 6,500 | FY2025 net, `spending_by_year` | 40 s |
+| 3. The data | Every contract action since FY2008, and one real row | `stage0_inventory`, `spending_by_year`, `example_row` | 40 s |
+| 4. How we processed it | Download and lock, convert and prove, check quality, build the tables, and the GAO match | `stage0_inventory`, `config/flag_catalog.csv`, `base_checks`, `completeness_check` | 40 s |
+| 5. How we measure | The segment, HHI with two examples, and the three bands | `concentration_by_year` | 40 s |
+| 6. Finding 1 | Concentration has risen to half the money, with the FY2024 dip explained | `concentration_by_year` (V1), `drivers_above_2500` | 50 s |
+| 7. Finding 2 | It is big-ticket products, with fixed-wing aircraft as the example | `concentration_by_kind`, `drivers_above_2500`, `concentration_by_year` | 50 s |
+| 8. What it means | What we can trust, what to be careful about, and next steps | `psc_era_patterns`, `rising_counts` | 40 s |
 
-**Backup slides**, for questions: the data decisions and the segments that change band (`band_changes`), the largest vendors (`top100_vendors`) and feature coverage (`feature_coverage`).
+**Backup slides**, for questions: the data decisions (`band_changes`), the product code changes (`psc_era_patterns`, `psc_break_fy2012`, `psc_break_fy2021`), the noise against the cutoff (`noise_by_size`, `rising_counts`), the largest vendors (`top100_vendors`) and feature coverage (`feature_coverage`).
 
-**What this changes in the order of work.** Phases 1, 3, 4 and 5 feed the main slides and come first. Phases 2, 7a and 8 feed the backup slides and follow. Each chart is built in the deck from the summary tables, so a rerun updates the numbers without redrawing figures by hand. Every number on a slide must trace to one table in `reports/eda/`.
+**How it is built.** `tools/eda_deck/build.js` reads the summary tables and draws every chart in the deck, so a rerun updates the numbers without redrawing figures by hand. The titles and the speaker script are in `tools/eda_deck/messages.json`. Every number on a slide traces to one committed table.
 
 ## Questions for the team
 
