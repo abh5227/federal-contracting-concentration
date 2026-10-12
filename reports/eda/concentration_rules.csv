@@ -1,0 +1,11 @@
+rule,text
+source,"Every table reads data/eda/cells.parquet and data/eda/vendor_cells/, as built by src/eda/base_tables.py."
+kind,"Kind of purchase from the product code's first character: a digit is a product, A is research, any other letter is a service, and a blank code is its own group."
+dod,"The Department of Defense is awarding agency code 097. Every other code counts as civilian."
+year_net,"A variant's year net is the sum of its cells' nets, so the shares of V1 use V1's own total."
+bands,"HHI bands: 1,500 or less; above 1,500 to 1,800; above 1,800 to 2,500; above 2,500; no HHI. 1,800 is the 2023 Merger Guidelines' line and 2,500 the 2010 Horizontal Merger Guidelines' line for a highly concentrated market."
+weighted,"Dollar-weighted quantiles take cells with an HHI and a net above zero, weighted by the cell's net."
+spread,"Cells holding a share of the year's dollars: cells with a net above zero, sorted by net from largest, counted until their running net reaches the share of the summed positive cell nets."
+band_changes,"A cell changes band when its band under a variant differs from its band under V0, for cells present in both. V8c groups product codes differently, so it has no cell-by-cell comparison."
+drivers,"For each pair of consecutive years under V1, each cell's change in net dollars counted above 2,500 (its net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way."
+face_validity,"Each year's V1 score for the cells in FACE_VALIDITY."

@@ -1,0 +1,289 @@
+fiscal_year,agency_code,agency,net_v1,rows_10k_v1,orders_under_vehicles_pct
+2008,097,Department of Defense,374710104422.67,662286,53.62
+2008,089,Department of Energy,24167407389.97,6590,4.52
+2008,080,National Aeronautics and Space Administration,15035706837.53,17936,23.27
+2008,036,Department of Veterans Affairs,14917663593.73,84513,61.98
+2008,075,Department of Health and Human Services,14160715846.14,29378,34.25
+2008,070,Department of Homeland Security,14023934345.24,30874,78.86
+2008,047,General Services Administration,13365017303.25,121210,81.64
+2008,other,Every other agency,9788383303.15,36828,40.68
+2008,069,Department of Transportation,5891543830.42,12005,42.66
+2008,015,Department of Justice,5887923161.94,31905,65.83
+2008,019,Department of State,5671115674.01,11512,59.81
+2008,012,Department of Agriculture,5337589964.12,22986,26.81
+2008,020,Department of the Treasury,4562813084.53,10790,77.1
+2008,072,Agency for International Development,4219367782.77,2876,64.08
+2008,014,Department of the Interior,3802428310.81,26869,47.96
+2008,013,Department of Commerce,2502238904.40,10663,57.1
+2009,097,Department of Defense,382218235879.49,638708,53.56
+2009,089,Department of Energy,31635487748.90,7732,4.5
+2009,075,Department of Health and Human Services,19825143709.18,34263,40.41
+2009,047,General Services Administration,15637207014.11,139489,75.39
+2009,080,National Aeronautics and Space Administration,15336086009.45,18241,22.51
+2009,036,Department of Veterans Affairs,14810320773.01,92382,65.11
+2009,070,Department of Homeland Security,14212765485.83,30440,79.87
+2009,other,Every other agency,11286322999.76,40574,44.59
+2009,015,Department of Justice,7618692354.72,32237,63.57
+2009,019,Department of State,6766520150.31,13527,60.7
+2009,069,Department of Transportation,5978067897.95,12667,42.85
+2009,012,Department of Agriculture,5420900146.75,25039,30.02
+2009,072,Agency for International Development,5296479687.65,3082,66.21
+2009,020,Department of the Treasury,4894574648.47,10820,77.84
+2009,014,Department of the Interior,4341173789.97,27104,52.89
+2009,013,Department of Commerce,3228467486.41,11690,56.6
+2010,097,Department of Defense,364461025923.52,672379,55.17
+2010,089,Department of Energy,25745102354.86,7741,5.55
+2010,075,Department of Health and Human Services,19130221655.03,37851,38.32
+2010,047,General Services Administration,18792813274.30,129916,68.99
+2010,036,Department of Veterans Affairs,16235736039.26,100287,64.41
+2010,080,National Aeronautics and Space Administration,16143442687.15,18841,21.39
+2010,070,Department of Homeland Security,13575347322.66,28821,75.19
+2010,other,Every other agency,13096959345.16,40836,44.49
+2010,019,Department of State,7624693710.31,15014,55.16
+2010,015,Department of Justice,6760138340.50,35427,64.93
+2010,069,Department of Transportation,6504895602.71,14219,43.85
+2010,014,Department of the Interior,6162450677.36,31959,50.5
+2010,012,Department of Agriculture,6142092920.85,28165,30.71
+2010,020,Department of the Treasury,6089611661.91,10907,77.66
+2010,072,Agency for International Development,5575513410.86,3735,73.6
+2010,013,Department of Commerce,3974631020.06,11923,48.12
+2011,097,Department of Defense,370613623440.11,656169,52.55
+2011,089,Department of Energy,25102499521.68,6954,4.17
+2011,075,Department of Health and Human Services,19744014885.11,35221,36.74
+2011,036,Department of Veterans Affairs,17485451450.47,105097,66.62
+2011,080,National Aeronautics and Space Administration,15392755740.41,23300,21.43
+2011,047,General Services Administration,14575477260.42,104224,77.64
+2011,070,Department of Homeland Security,14252470567.20,28967,72.13
+2011,other,Every other agency,12895114415.06,39922,45.81
+2011,019,Department of State,7709190238.98,15459,53.97
+2011,015,Department of Justice,7332546795.62,40067,64.15
+2011,020,Department of the Treasury,7224850801.77,10643,67.95
+2011,069,Department of Transportation,6507990868.38,14322,47.85
+2011,012,Department of Agriculture,5285939904.55,24382,30.52
+2011,072,Agency for International Development,4516312823.30,3956,63.21
+2011,014,Department of the Interior,4175762917.79,27500,54.18
+2011,013,Department of Commerce,2407552811.89,10687,66.06
+2012,097,Department of Defense,361130821580.73,612885,52.37
+2012,089,Department of Energy,25184826242.37,6356,4.17
+2012,075,Department of Health and Human Services,19275312203.65,34053,40.59
+2012,036,Department of Veterans Affairs,17255776753.31,86136,72.45
+2012,080,National Aeronautics and Space Administration,15152690372.03,17585,21.92
+2012,other,Every other agency,12898734608.62,37412,50.54
+2012,070,Department of Homeland Security,12412119195.99,27526,75.68
+2012,047,General Services Administration,10230820156.39,58509,75.93
+2012,019,Department of State,7606717857.42,15377,63.31
+2012,015,Department of Justice,6699950288.34,44019,69.71
+2012,069,Department of Transportation,6574438493.50,14190,48.5
+2012,020,Department of the Treasury,5977266411.04,9997,72.16
+2012,012,Department of Agriculture,5273122805.75,23688,32.48
+2012,072,Agency for International Development,4969539406.96,3931,58.85
+2012,014,Department of the Interior,4036308614.97,25605,58.81
+2012,013,Department of Commerce,2361303540.74,10601,68.97
+2013,097,Department of Defense,308080526760.30,540794,47.7
+2013,089,Department of Energy,23984291223.12,5606,3.65
+2013,075,Department of Health and Human Services,20314062028.38,33302,44.98
+2013,036,Department of Veterans Affairs,18390562418.60,91092,73.57
+2013,080,National Aeronautics and Space Administration,14217207133.51,15758,23.08
+2013,other,Every other agency,12771128534.26,35268,55.89
+2013,070,Department of Homeland Security,12285648421.58,25297,73.18
+2013,047,General Services Administration,8910728015.82,47596,75.58
+2013,015,Department of Justice,7185737414.53,43394,66.84
+2013,020,Department of the Treasury,6895748687.27,9654,70.85
+2013,019,Department of State,6578396554.42,14543,70.12
+2013,069,Department of Transportation,6201817206.43,14294,50.39
+2013,012,Department of Agriculture,5253703888.11,22809,31.9
+2013,072,Agency for International Development,4400909015.71,3999,58.53
+2013,014,Department of the Interior,3670854469.12,21836,56.26
+2013,013,Department of Commerce,2288810451.95,9916,70.01
+2014,097,Department of Defense,284120373031.54,570490,48.81
+2014,089,Department of Energy,25502061664.43,5860,4.08
+2014,075,Department of Health and Human Services,22041883021.66,34664,45.71
+2014,036,Department of Veterans Affairs,19041987344.48,89901,78.35
+2014,080,National Aeronautics and Space Administration,15012288808.23,14850,21.87
+2014,other,Every other agency,13352684715.03,33816,60.06
+2014,070,Department of Homeland Security,12816974507.42,25091,72.33
+2014,047,General Services Administration,9111852695.74,54218,77.55
+2014,019,Department of State,8401717284.84,15417,63.1
+2014,015,Department of Justice,7281174649.23,45733,69.37
+2014,069,Department of Transportation,6362524659.08,13852,52.85
+2014,020,Department of the Treasury,5578151455.95,9384,72.2
+2014,012,Department of Agriculture,5398111735.28,24707,36.29
+2014,014,Department of the Interior,4190181512.72,23895,55.9
+2014,072,Agency for International Development,3841771228.31,4086,51.96
+2014,013,Department of Commerce,2984964799.95,10729,73.2
+2015,097,Department of Defense,273776471902.03,578910,47.55
+2015,089,Department of Energy,25173554608.18,6110,4.65
+2015,075,Department of Health and Human Services,22184107578.32,36513,46.83
+2015,036,Department of Veterans Affairs,20150742325.38,87897,81.2
+2015,080,National Aeronautics and Space Administration,15873831839.39,14602,22.08
+2015,070,Department of Homeland Security,13440665674.79,26229,68.87
+2015,other,Every other agency,12858192776.33,32947,57.6
+2015,047,General Services Administration,9611724079.69,49818,75.46
+2015,015,Department of Justice,7880815163.31,44555,64.72
+2015,019,Department of State,7589950500.28,16901,62.4
+2015,069,Department of Transportation,6256982725.85,13369,52.65
+2015,012,Department of Agriculture,6234097452.19,24432,37.2
+2015,020,Department of the Treasury,5676932696.36,8959,76.48
+2015,072,Agency for International Development,4845472919.99,4196,52.47
+2015,014,Department of the Interior,4145791478.50,24931,55.0
+2015,013,Department of Commerce,3159211393.76,10741,75.15
+2016,097,Department of Defense,297660786498.43,600828,46.14
+2016,089,Department of Energy,28289122708.07,6301,4.44
+2016,075,Department of Health and Human Services,24120599888.36,38070,47.04
+2016,036,Department of Veterans Affairs,22630672624.45,92670,81.41
+2016,080,National Aeronautics and Space Administration,17270391330.05,14645,24.2
+2016,070,Department of Homeland Security,13557481773.15,26798,73.92
+2016,other,Every other agency,12192644711.17,31400,60.47
+2016,047,General Services Administration,10493501386.18,51734,74.66
+2016,019,Department of State,8286669984.25,18988,65.33
+2016,069,Department of Transportation,7636354417.38,14313,46.01
+2016,015,Department of Justice,7579553002.48,42779,71.22
+2016,020,Department of the Treasury,6251998685.07,8832,75.56
+2016,012,Department of Agriculture,6067759202.09,25578,34.28
+2016,072,Agency for International Development,4650782664.08,3923,55.25
+2016,014,Department of the Interior,4378544845.35,25247,51.75
+2016,013,Department of Commerce,3197824626.18,10143,77.46
+2017,097,Department of Defense,320985015992.16,616987,46.96
+2017,089,Department of Energy,28966077705.13,6133,4.6
+2017,036,Department of Veterans Affairs,26317010812.30,92470,83.52
+2017,075,Department of Health and Human Services,24944893878.68,37465,47.49
+2017,080,National Aeronautics and Space Administration,17379022900.80,14430,26.03
+2017,070,Department of Homeland Security,16302011278.50,28877,74.46
+2017,other,Every other agency,12930980060.59,33624,61.75
+2017,047,General Services Administration,12019916306.12,55454,74.46
+2017,019,Department of State,10582091988.10,19529,50.33
+2017,015,Department of Justice,8077109485.88,40084,66.22
+2017,012,Department of Agriculture,6546780605.43,29508,31.37
+2017,069,Department of Transportation,6467618275.38,16379,52.76
+2017,020,Department of the Treasury,5413011652.21,8657,78.41
+2017,072,Agency for International Development,5115776049.03,4140,55.99
+2017,014,Department of the Interior,4277614781.15,24165,56.5
+2017,013,Department of Commerce,3214228912.31,9843,76.48
+2018,097,Department of Defense,359126945718.69,662162,50.8
+2018,089,Department of Energy,31963094154.48,5853,4.12
+2018,036,Department of Veterans Affairs,27136246601.32,90455,83.04
+2018,075,Department of Health and Human Services,24664490002.85,37866,51.38
+2018,070,Department of Homeland Security,18223223367.06,30683,74.36
+2018,080,National Aeronautics and Space Administration,18041200387.08,14663,29.22
+2018,047,General Services Administration,13843462681.85,57119,77.88
+2018,other,Every other agency,12994853461.37,31676,65.28
+2018,019,Department of State,9651664084.91,19995,61.21
+2018,015,Department of Justice,8200856545.78,43603,67.71
+2018,069,Department of Transportation,7003752494.58,17302,53.47
+2018,012,Department of Agriculture,6642014876.00,30842,38.75
+2018,072,Agency for International Development,5117597443.57,4185,57.49
+2018,020,Department of the Treasury,4697299951.39,7936,86.7
+2018,014,Department of the Interior,4383034173.51,22956,61.64
+2018,013,Department of Commerce,3740958916.43,10491,76.4
+2019,097,Department of Defense,383204369237.35,626711,49.34
+2019,089,Department of Energy,33312444078.42,5503,4.27
+2019,036,Department of Veterans Affairs,28810083151.24,74788,83.56
+2019,075,Department of Health and Human Services,26499207337.59,36362,52.57
+2019,080,National Aeronautics and Space Administration,17728746040.72,13917,28.53
+2019,070,Department of Homeland Security,17642015905.69,27206,73.77
+2019,047,General Services Administration,16096085622.16,54786,80.14
+2019,other,Every other agency,13898474535.19,29283,62.58
+2019,019,Department of State,9228239178.84,20583,62.41
+2019,015,Department of Justice,8581517331.69,41272,69.75
+2019,012,Department of Agriculture,7538588521.99,25291,34.86
+2019,069,Department of Transportation,6778064066.84,15593,57.06
+2019,072,Agency for International Development,5579707285.99,4438,55.3
+2019,013,Department of Commerce,5533995798.35,10504,73.16
+2019,020,Department of the Treasury,4687437289.95,7773,81.62
+2019,014,Department of the Interior,3912454608.26,21196,59.5
+2020,097,Department of Defense,422398395921.08,591688,47.83
+2020,075,Department of Health and Human Services,40706423174.68,36902,39.33
+2020,036,Department of Veterans Affairs,39536807017.21,70757,86.13
+2020,089,Department of Energy,35978793851.49,5897,4.29
+2020,070,Department of Homeland Security,19657439288.17,26774,77.23
+2020,080,National Aeronautics and Space Administration,18938885166.71,13764,27.21
+2020,047,General Services Administration,17612304714.96,57229,82.83
+2020,other,Every other agency,14635942088.79,28278,63.16
+2020,012,Department of Agriculture,12826031797.45,29961,31.72
+2020,019,Department of State,8977878564.77,19097,64.86
+2020,015,Department of Justice,8937882887.16,39016,74.71
+2020,069,Department of Transportation,7777873046.53,15464,61.29
+2020,020,Department of the Treasury,6566856802.92,8180,79.12
+2020,072,Agency for International Development,6139354748.79,4371,59.53
+2020,013,Department of Commerce,5829922811.06,10293,72.72
+2020,014,Department of the Interior,4513588463.56,21763,59.52
+2021,097,Department of Defense,386729059852.23,570538,49.52
+2021,036,Department of Veterans Affairs,47684785557.47,71136,89.19
+2021,075,Department of Health and Human Services,38826705675.38,35769,39.93
+2021,089,Department of Energy,38559988449.86,5726,5.5
+2021,070,Department of Homeland Security,19804766022.41,26017,77.6
+2021,080,National Aeronautics and Space Administration,19173452818.52,13663,28.57
+2021,047,General Services Administration,18337017833.66,56455,81.78
+2021,other,Every other agency,14204608186.39,25782,61.32
+2021,012,Department of Agriculture,9883140262.80,30007,53.28
+2021,015,Department of Justice,9740759799.61,37975,76.4
+2021,020,Department of the Treasury,9568604710.83,8821,84.55
+2021,019,Department of State,9246667662.89,19528,63.39
+2021,069,Department of Transportation,7864777007.04,15181,58.65
+2021,072,Agency for International Development,5570510479.71,4253,58.81
+2021,014,Department of the Interior,5087655491.51,22010,60.39
+2021,013,Department of Commerce,4543935822.15,9781,67.72
+2022,097,Department of Defense,414137287172.13,588504,50.67
+2022,036,Department of Veterans Affairs,56392298386.10,68971,89.31
+2022,089,Department of Energy,42897701263.83,6059,7.66
+2022,075,Department of Health and Human Services,38887885013.59,34947,45.43
+2022,047,General Services Administration,21190482116.74,54173,81.45
+2022,070,Department of Homeland Security,21174001248.32,24519,79.29
+2022,080,National Aeronautics and Space Administration,19941588662.98,13984,29.75
+2022,other,Every other agency,13963763699.77,26849,67.19
+2022,019,Department of State,11641368285.29,20731,51.92
+2022,012,Department of Agriculture,10075945192.26,32976,49.16
+2022,020,Department of the Treasury,9312579028.42,9391,90.66
+2022,015,Department of Justice,9178492583.27,40493,78.96
+2022,069,Department of Transportation,8679388353.98,17040,59.82
+2022,014,Department of the Interior,6523640360.07,21216,51.42
+2022,072,Agency for International Development,5971322091.00,4352,57.01
+2022,013,Department of Commerce,4062856297.36,9984,67.75
+2023,097,Department of Defense,456552899839.06,609279,53.06
+2023,036,Department of Veterans Affairs,61699436519.09,73541,88.69
+2023,089,Department of Energy,46273526476.13,6112,10.25
+2023,075,Department of Health and Human Services,38499303068.22,35272,53.04
+2023,047,General Services Administration,24413564341.09,57030,85.1
+2023,070,Department of Homeland Security,24017198948.89,25803,81.7
+2023,080,National Aeronautics and Space Administration,20943036821.24,13481,31.24
+2023,other,Every other agency,14606485320.72,27609,68.5
+2023,012,Department of Agriculture,11519451567.66,33303,57.01
+2023,019,Department of State,11512173598.18,21181,65.99
+2023,015,Department of Justice,10331208703.54,41701,76.35
+2023,020,Department of the Treasury,10258659174.57,9059,90.36
+2023,069,Department of Transportation,9456883328.84,16974,61.31
+2023,014,Department of the Interior,7636996250.58,22028,55.21
+2023,072,Agency for International Development,6820076620.26,4634,48.75
+2023,013,Department of Commerce,5026238060.85,10612,64.37
+2024,097,Department of Defense,445802081115.83,635112,57.17
+2024,036,Department of Veterans Affairs,66901983102.22,72363,90.8
+2024,089,Department of Energy,47670845273.30,6587,10.78
+2024,075,Department of Health and Human Services,36760712636.83,33270,59.02
+2024,047,General Services Administration,26966876615.54,59773,82.82
+2024,070,Department of Homeland Security,23678751410.41,27557,82.59
+2024,080,National Aeronautics and Space Administration,20054247753.75,13066,30.66
+2024,other,Every other agency,15739719319.24,27350,65.74
+2024,012,Department of Agriculture,11613887489.14,37699,59.27
+2024,019,Department of State,11607524798.45,20088,65.31
+2024,015,Department of Justice,9594624985.71,40192,82.09
+2024,020,Department of the Treasury,9291299566.63,8471,86.39
+2024,069,Department of Transportation,9284243459.36,17744,66.05
+2024,014,Department of the Interior,8125785849.57,21600,58.49
+2024,072,Agency for International Development,7503416714.15,4765,53.7
+2024,013,Department of Commerce,5184992412.32,9681,65.39
+2025,097,Department of Defense,491642482132.02,647233,53.46
+2025,036,Department of Veterans Affairs,78326706374.69,68410,91.85
+2025,089,Department of Energy,50261944518.87,5872,12.71
+2025,070,Department of Homeland Security,28418391313.37,26513,86.88
+2025,075,Department of Health and Human Services,26765478955.72,24144,53.92
+2025,047,General Services Administration,24309335651.49,74266,87.43
+2025,080,National Aeronautics and Space Administration,21334772639.65,13070,28.93
+2025,other,Every other agency,10364231610.82,21872,81.31
+2025,069,Department of Transportation,9889196853.73,16887,67.74
+2025,012,Department of Agriculture,9636568122.96,29040,58.22
+2025,019,Department of State,9621516889.69,17270,63.6
+2025,015,Department of Justice,8781587506.04,38360,79.05
+2025,020,Department of the Treasury,8553769789.76,6917,88.66
+2025,014,Department of the Interior,6569624467.20,20131,52.5
+2025,013,Department of Commerce,4165148797.61,7735,70.85
+2025,072,Agency for International Development,4154552911.53,1713,53.19

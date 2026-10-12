@@ -160,7 +160,7 @@ pres.addSection({ title: "Talk" });
 {
   const s = content("Talk", MSG.project);
   const rows = spend.reduce((a, r) => a + num(r.rows), 0);
-  const cells = v1.reduce((a, r) => a + num(r.cells), 0);
+  const cells = v0.reduce((a, r) => a + num(r.cells), 0);   // as recorded, the count the integrity report gives
   stat(s, 0.5, 1.45, 2.0, `${(rows / 1e6).toFixed(1)}M`, "contract transactions, FY2008 to FY2025", C.accent1, "rows");
   stat(s, 0.5, 2.85, 2.0, `${Math.round(cells / 1000)}K`, "segments: one agency, one product code, one year", C.accent2, "segments");
   stat(s, 0.5, 4.0, 2.0, "0.2%", "largest gap to GAO's totals, FY2022 to FY2025", C.accent2, "gao");
@@ -196,9 +196,9 @@ pres.addSection({ title: "Talk" });
   const s = content("Talk", MSG.trend);
   const key = "above 2,500 pct of net";
   s.addChart(pres.charts.LINE, [
-    { name: "Decisions as proposed (V1)", labels: years, values: v1.map((r) => num(r[key])) },
     { name: "As recorded (V0)", labels: years, values: v0.map((r) => num(r[key])) },
-  ], { ...axis, x: 0.5, y: 1.3, w: 6.3, h: 3.75, chartColors: [H.accent1, H.accent3], lineSize: 2.5, lineDataSymbol: "none",
+    { name: "Decisions as proposed (V1)", labels: years, values: v1.map((r) => num(r[key])) },
+  ], { ...axis, x: 0.5, y: 1.3, w: 6.3, h: 3.75, chartColors: [H.accent3, H.accent1], lineSize: 2.5, lineDataSymbol: "none",
     valAxisMinVal: 0, valAxisLabelFormatCode: '0"%"', showLegend: true, legendPos: "b", showTitle: true,
     title: "Share of each year's dollars in segments with HHI above 2,500", objectName: "trend chart" });
   stat(s, 7.1, 1.5, 2.4, pct(first[key]), `of dollars in FY${first.fiscal_year}`, C.accent2, "first year");
@@ -237,14 +237,14 @@ pres.addSection({ title: "Talk" });
       { x: 0.5 + start * cw, y: 1.45, w: n * cw, h: 0.55, color: C.background1, align: "center", valign: "middle", margin: 0,
         isTextBox: true, objectName: `era ${k + 1} label` });
   });
-  s.addText("Product code manuals changed on 2011-10-01 and 2020-10-01. The rising rule needs at least 6 years inside one era.",
+  s.addText("Product code manuals changed on 2011-10-01 and 2020-10-01. Codes that stopped at either change held almost no dollars.",
     { x: 0.5, y: 2.05, w: 9.0, h: 0.3, fontSize: 11, italic: true, color: C.text2, margin: 0, isTextBox: true, objectName: "era note" });
-  const stops12 = brk12.find((r) => r.status === "stops") || {};
-  const stops21 = brk21.find((r) => r.status === "stops") || {};
+  const starts12 = brk12.find((r) => r.status === "starts") || {};
+  const starts21 = brk21.find((r) => r.status === "starts") || {};
   const all3 = eras.find((r) => r.eras_present.split(" + ").length === 3) || {};
-  stat(s, 0.5, 2.6, 2.8, pct(stops12.pct_of_fy2011, 1), "of FY2011 dollars were on codes that stop in FY2012", C.accent1, "stop 2012");
-  stat(s, 3.6, 2.6, 2.8, pct(stops21.pct_of_fy2020, 1), "of FY2020 dollars were on codes that stop in FY2021", C.accent1, "stop 2021");
-  stat(s, 6.7, 2.6, 2.8, pct(all3.pct_of_net, 0), "of all dollars are on codes present in every era", C.accent2, "all eras");
+  stat(s, 0.5, 2.6, 2.8, pct(all3.pct_of_net, 1), "of all 18 years' dollars are on codes used in every era", C.accent2, "all eras");
+  stat(s, 3.6, 2.6, 2.8, pct(starts12.pct_of_fy2012, 1), "of FY2012 dollars moved to codes new that year", C.accent1, "new 2012");
+  stat(s, 6.7, 2.6, 2.8, pct(starts21.pct_of_fy2021, 1), "of FY2021 dollars moved to codes new that year", C.accent1, "new 2021");
   s.addText(MSG.codes.callout, { x: 0.5, y: 4.25, w: 9.0, h: 0.75, fontSize: 14, color: C.text1, margin: 0.1,
     fill: { color: C.background2 }, isTextBox: true, objectName: "codes callout" });
 }
@@ -277,7 +277,7 @@ const backup = (msg) => {
   const s = pres.addSlide({ masterName: "BACKUP", sectionTitle: "Backup" });
   s.addText(msg.title, { placeholder: "title" });
   s.addNotes(msg.notes);
-  if (msg.note) s.addText(msg.note, { x: 0.5, y: 4.3, w: 9.0, h: 0.7, fontSize: 12, color: C.text2, margin: 0, valign: "top",
+  if (msg.note) s.addText(msg.note, { x: 0.5, y: 4.45, w: 9.0, h: 0.7, fontSize: 12, color: C.text2, margin: 0, valign: "top",
     isTextBox: true, objectName: "backup note" });
   return s;
 };
@@ -287,9 +287,11 @@ const tableOpts = (x, y, w, colW) => ({ x, y, w, colW, fontSize: 11, color: H.dk
 
 {
   const s = backup(MSG.backup_bands);
-  const rows = [[head("Variant against V0"), head("Cells in both"), head("Change band"), head("Into above 2,500"), head("Out of above 2,500")]];
+  const rows = [[head("Variant against V0"), head("Segments in both"), head("Change band"), head("Into above 2,500"), head("Out of above 2,500")]];
   for (const v of ["V1", "V8b"]) {
     const b = bands.filter((r) => r.variant === v);
+    if (!b.length) { rows.push([v === "V1" ? "V1, decisions as proposed" : "V8b, V1 without J03 deobligations",
+      { text: "Pending: needs the Stage 2 flags for every year", options: { colspan: 4, italic: true, color: H.dk2 } }]); continue; }
     const sum = (k) => b.reduce((a, r) => a + num(r[k]), 0);
     rows.push([v === "V1" ? "V1, decisions as proposed" : "V8b, V1 without J03 deobligations", count(sum("cells_in_both")),
       `${count(sum("cells_changing_band"))} (${((100 * sum("cells_changing_band")) / sum("cells_in_both")).toFixed(1)}%)`,
@@ -299,9 +301,9 @@ const tableOpts = (x, y, w, colW) => ({ x, y, w, colW, fontSize: 11, color: H.dk
 }
 {
   const s = backup(MSG.backup_vendors);
-  const rows = [[head("Rank"), head("Vendor (latest name)"), head("Net, FY2008 to FY2025")]];
-  top.slice(0, 10).forEach((r) => rows.push([r.rank, r.name_latest_year, big(r.net_all_years)]));
-  s.addTable(rows, tableOpts(0.5, 1.3, 9.0, [0.8, 6.0, 2.2]));
+  const rows = [[head("Rank"), head("Parent ID, by its name on the most dollars"), head("Net, FY2008 to FY2025")]];
+  top.slice(0, 10).forEach((r) => rows.push([r.rank, r.name_most_dollars, big(r.net_all_years)]));
+  s.addTable(rows, { ...tableOpts(0.5, 1.2, 9.0, [0.8, 6.0, 2.2]), fontSize: 10, rowH: 0.27 });
 }
 {
   const s = backup(MSG.backup_features);

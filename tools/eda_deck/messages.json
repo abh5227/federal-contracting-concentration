@@ -1,0 +1,49 @@
+{
+  "title": {
+    "title": "Who wins federal contracts? A first look at 18 years of vendor concentration",
+    "subtitle": "Suchitra Hole, Shivram Nekkanti, Andy Hannah  |  Exploratory analysis, October 2026",
+    "notes": "This is a first look at the full 18 years. Every number here is exploratory: none of the team's nine data decisions is final, and the slides use the proposed version of each."
+  },
+  "project": {
+    "title": "One score for every agency, product and year",
+    "notes": "Quick recap. We use every federal contract transaction from FY2008 to FY2025. We split them into segments, one agency buying one product in one year, and score each segment with the HHI. Five equal vendors score 2,000. One vendor with 80% scores 6,500. Above 2,500 counts as highly concentrated. Our copy of the data is verified row by row against the published files, and our yearly totals are within 0.2% of GAO's."
+  },
+  "trend": {
+    "title": "Concentrated segments now hold half the dollars",
+    "notes": "This is the share of each year's dollars that sits in segments scoring above 2,500. It was 43% in FY2008 and 39% to 41% from FY2011 to FY2014, then rose to about 50% by FY2022 and again in FY2025. In FY2024 it dipped to 36%. The two largest drops that year were Defense segments, combat ships and fixed-wing aircraft, which fell below 2,500 and rose back in FY2025. Large multi-year awards make single years jumpy, so we judge trends over many years. The two lines are the data as recorded and with our proposed data decisions applied. They differ only in FY2008 to FY2010, the years of a $13.9 billion entry reversed across two fiscal years and the two $10 billion US Mint rows."
+  },
+  "location": {
+    "title": "Products are far more concentrated than services",
+    "notes": "Defense and civilian agencies look alike: about half of each one's FY2025 dollars sit in highly concentrated segments, up from 43% and 44% in FY2008. The difference is what is bought. For products, 69% of FY2025 dollars sit in highly concentrated segments, against 39% for services. Research went the other way, from 59% to 35%. Single-vendor segments are common but small: 30% of FY2025 segments have one vendor, and they hold under 2% of the year's dollars. So the story is about large segments with a few big vendors, not about many tiny sole-source purchases."
+  },
+  "codes": {
+    "title": "Product codes mostly carry across both code changes",
+    "callout": "Old codes were almost never retired. New codes were added and spending moved onto them: 87% of it construction and repair in FY2012, and almost all of it IT in FY2021. Most trend lines can run all 18 years.",
+    "notes": "We expected the two product code manual changes to break our trend lines into short eras, which would have left only 9 usable years. The data says otherwise. The codes that stopped at either change held almost no dollars. 88.5% of all dollars are on codes used in all three periods. What happened is that new codes were added and some spending moved onto them: 6.5% of FY2012 dollars, 87% of them construction and repair, and 4.4% of FY2021 dollars, almost all of them IT. So we can follow most lines for all 18 years and handle IT and construction with a crosswalk."
+  },
+  "next": {
+    "title": "Year-to-year noise is larger than the 500-point cutoff",
+    "decisions": [
+      "Set the rising cutoff against shuffled lines, not against zero",
+      "Crosswalk IT and construction codes across the changes",
+      "Thin-line rule: 6 years and $10M keeps 99% of dollars",
+      "Then settle the nine data decisions with the sponsor"
+    ],
+    "notes": "Our plan calls a line rising when it gains 500 points. But HHI moves a lot by chance: the typical yearly change is about 360 points in the largest segments and over 1,000 in smaller ones. Under the 500-point rule, 38% of lines rise. When we shuffle each line's years, 28% still rise. So most of what the rule calls rising is noise, although rising does beat chance by about 10 points and falling does not. Next we set the cutoff against that shuffled baseline, map IT and construction codes, fix the thin-line rule and settle the data decisions with our sponsor."
+  },
+  "backup_bands": {
+    "title": "Backup: the data decisions move few segments between bands",
+    "note": "V1 applies the decisions as proposed: reversal pairs replaced by their net, the two US Mint rows, MISCELLANEOUS FOREIGN AWARDEES and rows with no vendor ID left out. V8b also leaves out deobligations larger than the award's obligations that year.",
+    "notes": "Across all 18 years, the proposed decisions change the concentration band of under 1% of segments, and more segments leave the highly concentrated band than enter it. The variant without large deobligations needs flags from a pipeline step that is still running."
+  },
+  "backup_vendors": {
+    "title": "Backup: the 10 largest vendors, FY2008 to FY2025",
+    "note": "Vendors are parent IDs as recorded at the time of each action. Names are the raw parent name carrying the most dollars, so they lag mergers: the RTX ID shows as United Technologies, and the Leidos ID as SAIC. A dated name list is planned for week 6.",
+    "notes": "These are the largest parent IDs over 18 years. The names come straight from the records and lag mergers, which the integrity report also found, so we will build a dated name list before naming vendors in results."
+  },
+  "backup_features": {
+    "title": "Backup: candidate features change coverage over time",
+    "note": "Set-aside and offers fields are blank on many dollars from FY2018, and most of the blank rows are orders under contract vehicles. The order competition field is blank on 75% to 88% of dollars, since it applies only to some orders.",
+    "notes": "Sole-source share is stable at about a third of dollars. Two fields change coverage in FY2018, which matters for question 3: we will measure set-aside and offers on the vehicle, or limit them to the years where they are complete."
+  }
+}

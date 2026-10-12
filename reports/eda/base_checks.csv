@@ -1,0 +1,117 @@
+fiscal_year,check,ours,expected,status
+2008,rows equal Stage 1,4505730,4505730,PASS
+2008,net equals Stage 1,541901088924.47,541901088924.47,PASS
+2008,vendor-cells equal integrity report,570767,570767,PASS
+2008,cells equal integrity report,20040,20040,PASS
+2008,negative vendor-cells equal integrity report,21281,21281,PASS
+2008,every V1 split adds back to the V1 net,True,True,PASS
+2009,rows equal Stage 1,3497692,3497692,PASS
+2009,net equals Stage 1,540837049440.12,540837049440.12,PASS
+2009,vendor-cells equal integrity report,515425,515425,PASS
+2009,cells equal integrity report,20792,20792,PASS
+2009,negative vendor-cells equal integrity report,24269,24269,PASS
+2009,every V1 split adds back to the V1 net,True,True,PASS
+2010,rows equal Stage 1,3543905,3543905,PASS
+2010,net equals Stage 1,561215227985.37,561215227985.37,PASS
+2010,vendor-cells equal integrity report,520209,520209,PASS
+2010,cells equal integrity report,21136,21136,PASS
+2010,negative vendor-cells equal integrity report,29737,29737,PASS
+2010,every V1 split adds back to the V1 net,True,True,PASS
+2011,rows equal Stage 1,3408506,3408506,PASS
+2011,net equals Stage 1,539905845139.79,539905845139.79,PASS
+2011,vendor-cells equal integrity report,511475,511475,PASS
+2011,cells equal integrity report,21115,21115,PASS
+2011,negative vendor-cells equal integrity report,34102,34102,PASS
+2011,every V1 split adds back to the V1 net,True,True,PASS
+2012,rows equal Stage 1,3129630,3129630,PASS
+2012,net equals Stage 1,520841173582.02,520841173582.02,PASS
+2012,vendor-cells equal integrity report,490775,490775,PASS
+2012,cells equal integrity report,23206,23206,PASS
+2012,negative vendor-cells equal integrity report,38528,38528,PASS
+2012,every V1 split adds back to the V1 net,True,True,PASS
+2013,rows equal Stage 1,2515087,2515087,PASS
+2013,net equals Stage 1,463606712799.66,463606712799.66,PASS
+2013,vendor-cells equal integrity report,455640,455640,PASS
+2013,cells equal integrity report,22377,22377,PASS
+2013,negative vendor-cells equal integrity report,38494,38494,PASS
+2013,every V1 split adds back to the V1 net,True,True,PASS
+2014,rows equal Stage 1,2528542,2528542,PASS
+2014,net equals Stage 1,446304627405.15,446304627405.15,PASS
+2014,vendor-cells equal integrity report,452234,452234,PASS
+2014,cells equal integrity report,22008,22008,PASS
+2014,negative vendor-cells equal integrity report,35415,35415,PASS
+2014,every V1 split adds back to the V1 net,True,True,PASS
+2015,rows equal Stage 1,4375319,4375319,PASS
+2015,net equals Stage 1,439983581411.26,439983581411.26,PASS
+2015,vendor-cells equal integrity report,463952,463952,PASS
+2015,cells equal integrity report,21756,21756,PASS
+2015,negative vendor-cells equal integrity report,34385,34385,PASS
+2015,every V1 split adds back to the V1 net,True,True,PASS
+2016,rows equal Stage 1,4821964,4821964,PASS
+2016,net equals Stage 1,475372633098.04,475372633098.04,PASS
+2016,vendor-cells equal integrity report,456489,456489,PASS
+2016,cells equal integrity report,21117,21117,PASS
+2016,negative vendor-cells equal integrity report,34577,34577,PASS
+2016,every V1 split adds back to the V1 net,True,True,PASS
+2017,rows equal Stage 1,4913345,4913345,PASS
+2017,net equals Stage 1,510434208570.80,510434208570.80,PASS
+2017,vendor-cells equal integrity report,466231,466231,PASS
+2017,cells equal integrity report,21524,21524,PASS
+2017,negative vendor-cells equal integrity report,35866,35866,PASS
+2017,every V1 split adds back to the V1 net,True,True,PASS
+2018,rows equal Stage 1,5619630,5619630,PASS
+2018,net equals Stage 1,556022709344.49,556022709344.49,PASS
+2018,vendor-cells equal integrity report,418656,418656,PASS
+2018,cells equal integrity report,20227,20227,PASS
+2018,negative vendor-cells equal integrity report,33562,33562,PASS
+2018,every V1 split adds back to the V1 net,True,True,PASS
+2019,rows equal Stage 1,6488828,6488828,PASS
+2019,net equals Stage 1,589730494134.75,589730494134.75,PASS
+2019,vendor-cells equal integrity report,378746,378746,PASS
+2019,cells equal integrity report,19043,19043,PASS
+2019,negative vendor-cells equal integrity report,32387,32387,PASS
+2019,every V1 split adds back to the V1 net,True,True,PASS
+2020,rows equal Stage 1,6306607,6306607,PASS
+2020,net equals Stage 1,671424501194.64,671424501194.64,PASS
+2020,vendor-cells equal integrity report,368725,368725,PASS
+2020,cells equal integrity report,18432,18432,PASS
+2020,negative vendor-cells equal integrity report,33642,33642,PASS
+2020,every V1 split adds back to the V1 net,True,True,PASS
+2021,rows equal Stage 1,6405488,6405488,PASS
+2021,net equals Stage 1,645398980544.39,645398980544.39,PASS
+2021,vendor-cells equal integrity report,365600,365600,PASS
+2021,cells equal integrity report,19483,19483,PASS
+2021,negative vendor-cells equal integrity report,33561,33561,PASS
+2021,every V1 split adds back to the V1 net,True,True,PASS
+2022,rows equal Stage 1,6668009,6668009,PASS
+2022,net equals Stage 1,694685943373.84,694685943373.84,PASS
+2022,vendor-cells equal integrity report,357808,357808,PASS
+2022,cells equal integrity report,19041,19041,PASS
+2022,negative vendor-cells equal integrity report,30487,30487,PASS
+2022,every V1 split adds back to the V1 net,True,True,PASS
+2023,rows equal Stage 1,6693769,6693769,PASS
+2023,net equals Stage 1,760429406567.32,760429406567.32,PASS
+2023,vendor-cells equal integrity report,351470,351470,PASS
+2023,cells equal integrity report,18659,18659,PASS
+2023,negative vendor-cells equal integrity report,31204,31204,PASS
+2023,every V1 split adds back to the V1 net,True,True,PASS
+2024,rows equal Stage 1,6692741,6692741,PASS
+2024,net equals Stage 1,756390254511.19,756390254511.19,PASS
+2024,vendor-cells equal integrity report,370791,370791,PASS
+2024,cells equal integrity report,18243,18243,PASS
+2024,negative vendor-cells equal integrity report,34225,34225,PASS
+2024,every V1 split adds back to the V1 net,True,True,PASS
+2025,rows equal Stage 1,6639176,6639176,PASS
+2025,net equals Stage 1,793189920124.27,793189920124.27,PASS
+2025,vendor-cells equal integrity report,332582,332582,PASS
+2025,cells equal integrity report,17203,17203,PASS
+2025,negative vendor-cells equal integrity report,32923,32923,PASS
+2025,every V1 split adds back to the V1 net,True,True,PASS
+2024,V0 cells equal preliminary results,18243,18243,PASS
+2024,V0 scored cells equal preliminary results,15961,15961,PASS
+2024,"V0 cells above 2,500 equal preliminary results",12917,12917,PASS
+2024,V0 median positive vendors equals preliminary results (lower median),3,3,PASS
+2025,V0 cells equal preliminary results,17203,17203,PASS
+2025,V0 scored cells equal preliminary results,14335,14335,PASS
+2025,"V0 cells above 2,500 equal preliminary results",11808,11808,PASS
+2025,V0 median positive vendors equals preliminary results (lower median),2,2,PASS

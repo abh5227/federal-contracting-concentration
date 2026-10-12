@@ -1,0 +1,9 @@
+grouped_by,group,lines,rising_pct_at_500,falling_pct_at_500
+starting HHI,"1,500 to 2,500",976,45.7,19.57
+starting HHI,"2,500 to 5,000",1635,46.36,34.86
+starting HHI,"above 5,000",1806,27.74,50.44
+starting HHI,"below 1,500",1355,35.72,3.91
+starting positive vendors,1,457,15.75,50.55
+starting positive vendors,11 or more,3545,38.42,22.91
+starting positive vendors,2 to 3,614,33.71,45.11
+starting positive vendors,4 to 10,1156,47.4,35.03
