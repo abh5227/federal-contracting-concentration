@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import sys
 
-from ..analyses_v2 import con, files, years
-from .base_tables import CELLS
+from ..analyses_v2 import files
+from .base_tables import CELLS, con, years
 from .concentration import CE, VC, query, write
 
 TOP = 100
@@ -21,8 +21,10 @@ TOP = 100
 RULES = {
     "vendor": "The vendor key of src/analyses_v2.py, under V1.",
     "top100": "The 100 vendors with the largest V1 net over FY2008 to FY2025, with their net in each year.",
-    "names": "Display name of a vendor in a year: the most common recipient_parent_name_raw on its rows that year, or the "
-             "most common recipient_name where the row has no parent. Ties go to the first name alphabetically.",
+    "names": "Display name of a vendor in a year: the recipient_parent_name_raw carrying the most gross dollars on its rows "
+             "that year, or the recipient_name where the row has no parent. name_most_dollars is the same over all 18 years. Weighted by dollars, because a parent's many "
+             "small rows can carry a subsidiary's name (the most common name by rows showed Lockheed Martin's ID as "
+             "Sikorsky). Ties go to the first name alphabetically.",
     "counts": "Vendors with at least one kept action of $10,000 or more in the year (decision 3 as proposed), and every "
               "vendor with a kept row, for comparison.",
     "turnover": "Inside one line, a vendor enters in a year when it has an action of $10,000 or more that year and none "
@@ -39,18 +41,26 @@ def top_ids(n: int = TOP) -> list[str]:
 def top100() -> None:
     ids = top_ids()
     c = con()
-    names = {}
+    names, weight = {}, {}
     idl = "[" + ", ".join(f"'{i}'" for i in ids) + "]"
     for fy in years():
-        for v, name in c.execute(f"""
+        for v, name, n, rank in c.execute(f"""
                 WITH r AS (SELECT COALESCE(NULLIF(trim(recipient_parent_uei), ''), NULLIF(trim(recipient_uei), '')) AS v,
                                   CASE WHEN NULLIF(trim(recipient_parent_uei), '') IS NOT NULL THEN recipient_parent_name_raw
                                        ELSE recipient_name END AS name
+                                  , abs(TRY_CAST(NULLIF(federal_action_obligation, '') AS DOUBLE)) AS g
                            FROM read_parquet({files(fy)!r}))
-                SELECT v, arg_max(name, (n, -rank)) FROM (
-                    SELECT v, name, COUNT(*) AS n, dense_rank() OVER (PARTITION BY v ORDER BY name) AS rank
-                    FROM r WHERE list_contains({idl}, v) GROUP BY 1, 2) GROUP BY 1""").fetchall():
-            names[(v, fy)] = name
+                SELECT v, name, SUM(g) AS n, dense_rank() OVER (PARTITION BY v ORDER BY name) AS rank
+                FROM r WHERE list_contains({idl}, v) GROUP BY 1, 2""").fetchall():
+            weight[(v, name)] = weight.get((v, name), 0) + (n or 0)
+            best = names.get((v, fy))
+            if best is None or ((n or 0), -rank) > best[1]:
+                names[(v, fy)] = (name, ((n or 0), -rank))
+    names = {k: x[0] for k, x in names.items()}
+    overall = {}
+    for (v, name), w in weight.items():
+        if v not in overall or (w, name) > (overall[v][1], overall[v][0]):
+            overall[v] = (name, w)
     yrs = years()
     res = c.execute(f"""SELECT vendor, fiscal_year, SUM(net_v1) FROM {VC} WHERE rows_v1 > 0 AND list_contains({idl}, vendor)
                         GROUP BY 1, 2""").fetchall()
@@ -59,9 +69,9 @@ def top100() -> None:
     for rank, v in enumerate(ids, start=1):
         latest = next((names[(v, fy)] for fy in reversed(yrs) if (v, fy) in names), "")
         changes = len({names[(v, fy)] for fy in yrs if (v, fy) in names})
-        rows.append((rank, v, latest, changes, round(sum(net.get((v, fy), 0) for fy in yrs), 2),
+        rows.append((rank, v, latest, overall.get(v, ("", 0))[0], changes, round(sum(net.get((v, fy), 0) for fy in yrs), 2),
                      *(round(net[(v, fy)], 2) if (v, fy) in net else "" for fy in yrs)))
-    write("top100_vendors", ["rank", "vendor_id", "name_latest_year", "distinct_yearly_names", "net_all_years",
+    write("top100_vendors", ["rank", "vendor_id", "name_latest_year", "name_most_dollars", "distinct_yearly_names", "net_all_years",
                              *(f"net_fy{fy}" for fy in yrs)], rows)
     write("top100_vendor_names", ["vendor_id", "fiscal_year", "display_name"],
           sorted((v, fy, n) for (v, fy), n in names.items()))

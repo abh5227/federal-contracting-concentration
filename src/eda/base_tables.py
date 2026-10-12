@@ -15,11 +15,13 @@ changes. The row-level tables stay in data/eda/, and only the checks are committ
 from __future__ import annotations
 
 import csv
+import os
 import sys
 from decimal import Decimal
 
 from .. import config
-from ..analyses_v2 import AMT, MFA, MINT_KEYS, PAIRS, VENDOR, con, d, files, years
+from ..analyses_v2 import AMT, MFA, MINT_KEYS, PAIRS, VENDOR, d, files
+from ..analyses_v2 import con as _con
 
 DATA = config.DATA_DIR / "eda"
 VC_DIR = DATA / "vendor_cells"
@@ -68,6 +70,25 @@ RULES = {
            "least one of its rows is kept by that variant.",
 }
 
+def con():
+    """The connection of src/analyses_v2.py with lower limits: 8 GB and every thread froze a 16 GB Windows laptop
+    on 2026-10-12. PILOT_DUCKDB_MEMORY and PILOT_DUCKDB_THREADS change them."""
+    c = _con()
+    c.execute(f"SET memory_limit = '{os.environ.get('PILOT_DUCKDB_MEMORY', '4GB')}'")
+    c.execute(f"SET threads = {int(os.environ.get('PILOT_DUCKDB_THREADS', '8'))}")
+    return c
+
+
+def years() -> list[int]:
+    """Years proven in Stage 1 (their _files.json exists). Stage 2 is needed only for the J03 flags of V8b."""
+    return [fy for fy in config.years_present() if (config.layer_a_dir(fy) / "_files.json").exists()]
+
+
+def j03_years() -> list[int]:
+    return [fy for fy in years() if (config.INTEGRITY_DIR / "row_flags" / f"fy{fy}.parquet").exists()
+            and (config.INTEGRITY_DIR / f"fy{fy}" / "_done.json").exists()]
+
+
 CODE_COLUMNS = ("extent_competed_code", "fair_opportunity_limited_sources_code", "type_of_contract_pricing_code",
                 "type_of_set_aside_code", "number_of_offers_received")
 
@@ -114,8 +135,12 @@ def vendor_cells(force: bool = False) -> None:
             print(f"vendor_cells: FY{fy} already built, skipping", flush=True)
             continue
         j03 = config.INTEGRITY_DIR / "row_flags" / f"fy{fy}.parquet"
-        c.execute(f"""CREATE OR REPLACE TEMP TABLE j AS SELECT DISTINCT contract_transaction_unique_key AS k
-                      FROM read_parquet('{j03}') WHERE flag_id = 'J03'""")
+        if fy in j03_years():
+            c.execute(f"""CREATE OR REPLACE TEMP TABLE j AS SELECT DISTINCT contract_transaction_unique_key AS k
+                          FROM read_parquet('{j03}') WHERE flag_id = 'J03'""")
+        else:                                   # Stage 2 not built for this year yet: V8b is left out until it is
+            c.execute("CREATE OR REPLACE TEMP TABLE j AS SELECT ''::VARCHAR AS k WHERE false")
+            print(f"vendor_cells: FY{fy} has no Stage 2 flags yet, so its J03 columns are empty and V8b waits", flush=True)
         ec, fo = "trim(extent_competed_code)", "trim(fair_opportunity_limited_sources_code)"
         pr, sa = "trim(type_of_contract_pricing_code)", "trim(type_of_set_aside_code)"
         tmp = out.with_suffix(".parquet.tmp")
@@ -133,7 +158,7 @@ def vendor_cells(force: bool = False) -> None:
                        CASE WHEN mint OR mfa OR v = '(no ID)' THEN NULL
                             ELSE CASE k {pair_case} ELSE amt END END AS a1
                 FROM r LEFT JOIN j USING (k))
-            SELECT {fy} AS fiscal_year, ag, psc, v AS vendor,
+            SELECT {fy} AS fiscal_year, {str(fy in j03_years()).upper()} AS j03_available, ag, psc, v AS vendor,
                    COUNT(*) AS rows, COUNT(*) FILTER (WHERE amt >= {SMALL_ACTION}) AS rows_10k,
                    SUM(amt) AS net, SUM(abs(amt)) AS gross,
                    COALESCE(SUM(amt) FILTER (WHERE amt > 0), 0) AS positive, COALESCE(SUM(amt) FILTER (WHERE amt < 0), 0) AS negative,
@@ -199,7 +224,11 @@ def cells() -> None:
     c = con()
     src = f"read_parquet('{VC_DIR / 'fy*.parquet'}')"
     parts = []
+    with_j03 = set(j03_years()) == set(years())
     for name, (net, rows, psc) in VARIANTS.items():
+        if name == "V8b" and not with_j03:
+            print("cells: V8b left out until Stage 2 has built every year", flush=True)
+            continue
         parts.append(f"""
             SELECT '{name}' AS variant, fiscal_year, ag, {psc} AS psc, vendor, SUM({net}) AS net
             FROM {src} WHERE {rows} > 0 GROUP BY ALL""")

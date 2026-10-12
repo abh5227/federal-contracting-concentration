@@ -13,8 +13,7 @@ import csv
 import sys
 
 from .. import config
-from ..analyses_v2 import con
-from .base_tables import CELLS, DATA, OUT, VC_DIR
+from .base_tables import CELLS, DATA, OUT, VC_DIR, con
 
 VC = f"read_parquet('{VC_DIR / 'fy*.parquet'}')"
 CE = f"read_parquet('{CELLS}')"
@@ -202,7 +201,7 @@ def drivers() -> None:
 def face_validity() -> None:
     cells = ", ".join(f"('{a}', '{p}')" for a, p in FACE_VALIDITY)
     query("face_validity", f"""
-        SELECT c.ag AS agency_code, c.psc, p.label_latest AS psc_label, fiscal_year, ROUND(net, 2) AS net, positive_vendors,
+        SELECT c.ag AS agency_code, c.psc, p.label_latest AS psc_label, c.fiscal_year, ROUND(c.net, 2) AS net, c.positive_vendors,
                ROUND(hhi, 1) AS hhi, ROUND(top4_pct, 1) AS top4_pct, ROUND(top1_pct, 1) AS largest_share
         FROM {CE} c LEFT JOIN {PSC_LABELS} p ON p.code = c.psc
         WHERE variant = 'V1' AND (c.ag, c.psc) IN ({cells}) ORDER BY 1, 2, 4""")

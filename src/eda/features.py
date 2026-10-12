@@ -12,8 +12,7 @@ from __future__ import annotations
 import math
 import sys
 
-from ..analyses_v2 import con
-from .base_tables import CELLS
+from .base_tables import CELLS, con
 from .concentration import KIND, VC, query, write
 from .lines import KEEP_DOLLARS, KEEP_YEARS
 

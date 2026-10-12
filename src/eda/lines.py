@@ -14,8 +14,7 @@ import random
 import sys
 from collections import defaultdict
 
-from ..analyses_v2 import con
-from .base_tables import CELLS
+from .base_tables import CELLS, con
 from .concentration import CE, PSC_LABELS, VC, query, write
 
 ERAS = (("FY2008 to FY2011", 2008, 2011), ("FY2012 to FY2020", 2012, 2020), ("FY2021 to FY2025", 2021, 2025))
