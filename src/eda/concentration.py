@@ -46,7 +46,8 @@ RULES = {
     "drivers": "For each pair of consecutive years under V1, each cell's change in net dollars counted above 2,500 (its "
                "net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way.",
     "face_validity": "Each year's V1 score for the cells in FACE_VALIDITY.",
-    "example_row": "The largest FY2025 row by amount in DoD's fixed-wing aircraft segment (1510), as published.",
+    "example_row": "The largest FY2025 row by amount in the example segment (EXAMPLE: Veterans Affairs, Q201 managed healthcare), as published.",
+    "civilian": "The public-sector view: every awarding agency except the Department of Defense (097), under V1. Top segments are the 10 largest FY2025 civilian cells with HHI above 2,500. Vendor names are the parent name, or the own name, carrying the most dollars that year.",
 }
 
 
@@ -208,20 +209,87 @@ def face_validity() -> None:
         WHERE variant = 'V1' AND (c.ag, c.psc) IN ({cells}) ORDER BY 1, 2, 4""")
 
 
+EXAMPLE = ("036", "Q201")          # Veterans Affairs buying managed healthcare: the deck's civilian example
+CIV = f"ag <> '{DOD}'"
+
+
 def example_row() -> None:
-    """The largest FY2025 row in DoD's fixed-wing aircraft segment, shown in the deck as what one row of the data is."""
+    """The largest FY2025 row in the example segment, shown in the deck as what one row of the data is."""
     from ..analyses_v2 import files
     query("example_row", f"""
         SELECT action_date, awarding_agency_name, awarding_sub_agency_name, product_or_service_code,
                product_or_service_code_description, recipient_parent_name, recipient_name, federal_action_obligation,
                extent_competed, type_of_contract_pricing, award_id_piid
-        FROM read_parquet({files(2025)!r}) WHERE awarding_agency_code = '{DOD}' AND product_or_service_code = '1510'
+        FROM read_parquet({files(2025)!r}) WHERE awarding_agency_code = '{EXAMPLE[0]}' AND product_or_service_code = '{EXAMPLE[1]}'
         ORDER BY TRY_CAST(federal_action_obligation AS DOUBLE) DESC LIMIT 1""")
+
+
+def vendor_names(ids: list[str], fy: int) -> dict[str, str]:
+    """Display names for a few vendor IDs in one year: the parent name, or the own name, carrying the most dollars."""
+    from ..analyses_v2 import files
+    if not ids:
+        return {}
+    return dict(con().execute(f"""
+        SELECT COALESCE(NULLIF(trim(recipient_parent_uei), ''), NULLIF(trim(recipient_uei), '')) AS v,
+               arg_max(COALESCE(NULLIF(trim(recipient_parent_name), ''), recipient_name), abs(TRY_CAST(federal_action_obligation AS DOUBLE)))
+        FROM read_parquet({files(fy)!r})
+        WHERE list_contains({ids!r}, COALESCE(NULLIF(trim(recipient_parent_uei), ''), NULLIF(trim(recipient_uei), '')))
+        GROUP BY 1""").fetchall())
+
+
+def civilian() -> None:
+    """The deck's public-sector view: every agency except the Department of Defense, under V1."""
+    query("civilian_by_year", f"""
+        SELECT fiscal_year, COUNT(*) AS cells, ROUND(SUM(net), 2) AS net,
+               ROUND(COALESCE(SUM(net) FILTER (WHERE hhi > 2500), 0), 2) AS net_above_2500,
+               ROUND(100 * COALESCE(SUM(net) FILTER (WHERE hhi > 2500), 0) / SUM(net), 2) AS above_2500_pct_of_net,
+               COUNT(*) FILTER (WHERE positive_vendors = 1) AS one_positive_vendor_cells,
+               ROUND(100 * COALESCE(SUM(net) FILTER (WHERE positive_vendors = 1), 0) / SUM(net), 2) AS one_positive_vendor_pct_of_net
+        FROM {CE} WHERE variant = 'V1' AND {CIV} GROUP BY 1 ORDER BY 1""")
+    query("civilian_by_kind", f"""
+        SELECT fiscal_year, {KIND} AS kind, ROUND(SUM(net), 2) AS net,
+               ROUND(100 * COALESCE(SUM(net) FILTER (WHERE hhi > 2500), 0) / SUM(net), 2) AS above_2500_pct_of_net
+        FROM {CE} WHERE variant = 'V1' AND {CIV} GROUP BY 1, 2 ORDER BY 1, 2""")
+    query("civilian_by_agency", f"""
+        WITH a AS (SELECT ag, fiscal_year, SUM(net) AS net, COALESCE(SUM(net) FILTER (WHERE hhi > 2500), 0) AS hi
+                   FROM {CE} WHERE variant = 'V1' AND {CIV} GROUP BY 1, 2),
+        top AS (SELECT ag FROM a WHERE fiscal_year = {config.LAST_FY} ORDER BY net DESC LIMIT 10)
+        SELECT a.fiscal_year, a.ag AS agency_code, l.label_latest AS agency, ROUND(a.net, 2) AS net,
+               ROUND(100 * a.hi / NULLIF(a.net, 0), 2) AS above_2500_pct_of_net
+        FROM a JOIN top USING (ag) LEFT JOIN {AGENCY_LABELS} l ON l.code = a.ag ORDER BY 1, 4 DESC""")
+    c = con()
+    res = c.execute(f"""
+        SELECT c.ag, a.label_latest, c.psc, p.label_latest, c.net, c.hhi, c.top1_pct, c.positive_vendors, c.largest_vendor
+        FROM {CE} c LEFT JOIN {AGENCY_LABELS} a ON a.code = c.ag LEFT JOIN {PSC_LABELS} p ON p.code = c.psc
+        WHERE variant = 'V1' AND {CIV.replace('ag', 'c.ag')} AND fiscal_year = {config.LAST_FY} AND hhi > 2500
+        ORDER BY c.net DESC LIMIT 10""").fetchall()
+    names = vendor_names([r[8] for r in res], config.LAST_FY)
+    write("civilian_top_segments", ["rank", "agency_code", "agency", "psc", "psc_label", "net", "hhi", "largest_share_pct",
+                                    "positive_vendors", "largest_vendor_id", "largest_vendor_name"],
+          [(k + 1, r[0], r[1], r[2], r[3], round(float(r[4]), 2), round(r[5], 1), round(r[6], 1), r[7], r[8], names.get(r[8], ""))
+           for k, r in enumerate(res)])
+    for fy in (config.LAST_FY - 1, config.LAST_FY):
+        query(f"civilian_drivers_fy{fy}", f"""
+            WITH x AS (SELECT fiscal_year AS fy, ag, psc, CASE WHEN hhi > 2500 THEN net ELSE 0 END AS hi, hhi, net
+                       FROM {CE} WHERE variant = 'V1' AND {CIV})
+            SELECT COALESCE(n.ag, p.ag) AS agency_code, a.label_latest AS agency, COALESCE(n.psc, p.psc) AS psc, l.label_latest AS psc_label,
+                   ROUND(COALESCE(n.hi, 0) - COALESCE(p.hi, 0), 2) AS change_in_net_above_2500,
+                   ROUND(p.net, 2) AS net_before, ROUND(n.net, 2) AS net_after, ROUND(p.hhi, 1) AS hhi_before, ROUND(n.hhi, 1) AS hhi_after
+            FROM (SELECT * FROM x WHERE fy = {fy}) n FULL JOIN (SELECT * FROM x WHERE fy = {fy - 1}) p ON (n.ag, n.psc) = (p.ag, p.psc)
+            LEFT JOIN {AGENCY_LABELS} a ON a.code = COALESCE(n.ag, p.ag) LEFT JOIN {PSC_LABELS} l ON l.code = COALESCE(n.psc, p.psc)
+            ORDER BY abs(COALESCE(n.hi, 0) - COALESCE(p.hi, 0)) DESC LIMIT 10""")
+    res = c.execute(f"""SELECT fiscal_year, net, hhi, top1_pct, positive_vendors, largest_vendor FROM {CE}
+                        WHERE variant = 'V1' AND ag = '{EXAMPLE[0]}' AND psc = '{EXAMPLE[1]}' ORDER BY 1""").fetchall()
+    names = vendor_names([res[-1][5]], res[-1][0]) if res else {}
+    write("example_segment", ["fiscal_year", "agency_code", "psc", "net", "hhi", "largest_share_pct", "positive_vendors",
+                              "largest_vendor_id", "largest_vendor_name_latest_year"],
+          [(fy, EXAMPLE[0], EXAMPLE[1], round(float(n), 2), round(h, 1) if h is not None else "", round(t, 1) if t is not None else "",
+            pv, v, names.get(v, "") if fy == res[-1][0] else "") for fy, n, h, t, pv, v in res])
 
 
 STEPS = {"spending": spending, "by_year": by_year, "band_changes": band_changes, "by_group": by_group,
          "vendor_floor": vendor_floor, "drivers": drivers, "face_validity": face_validity,
-         "example_row": example_row}
+         "example_row": example_row, "civilian": civilian}
 
 
 def main(argv: list[str] | None = None) -> int:

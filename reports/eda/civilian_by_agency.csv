@@ -1,0 +1,181 @@
+fiscal_year,agency_code,agency,net,above_2500_pct_of_net
+2008,089,Department of Energy,24167407389.97,51.8
+2008,080,National Aeronautics and Space Administration,15035706837.53,89.6
+2008,036,Department of Veterans Affairs,14917663593.73,33.43
+2008,075,Department of Health and Human Services,14160715846.14,23.83
+2008,070,Department of Homeland Security,14023934345.24,39.69
+2008,047,General Services Administration,13365017303.25,17.22
+2008,069,Department of Transportation,5891543830.42,51.83
+2008,015,Department of Justice,5887923161.94,42.42
+2008,019,Department of State,5671115674.01,45.68
+2008,012,Department of Agriculture,5337589964.12,25.83
+2009,089,Department of Energy,31635487748.90,53.12
+2009,075,Department of Health and Human Services,19825143709.18,17.21
+2009,047,General Services Administration,15637207014.11,25.59
+2009,080,National Aeronautics and Space Administration,15336086009.45,88.14
+2009,036,Department of Veterans Affairs,14810320773.01,32.85
+2009,070,Department of Homeland Security,14212765485.83,35.84
+2009,015,Department of Justice,7618692354.72,55.74
+2009,019,Department of State,6766520150.31,42.66
+2009,069,Department of Transportation,5978067897.95,48.25
+2009,012,Department of Agriculture,5420900146.75,21.52
+2010,089,Department of Energy,25745102354.86,46.0
+2010,075,Department of Health and Human Services,19130221655.03,18.4
+2010,047,General Services Administration,18792813274.30,10.58
+2010,036,Department of Veterans Affairs,16235736039.26,29.91
+2010,080,National Aeronautics and Space Administration,16143442687.15,93.78
+2010,070,Department of Homeland Security,13575347322.66,33.21
+2010,019,Department of State,7624693710.31,53.76
+2010,015,Department of Justice,6760138340.50,49.61
+2010,069,Department of Transportation,6504895602.71,53.17
+2010,012,Department of Agriculture,6142092920.85,17.97
+2011,089,Department of Energy,25102499521.68,47.59
+2011,075,Department of Health and Human Services,19744014885.11,14.77
+2011,036,Department of Veterans Affairs,17485451450.47,34.95
+2011,080,National Aeronautics and Space Administration,15392755740.41,62.04
+2011,047,General Services Administration,14575477260.42,16.77
+2011,070,Department of Homeland Security,14252470567.20,37.73
+2011,019,Department of State,7709190238.98,31.9
+2011,015,Department of Justice,7332546795.62,33.97
+2011,069,Department of Transportation,6507990868.38,54.93
+2011,012,Department of Agriculture,5285939904.55,23.61
+2012,089,Department of Energy,25184826242.37,48.45
+2012,075,Department of Health and Human Services,19275312203.65,20.17
+2012,036,Department of Veterans Affairs,17255776753.31,43.72
+2012,080,National Aeronautics and Space Administration,15152690372.03,76.42
+2012,070,Department of Homeland Security,12412119195.99,37.43
+2012,047,General Services Administration,10230820156.39,25.38
+2012,019,Department of State,7606717857.42,35.58
+2012,015,Department of Justice,6699950288.34,33.73
+2012,069,Department of Transportation,6574438493.50,49.63
+2012,012,Department of Agriculture,5273122805.75,13.77
+2013,089,Department of Energy,23984291223.12,46.95
+2013,075,Department of Health and Human Services,20314062028.38,18.16
+2013,036,Department of Veterans Affairs,18390562418.60,38.08
+2013,080,National Aeronautics and Space Administration,14217207133.51,80.45
+2013,070,Department of Homeland Security,12285648421.58,34.25
+2013,047,General Services Administration,8910728015.82,24.05
+2013,015,Department of Justice,7185737414.53,29.96
+2013,019,Department of State,6578396554.42,56.51
+2013,069,Department of Transportation,6201817206.43,50.53
+2013,012,Department of Agriculture,5253703888.11,20.98
+2014,089,Department of Energy,25502061664.43,46.37
+2014,075,Department of Health and Human Services,22041883021.66,15.56
+2014,036,Department of Veterans Affairs,19041987344.48,38.61
+2014,080,National Aeronautics and Space Administration,15012288808.23,75.04
+2014,070,Department of Homeland Security,12816974507.42,35.53
+2014,047,General Services Administration,9111852695.74,21.68
+2014,019,Department of State,8401717284.84,52.27
+2014,015,Department of Justice,7281174649.23,20.71
+2014,069,Department of Transportation,6362524659.08,48.61
+2014,012,Department of Agriculture,5398111735.28,14.3
+2015,089,Department of Energy,25173554608.18,45.31
+2015,075,Department of Health and Human Services,22184107578.32,15.62
+2015,036,Department of Veterans Affairs,20150742325.38,41.1
+2015,080,National Aeronautics and Space Administration,15873831839.39,79.98
+2015,070,Department of Homeland Security,13440665674.79,35.7
+2015,047,General Services Administration,9611724079.69,18.01
+2015,015,Department of Justice,7880815163.31,18.17
+2015,019,Department of State,7589950500.28,52.2
+2015,069,Department of Transportation,6256982725.85,49.42
+2015,012,Department of Agriculture,6234097452.19,24.73
+2016,089,Department of Energy,28289122708.07,46.89
+2016,075,Department of Health and Human Services,24120599888.36,14.59
+2016,036,Department of Veterans Affairs,22630672624.45,44.99
+2016,080,National Aeronautics and Space Administration,17270391330.05,78.83
+2016,070,Department of Homeland Security,13557481773.15,32.26
+2016,047,General Services Administration,10493501386.18,21.7
+2016,019,Department of State,8286669984.25,43.02
+2016,069,Department of Transportation,7636354417.38,55.41
+2016,015,Department of Justice,7579553002.48,24.82
+2016,012,Department of Agriculture,6067759202.09,12.85
+2017,089,Department of Energy,28966077705.13,59.18
+2017,036,Department of Veterans Affairs,26317010812.30,52.4
+2017,075,Department of Health and Human Services,24944893878.68,17.36
+2017,080,National Aeronautics and Space Administration,17379022900.80,79.35
+2017,070,Department of Homeland Security,16302011278.50,37.28
+2017,047,General Services Administration,12019916306.12,36.05
+2017,019,Department of State,10582091988.10,57.83
+2017,015,Department of Justice,8077109485.88,24.1
+2017,012,Department of Agriculture,6546780605.43,14.84
+2017,069,Department of Transportation,6467618275.38,45.78
+2018,089,Department of Energy,31963094154.48,62.34
+2018,036,Department of Veterans Affairs,27136246601.32,52.27
+2018,075,Department of Health and Human Services,24664490002.85,16.07
+2018,070,Department of Homeland Security,18223223367.06,33.52
+2018,080,National Aeronautics and Space Administration,18041200387.08,72.86
+2018,047,General Services Administration,13843462681.85,26.25
+2018,019,Department of State,9651664084.91,45.58
+2018,015,Department of Justice,8200856545.78,23.86
+2018,069,Department of Transportation,7003752494.58,45.5
+2018,012,Department of Agriculture,6642014876.00,12.13
+2019,089,Department of Energy,33312444078.42,74.55
+2019,036,Department of Veterans Affairs,28810083151.24,55.88
+2019,075,Department of Health and Human Services,26499207337.59,18.86
+2019,080,National Aeronautics and Space Administration,17728746040.72,79.99
+2019,070,Department of Homeland Security,17642015905.69,38.04
+2019,047,General Services Administration,16096085622.16,23.36
+2019,019,Department of State,9228239178.84,35.7
+2019,015,Department of Justice,8581517331.69,24.86
+2019,012,Department of Agriculture,7538588521.99,12.74
+2019,069,Department of Transportation,6778064066.84,47.7
+2020,075,Department of Health and Human Services,40706423174.68,16.59
+2020,036,Department of Veterans Affairs,39536807017.21,62.59
+2020,089,Department of Energy,35978793851.49,71.78
+2020,070,Department of Homeland Security,19657439288.17,38.12
+2020,080,National Aeronautics and Space Administration,18938885166.71,78.41
+2020,047,General Services Administration,17612304714.96,33.51
+2020,012,Department of Agriculture,12826031797.45,8.87
+2020,019,Department of State,8977878564.77,40.78
+2020,015,Department of Justice,8937882887.16,19.8
+2020,069,Department of Transportation,7777873046.53,52.6
+2021,036,Department of Veterans Affairs,47684785557.47,65.78
+2021,075,Department of Health and Human Services,38826705675.38,23.7
+2021,089,Department of Energy,38559988449.86,74.34
+2021,070,Department of Homeland Security,19804766022.41,41.46
+2021,080,National Aeronautics and Space Administration,19173452818.52,75.72
+2021,047,General Services Administration,18337017833.66,30.6
+2021,012,Department of Agriculture,9883140262.80,14.16
+2021,015,Department of Justice,9740759799.61,29.08
+2021,019,Department of State,9246667662.89,41.98
+2021,069,Department of Transportation,7864777007.04,50.48
+2022,036,Department of Veterans Affairs,56392298386.10,69.82
+2022,089,Department of Energy,42897701263.83,68.09
+2022,075,Department of Health and Human Services,38887885013.59,30.59
+2022,047,General Services Administration,21190482116.74,42.97
+2022,070,Department of Homeland Security,21174001248.32,40.34
+2022,080,National Aeronautics and Space Administration,19941588662.98,83.36
+2022,019,Department of State,11641368285.29,55.38
+2022,012,Department of Agriculture,10075945192.26,15.24
+2022,015,Department of Justice,9178492583.27,28.52
+2022,069,Department of Transportation,8679388353.98,46.85
+2023,036,Department of Veterans Affairs,61699436519.09,67.49
+2023,089,Department of Energy,46273526476.13,66.31
+2023,075,Department of Health and Human Services,38499303068.22,24.09
+2023,047,General Services Administration,24413564341.09,32.48
+2023,070,Department of Homeland Security,24017198948.89,42.81
+2023,080,National Aeronautics and Space Administration,20943036821.24,75.94
+2023,012,Department of Agriculture,11519451567.66,16.52
+2023,019,Department of State,11512173598.18,45.69
+2023,015,Department of Justice,10331208703.54,40.85
+2023,069,Department of Transportation,9456883328.84,43.77
+2024,036,Department of Veterans Affairs,66901983102.22,70.85
+2024,089,Department of Energy,47670845273.30,32.98
+2024,075,Department of Health and Human Services,36760712636.83,23.89
+2024,047,General Services Administration,26966876615.54,31.85
+2024,070,Department of Homeland Security,23678751410.41,36.66
+2024,080,National Aeronautics and Space Administration,20054247753.75,54.3
+2024,012,Department of Agriculture,11613887489.14,15.62
+2024,019,Department of State,11607524798.45,47.29
+2024,015,Department of Justice,9594624985.71,35.38
+2024,069,Department of Transportation,9284243459.36,45.17
+2025,036,Department of Veterans Affairs,78326706374.69,75.6
+2025,089,Department of Energy,50261944518.87,35.62
+2025,070,Department of Homeland Security,28418391313.37,49.28
+2025,075,Department of Health and Human Services,26765478955.72,12.64
+2025,047,General Services Administration,24309335651.49,35.59
+2025,080,National Aeronautics and Space Administration,21334772639.65,76.99
+2025,069,Department of Transportation,9889196853.73,56.14
+2025,012,Department of Agriculture,9636568122.96,17.8
+2025,019,Department of State,9621516889.69,42.18
+2025,015,Department of Justice,8781587506.04,37.47
