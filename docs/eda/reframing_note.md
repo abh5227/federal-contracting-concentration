@@ -65,11 +65,28 @@ Candidate features for questions 3 and 4, each to be checked against the 297 col
 3. **Description, no causes.** Consolidation by design is the most likely reading of the competed share. The data does not prove it.
 4. **The comparison in point 3 uses concentration levels.** It compares no feature with rising lines, so the gate for phase 7b in the EDA plan still holds.
 
+## For discussion after the presentation: the second layer of money
+
+The HHI describes the prime contracts, the contracts the government signs directly, and every one of them is in the data. For some markets the prime passes much of the money on. In VA managed healthcare, the prime companies administer networks, and community hospitals and doctors deliver the care. In construction, a general contractor wins the prime award and subcontracts much of the work. The score is right for the question "whom does the government contract with", and silent on "who does the work and gets the money in the end".
+
+**Sources for the second layer.**
+
+| Source | What it gives | Limits |
+|---|---|---|
+| Subaward data: USAspending custom download (Subawards), the API (`/api/v2/subawards/`), and the Sub-Awards tab on each award's page | First-tier subcontracts reported by the prime under FFATA | Generally $30,000 and over, self-reported by the prime, found incomplete by GAO more than once. Payments to providers in a health care network are probably claims payments and absent from subaward data. The current home of FFATA reporting (FSRS or SAM.gov) needs confirming. |
+| FPDS (fpds.gov, ezSearch) | The official record of each contract action, including offers received and competition codes | The same records USAspending publishes, one action at a time |
+| SAM.gov Contract Opportunities | Solicitations, award notices, and the justification for each sole-source award | Coverage varies by agency and year |
+| GAO bid protest decisions | How many firms competed for a protested award, and why the winner was chosen | Only protested awards |
+| Agency pages, inspector general reports, FOIA reading rooms | Program design, such as the VA Community Care Network contracts | Case by case |
+
+**Proposal.** Keep the prime-contract HHI as the main measure, as proposal version 10 defines it. Add a subaward check for a few flagged markets, such as VA health care and the largest construction segments: recompute concentration one level down and report how complete the subaward data is. Read a handful of cases in FPDS and SAM.gov, such as how many offers the VA network contracts drew. The USAspending API refused connections from one team member's network on 2026-10-12, so a pull needs a single test request first.
+
 ## Decisions for the team
 
 1. **Scope.** Make the civilian agencies the focus, with Defense as the comparison, or keep every agency in the main analysis.
 2. **Questions 3 and 4.** Adopt the revised wording, or keep version 10's.
 3. **Features.** Agree the candidate list, and record it with the rising rule in `config/decisions.csv` before phase 7b runs.
 4. **The competition field.** Who checks the FPDS data dictionary, and by when.
+5. **The second layer.** Whether to add the subaward check for flagged markets, which markets, and who pulls the data.
 
 The deck for the class (`reports/eda/eda_presentation.pptx`) already follows points 1 to 3 of the revised story. Its slides on the competed share wait for decision 1.
