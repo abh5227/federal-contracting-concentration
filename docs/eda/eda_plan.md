@@ -69,7 +69,7 @@ The vendor key follows the proposal: the parent UEI on the row, or the recipient
 |---|---|
 | V0, as recorded | Every row. Shares over vendors with a positive net, the rule of the preliminary results. |
 | V1, as proposed | Reversal pairs replaced by their net, US Mint rows out, MISCELLANEOUS FOREIGN AWARDEES out, no-ID rows out, shares over vendors with a positive net. |
-| V8a | V1, with negative vendor totals set to zero. |
+| V8a | V1, with negative vendor totals set to zero. Its shares, HHI and top-4 share equal V1's, because V1 already takes shares over vendors with a positive net. The two differ only in the cell's net, so V8a needs no separate run. |
 | V8b | V1, without the J03 deobligation rows. |
 | V8c | V1, with two-character product codes. |
 
@@ -87,7 +87,7 @@ The vendor key follows the proposal: the parent UEI on the row, or the recipient
 This phase extends the preliminary table from 2 years to 18.
 
 1. **By year.** Cells, scored cells and unscored cells (D0033) with their dollars. Median vendors, with and without a positive net. Single-vendor cells and their dollars. HHI and top-4 share quantiles, unweighted and weighted by dollars. Dollars in each band: below 1,500, 1,500 to 2,500, above 2,500, and above 1,800.
-2. **By variant.** For V1, V8a, V8b and V8c against V0: cells whose band changes, and the dollars in them. This is the evidence for decision 8 and the proposal's data decisions check.
+2. **By variant.** For V1, V8b and V8c against V0: cells whose band changes, and the dollars in them. This is the evidence for decision 8 and the proposal's data decisions check.
 3. **By agency and by kind of purchase.** The location of concentration, for the 15 largest agencies and for products, services and research.
 4. **What drives a change.** The cells that account for most of each year's change in dollars above 2,500, as the preliminary results did for FY2024 to FY2025.
 5. **The floor set by few vendors.** HHI can be no lower than 10,000 divided by the number of vendors. Plot HHI against vendor count, so a high score from a cell with two vendors reads differently from a high score in a cell with 200.
@@ -150,6 +150,7 @@ Product codes changed meaning in FY2012 and FY2021, and the proposal keeps each 
 | `reports/eda/*.csv` | Summary tables, with no row-level data |
 | `reports/eda/figures/` | Figures, with the code that draws each one |
 | `docs/eda/eda_findings.md` | The write-up: what each phase found and what it means for each decision |
+| `reports/eda/eda_presentation.pptx` | The 5-minute deck for the team and the class |
 
 ## Which phase informs which decision
 
@@ -159,7 +160,7 @@ Product codes changed meaning in FY2012 and FY2021, and the proposal keeps each 
 | D0026 the FY2015 step in counts | 2, 8 (counts with and without the $10,000 rule) |
 | D0028 competition measure | 7a |
 | D0029 parent roll-up | 8 |
-| D0031 negative vendor totals | 3 (V8a, V8b and V8c) |
+| D0031 negative vendor totals | 3 (V8b and V8c, with V8a equal to V1) |
 | D0032 MISCELLANEOUS FOREIGN AWARDEES, D0034 no-ID rows | 3, 8 |
 | D0033 unscored segments | 3 |
 | Product code eras, week 7 | 4 |
@@ -182,6 +183,23 @@ Phases 1 to 6, 7a and 8 can run as soon as Stages 1 and 2 are built. Phase 7b wa
 | 6 | Phases 7a and 8 | 2 days |
 | 7 | Findings write-up and team review | 1 day |
 | 8 | Phase 7b, after the gate | 1 day |
+
+## The presentation
+
+The first results go to the team and the class in a 5-minute talk, as a PowerPoint deck. The class knows the project in outline, so the deck opens with a short recap and spends the rest on what the exploration found. Six slides fit 5 minutes, with backup slides for questions.
+
+| Slide | Message | Evidence | Time |
+|---|---|---|---|
+| 1. Title | Vendor concentration in federal contracting: first look at 18 years | | 10 s |
+| 2. The project in one slide | One question, one measure, one dataset: HHI for every agency, product and year, over 88.8 million rows checked against GAO | The HHI example from the proposal, and the totals check | 40 s |
+| 3. Concentration over 18 years | How the share of dollars in highly concentrated segments moved from FY2008 to FY2025 | Phase 3, `concentration_by_year` under V1, with V0 beside it | 70 s |
+| 4. The location of concentration | Defense against civilian, products, services and research, and how much money sits in single-vendor segments | Phase 3, `concentration_dod_civilian`, `concentration_by_kind`, `hhi_by_vendor_count` | 60 s |
+| 5. The product code problem | The code changes in FY2012 and FY2021 cut 18 years into eras of 4, 9 and 5 years, and the money on codes that stop or start | Phase 4, `psc_break_fy2012`, `psc_break_fy2021`, `line_lengths` | 60 s |
+| 6. What is next | How much HHI moves by chance against the 500-point cutoff, and the decisions the team takes next | Phase 5, `noise_by_size`, `rising_counts` | 60 s |
+
+**Backup slides**, for questions: the data decisions and the segments that change band (`band_changes`), the largest vendors (`top100_vendors`) and feature coverage (`feature_coverage`).
+
+**What this changes in the order of work.** Phases 1, 3, 4 and 5 feed the main slides and come first. Phases 2, 7a and 8 feed the backup slides and follow. Each chart is built in the deck from the summary tables, so a rerun updates the numbers without redrawing figures by hand. Every number on a slide must trace to one table in `reports/eda/`.
 
 ## Questions for the team
 

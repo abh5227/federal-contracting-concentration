@@ -1,0 +1,9 @@
+{
+  "name": "eda-deck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Builds the 5-minute EDA deck (reports/eda/eda_presentation.pptx) from the summary tables in reports/eda/.",
+  "dependencies": {
+    "pptxgenjs": "3.12.0"
+  }
+}
