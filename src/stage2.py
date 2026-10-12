@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -161,7 +162,11 @@ def connect() -> duckdb.DuckDBPyConnection:
     con.execute(f"SET temp_directory = '{spill}'")
     con.execute("SET TimeZone = 'UTC'")
     con.execute("SET preserve_insertion_order = false")
-    con.execute("SET memory_limit = '6GB'")
+    # PILOT_DUCKDB_MEMORY and PILOT_DUCKDB_THREADS lower the limits on a smaller machine. On a 16 GB Windows laptop
+    # with 22 threads, the cubes query ran out of kernel resources for file reads (2026-10-12) until both were lowered.
+    con.execute(f"SET memory_limit = '{os.environ.get('PILOT_DUCKDB_MEMORY', '6GB')}'")
+    if os.environ.get("PILOT_DUCKDB_THREADS"):
+        con.execute(f"SET threads = {int(os.environ['PILOT_DUCKDB_THREADS'])}")
     return con
 
 
