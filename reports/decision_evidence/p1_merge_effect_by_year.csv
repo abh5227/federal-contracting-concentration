@@ -1,0 +1,73 @@
+fiscal_year,merges,merge_lines,segments,segments_changing_band,share_above_2500_all_pct,share_above_2500_civilian_pct
+2008,before the merges,0,19576,0,43.04,44.14
+2008,all merges,5,19576,0,43.04,44.14
+2008,name-matched merges only,5,19576,0,43.04,44.14
+2008,"all merges, RTX left out",5,19576,0,43.04,44.14
+2009,before the merges,0,20323,0,39.23,43.87
+2009,all merges,5,20323,0,39.23,43.87
+2009,name-matched merges only,5,20323,0,39.23,43.87
+2009,"all merges, RTX left out",5,20323,0,39.23,43.87
+2010,before the merges,0,20643,0,39.25,41.36
+2010,all merges,2,20643,0,39.25,41.36
+2010,name-matched merges only,2,20643,0,39.25,41.36
+2010,"all merges, RTX left out",2,20643,0,39.25,41.36
+2011,before the merges,0,20587,0,39.35,37.87
+2011,all merges,1,20587,0,39.35,37.87
+2011,name-matched merges only,1,20587,0,39.35,37.87
+2011,"all merges, RTX left out",1,20587,0,39.35,37.87
+2012,before the merges,0,22541,0,39.54,41.48
+2012,all merges,2,22541,0,39.54,41.48
+2012,name-matched merges only,1,22541,0,39.54,41.48
+2012,"all merges, RTX left out",1,22541,0,39.54,41.48
+2013,before the merges,0,21706,0,41.38,42.41
+2013,all merges,0,21706,0,41.38,42.41
+2013,name-matched merges only,0,21706,0,41.38,42.41
+2013,"all merges, RTX left out",0,21706,0,41.38,42.41
+2014,before the merges,0,21413,0,39.46,37.83
+2014,all merges,0,21413,0,39.46,37.83
+2014,name-matched merges only,0,21413,0,39.46,37.83
+2014,"all merges, RTX left out",0,21413,0,39.46,37.83
+2015,before the merges,0,21213,0,40.92,39.42
+2015,all merges,1,21213,0,40.92,39.42
+2015,name-matched merges only,0,21213,0,40.92,39.42
+2015,"all merges, RTX left out",1,21213,0,40.92,39.42
+2016,before the merges,0,20607,0,42.65,40.31
+2016,all merges,2,20607,0,42.65,40.31
+2016,name-matched merges only,2,20607,0,42.65,40.31
+2016,"all merges, RTX left out",2,20607,0,42.65,40.31
+2017,before the merges,0,20998,0,44.30,45.28
+2017,all merges,1,20998,0,44.30,45.28
+2017,name-matched merges only,1,20998,0,44.30,45.28
+2017,"all merges, RTX left out",1,20998,0,44.30,45.28
+2018,before the merges,0,19739,0,43.30,42.53
+2018,all merges,2,19739,0,43.30,42.53
+2018,name-matched merges only,1,19739,0,43.30,42.53
+2018,"all merges, RTX left out",2,19739,0,43.30,42.53
+2019,before the merges,0,18670,0,46.24,45.67
+2019,all merges,4,18670,0,46.24,45.67
+2019,name-matched merges only,1,18670,0,46.24,45.67
+2019,"all merges, RTX left out",3,18670,0,46.24,45.67
+2020,before the merges,0,18112,0,47.02,44.67
+2020,all merges,8,18112,0,47.02,44.67
+2020,name-matched merges only,4,18112,0,47.02,44.67
+2020,"all merges, RTX left out",7,18112,0,47.02,44.67
+2021,before the merges,0,19150,0,44.21,49.01
+2021,all merges,7,19150,1,44.21,49.01
+2021,name-matched merges only,3,19150,1,44.21,49.01
+2021,"all merges, RTX left out",6,19150,1,44.21,49.01
+2022,before the merges,0,18728,0,49.79,53.30
+2022,all merges,14,18728,19,49.80,53.32
+2022,name-matched merges only,11,18728,19,49.80,53.32
+2022,"all merges, RTX left out",13,18728,19,49.80,53.32
+2023,before the merges,0,18340,0,48.72,50.13
+2023,all merges,22,18340,36,49.35,50.30
+2023,name-matched merges only,19,18340,32,48.77,50.14
+2023,"all merges, RTX left out",21,18340,33,48.83,50.30
+2024,before the merges,0,17987,0,35.52,42.76
+2024,all merges,53,17987,97,37.14,43.20
+2024,name-matched merges only,51,17987,94,37.10,43.20
+2024,"all merges, RTX left out",52,17987,94,37.10,43.20
+2025,before the merges,0,16951,0,50.33,50.49
+2025,all merges,20,16951,24,50.78,50.71
+2025,name-matched merges only,19,16951,24,50.78,50.71
+2025,"all merges, RTX left out",19,16951,24,50.78,50.71

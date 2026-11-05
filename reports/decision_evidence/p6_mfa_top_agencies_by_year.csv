@@ -1,0 +1,91 @@
+fiscal_year,rank,code,name,rows,net,share_of_placeholder_net_pct
+2008,1,097,Department of Defense,46305,9080928708.31,91.23
+2008,2,019,Department of State,31973,636909435.31,6.40
+2008,3,072,Agency for International Development,3106,101626182.11,1.02
+2008,4,1125,Peace Corps,31,84717995.38,0.85
+2008,5,089,Department of Energy,39,31860239.00,0.32
+2009,1,097,Department of Defense,34120,5167411567.13,82.92
+2009,2,019,Department of State,34625,760376168.22,12.20
+2009,3,072,Agency for International Development,2623,104265137.20,1.67
+2009,4,070,Department of Homeland Security,1864,83175859.82,1.33
+2009,5,1125,Peace Corps,23,64742229.74,1.04
+2010,1,097,Department of Defense,41729,4215145253.71,81.09
+2010,2,019,Department of State,39412,730083006.92,14.05
+2010,3,1125,Peace Corps,13,152107597.94,2.93
+2010,4,072,Agency for International Development,1952,55760000.60,1.07
+2010,5,514,U.S. Agency for Global Media,1702,26364258.74,0.51
+2011,1,097,Department of Defense,36974,3861966873.39,82.48
+2011,2,019,Department of State,40855,667084380.50,14.25
+2011,3,072,Agency for International Development,2003,59441404.57,1.27
+2011,4,1125,Peace Corps,7,47687227.84,1.02
+2011,5,514,U.S. Agency for Global Media,3002,27226319.40,0.58
+2012,1,097,Department of Defense,26020,2667046864.88,70.16
+2012,2,019,Department of State,51869,980379649.17,25.79
+2012,3,1125,Peace Corps,5,78001963.69,2.05
+2012,4,072,Agency for International Development,1862,34281201.72,0.90
+2012,5,514,U.S. Agency for Global Media,2957,32879290.40,0.86
+2013,1,097,Department of Defense,16218,1251469063.43,57.52
+2013,2,019,Department of State,56068,739356997.17,33.98
+2013,3,1125,Peace Corps,7,74639948.23,3.43
+2013,4,072,Agency for International Development,1839,59575942.75,2.74
+2013,5,514,U.S. Agency for Global Media,3836,38277188.16,1.76
+2014,1,019,Department of State,55220,730465826.12,57.70
+2014,2,097,Department of Defense,9593,406865818.65,32.14
+2014,3,1125,Peace Corps,22,50693392.51,4.00
+2014,4,514,U.S. Agency for Global Media,3697,38893889.62,3.07
+2014,5,072,Agency for International Development,1656,27648834.94,2.18
+2015,1,019,Department of State,51943,599467986.87,53.28
+2015,2,097,Department of Defense,6439,421823704.94,37.49
+2015,3,514,U.S. Agency for Global Media,5480,52794310.51,4.69
+2015,4,072,Agency for International Development,1838,42457807.87,3.77
+2015,5,070,Department of Homeland Security,231,1570505.39,0.14
+2016,1,097,Department of Defense,4576,556500282.48,50.23
+2016,2,019,Department of State,48080,503072153.59,45.41
+2016,3,514,U.S. Agency for Global Media,4516,39313177.39,3.55
+2016,4,072,Agency for International Development,1678,2817664.08,0.25
+2016,5,036,Department of Veterans Affairs,62,1451872.06,0.13
+2017,1,097,Department of Defense,4370,430374078.29,48.08
+2017,2,019,Department of State,42788,406843265.78,45.45
+2017,3,514,U.S. Agency for Global Media,4582,42663342.95,4.77
+2017,4,072,Agency for International Development,1682,8172045.09,0.91
+2017,5,036,Department of Veterans Affairs,53,973510.61,0.11
+2018,1,019,Department of State,35856,358378901.00,60.54
+2018,2,097,Department of Defense,2336,188463069.44,31.83
+2018,3,514,U.S. Agency for Global Media,3428,30775720.12,5.20
+2018,4,072,Agency for International Development,1124,7690566.95,1.30
+2018,5,012,Department of Agriculture,25,3038075.63,0.51
+2019,1,097,Department of Defense,3482,346509002.69,49.58
+2019,2,019,Department of State,21779,309857634.17,44.33
+2019,3,514,U.S. Agency for Global Media,2903,33245367.09,4.76
+2019,4,072,Agency for International Development,950,3425825.12,0.49
+2019,5,012,Department of Agriculture,13,2270753.79,0.32
+2020,1,019,Department of State,22057,293592877.31,75.26
+2020,2,097,Department of Defense,2591,54003591.84,13.84
+2020,3,514,U.S. Agency for Global Media,2988,30498675.97,7.82
+2020,4,072,Agency for International Development,685,6114507.64,1.57
+2020,5,012,Department of Agriculture,7,1684530.07,0.43
+2021,1,019,Department of State,20410,306207691.66,53.48
+2021,2,097,Department of Defense,2229,224429725.79,39.20
+2021,3,514,U.S. Agency for Global Media,2224,30020255.08,5.24
+2021,4,072,Agency for International Development,546,5406194.89,0.94
+2021,5,070,Department of Homeland Security,88,1790147.78,0.31
+2022,1,019,Department of State,22641,341316639.12,52.08
+2022,2,097,Department of Defense,2278,234473771.03,35.78
+2022,3,1125,Peace Corps,14,39936162.56,6.09
+2022,4,514,U.S. Agency for Global Media,2003,26857237.71,4.10
+2022,5,072,Agency for International Development,687,6557420.31,1.00
+2023,1,097,Department of Defense,2155,393760833.98,45.67
+2023,2,019,Department of State,23820,358516145.64,41.58
+2023,3,1125,Peace Corps,16,68922480.40,7.99
+2023,4,514,U.S. Agency for Global Media,1824,25141096.90,2.92
+2023,5,072,Agency for International Development,644,6099718.71,0.71
+2024,1,019,Department of State,20471,264607893.38,43.43
+2024,2,097,Department of Defense,2177,247624521.13,40.64
+2024,3,1125,Peace Corps,15,56676688.12,9.30
+2024,4,514,U.S. Agency for Global Media,1923,25320726.95,4.16
+2024,5,072,Agency for International Development,590,7693128.03,1.26
+2025,1,019,Department of State,18895,255499307.36,64.75
+2025,2,097,Department of Defense,2343,103466449.01,26.22
+2025,3,1125,Peace Corps,11,24302170.19,6.16
+2025,4,514,U.S. Agency for Global Media,938,7594346.90,1.92
+2025,5,3300,Smithsonian Institution,70,1290774.20,0.33

@@ -1,0 +1,19 @@
+line_set,cutoff,baseline_class,s1_class,lines
+report's lines,500,rising,rising,1645
+report's lines,500,rising,falling,143
+report's lines,500,rising,neither,396
+report's lines,500,falling,rising,102
+report's lines,500,falling,falling,1345
+report's lines,500,falling,neither,267
+report's lines,500,neither,rising,281
+report's lines,500,neither,falling,306
+report's lines,500,neither,neither,1287
+stable lines,500,rising,rising,418
+stable lines,500,rising,falling,24
+stable lines,500,rising,neither,63
+stable lines,500,falling,rising,7
+stable lines,500,falling,falling,182
+stable lines,500,falling,neither,29
+stable lines,500,neither,rising,26
+stable lines,500,neither,falling,43
+stable lines,500,neither,neither,187

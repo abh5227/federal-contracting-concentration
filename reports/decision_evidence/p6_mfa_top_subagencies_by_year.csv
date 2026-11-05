@@ -1,0 +1,91 @@
+fiscal_year,rank,code,name,rows,net,share_of_placeholder_net_pct
+2008,1,2100,Department of the Army,41365,8868803531.94,89.10
+2008,2,1900,Department of State,31973,636909435.31,6.40
+2008,3,7200,Agency for International Development,3106,101626182.11,1.02
+2008,4,1700,Department of the Navy,4369,93368375.20,0.94
+2008,5,1145,Peace Corps,31,84717995.38,0.85
+2009,1,2100,Department of the Army,31130,5038045800.13,80.85
+2009,2,1900,Department of State,34625,760376168.22,12.20
+2009,3,7200,Agency for International Development,2623,104265137.20,1.67
+2009,4,7008,U.S. Coast Guard,1832,83129287.71,1.33
+2009,5,1700,Department of the Navy,2519,79391978.36,1.27
+2010,1,2100,Department of the Army,37914,4123523409.18,79.33
+2010,2,1900,Department of State,39412,730083006.92,14.05
+2010,3,1145,Peace Corps,13,152107597.94,2.93
+2010,4,7200,Agency for International Development,1952,55760000.60,1.07
+2010,5,1700,Department of the Navy,3377,46369845.72,0.89
+2011,1,2100,Department of the Army,34098,3640109543.80,77.75
+2011,2,1900,Department of State,40855,667084380.50,14.25
+2011,3,5700,Department of the Air Force,469,122619765.53,2.62
+2011,4,1700,Department of the Navy,2392,77983707.30,1.67
+2011,5,7200,Agency for International Development,2003,59441404.57,1.27
+2012,1,2100,Department of the Army,22289,2559059599.62,67.32
+2012,2,1900,Department of State,51869,980379649.17,25.79
+2012,3,1145,Peace Corps,5,78001963.69,2.05
+2012,4,5700,Department of the Air Force,796,61247327.06,1.61
+2012,5,1700,Department of the Navy,2916,46677902.10,1.23
+2013,1,2100,Department of the Army,12843,1166858790.98,53.63
+2013,2,1900,Department of State,56068,739356997.17,33.98
+2013,3,1145,Peace Corps,7,74639948.23,3.43
+2013,4,7200,Agency for International Development,1839,59575942.75,2.74
+2013,5,5700,Department of the Air Force,1064,52427350.21,2.41
+2014,1,1900,Department of State,55220,730465826.12,57.70
+2014,2,2100,Department of the Army,6719,328046882.53,25.91
+2014,3,1145,Peace Corps,22,50693392.51,4.00
+2014,4,5700,Department of the Air Force,1300,41711496.99,3.29
+2014,5,9568,U.S. Agency for Global Media,3697,38893889.62,3.07
+2015,1,1900,Department of State,51943,599467986.87,53.28
+2015,2,2100,Department of the Army,3764,356933481.49,31.73
+2015,3,9568,U.S. Agency for Global Media,5480,52794310.51,4.69
+2015,4,5700,Department of the Air Force,1157,46721697.40,4.15
+2015,5,7200,Agency for International Development,1838,42457807.87,3.77
+2016,1,1900,Department of State,48080,503072153.59,45.41
+2016,2,2100,Department of the Army,2444,501878221.02,45.30
+2016,3,9568,U.S. Agency for Global Media,4516,39313177.39,3.55
+2016,4,5700,Department of the Air Force,938,37593528.44,3.39
+2016,5,1700,Department of the Navy,652,16268971.22,1.47
+2017,1,1900,Department of State,42788,406843265.78,45.45
+2017,2,2100,Department of the Army,1680,360269921.06,40.25
+2017,3,5700,Department of the Air Force,924,59841996.28,6.69
+2017,4,9568,U.S. Agency for Global Media,4582,42663342.95,4.77
+2017,5,1700,Department of the Navy,662,8843318.05,0.99
+2018,1,1900,Department of State,35856,358378901.00,60.54
+2018,2,2100,Department of the Army,797,132440932.64,22.37
+2018,3,5700,Department of the Air Force,846,44996615.48,7.60
+2018,4,9568,U.S. Agency for Global Media,3428,30775720.12,5.20
+2018,5,1700,Department of the Navy,596,10921011.59,1.84
+2019,1,1900,Department of State,21779,309857634.17,44.33
+2019,2,2100,Department of the Army,1126,274230514.55,39.23
+2019,3,5700,Department of the Air Force,830,59961487.19,8.58
+2019,4,9568,U.S. Agency for Global Media,2903,33245367.09,4.76
+2019,5,1700,Department of the Navy,630,9119692.77,1.30
+2020,1,1900,Department of State,22057,293592877.31,75.26
+2020,2,9568,U.S. Agency for Global Media,2988,30498675.97,7.82
+2020,3,5700,Department of the Air Force,359,22093474.57,5.66
+2020,4,1700,Department of the Navy,436,15773411.46,4.04
+2020,5,2100,Department of the Army,573,10237255.01,2.62
+2021,1,1900,Department of State,20410,306207691.66,53.48
+2021,2,2100,Department of the Army,334,184900266.21,32.29
+2021,3,5700,Department of the Air Force,429,30343829.68,5.30
+2021,4,9568,U.S. Agency for Global Media,2224,30020255.08,5.24
+2021,5,7200,Agency for International Development,546,5406194.89,0.94
+2022,1,1900,Department of State,22641,341316639.12,52.08
+2022,2,2100,Department of the Army,368,213597936.31,32.59
+2022,3,1145,Peace Corps,14,39936162.56,6.09
+2022,4,9568,U.S. Agency for Global Media,2003,26857237.71,4.10
+2022,5,5700,Department of the Air Force,394,13518960.11,2.06
+2023,1,2100,Department of the Army,416,365241685.09,42.36
+2023,2,1900,Department of State,23820,358516145.64,41.58
+2023,3,1145,Peace Corps,16,68922480.40,7.99
+2023,4,9568,U.S. Agency for Global Media,1824,25141096.90,2.92
+2023,5,5700,Department of the Air Force,235,14758351.87,1.71
+2024,1,1900,Department of State,20471,264607893.38,43.43
+2024,2,2100,Department of the Army,388,215299749.67,35.34
+2024,3,1145,Peace Corps,15,56676688.12,9.30
+2024,4,9568,U.S. Agency for Global Media,1923,25320726.95,4.16
+2024,5,5700,Department of the Air Force,264,23618883.42,3.88
+2025,1,1900,Department of State,18895,255499307.36,64.75
+2025,2,2100,Department of the Army,393,88094652.56,22.32
+2025,3,1145,Peace Corps,11,24302170.19,6.16
+2025,4,9568,U.S. Agency for Global Media,938,7594346.90,1.92
+2025,5,5700,Department of the Air Force,163,4684263.31,1.19

@@ -2,7 +2,13 @@
 
 **Team.** Suchitra Hole, Shivram Nekkanti and Andy Hannah.
 
-## Project summary
+## Abstract
+
+Studies of how much federal contract money goes to a few firms have focused on the Department of Defense. We found no comparable measure for the civilian agencies, every federal agency other than Defense, such as Veterans Affairs and NASA. We build one from every federal contract action on USAspending from fiscal year (FY) 2008 to FY2025. We split the actions into segments, one agency buying one product in one year, such as Veterans Affairs buying managed health care in FY2025. We score each segment with the Herfindahl-Hirschman Index (HHI), which the Justice Department and the Federal Trade Commission use to measure market concentration. A score above 2,500 counts as highly concentrated. FY2012 to FY2020 is the longest stretch of consistent product codes. Over it, the share of civilian contract dollars in highly concentrated segments rose from an average of 41% in the first three years to 44% in the last three. It has averaged 49% since FY2021. Veterans Affairs health care leads. Three of its segments, worth $44.0 billion together, are each 98% to 100% held by one company, UnitedHealth, McKesson and TriWest. By its competition code, concentrated money was competed about as often as other money. Two findings shape the next phase. Scores swing so much from year to year that many apparent rises look like chance. Part of the swing may come from contracts that commit several years of money at once, which the next phase will test. In addition, 81 large firms appear under two or more IDs in some years, even after each company is rolled up to its parent. That understates concentration in the markets they lead.
+
+This abstract is from the first project report, October 2026.
+
+## Project summary from the proposal
 
 The federal government obligated $793 billion through contracts in FY2025. In defense, a few firms now lead most major weapon programs. US aerospace and defense prime contractors fell from 51 in 1993 to 5 in 2000, and at least one of those five is a prime contractor on 58 of the 78 major weapon systems in DoD's FY2024 budget. Studies that measure concentration directly also stay within defense. The closest one compares DoD with all other agencies combined but measures concentration for only five product categories, over FY2010 to FY2019. We found no measure for the rest of the government, so we build one for every agency, product and year from FY2008 to FY2025. The measure, its pipeline and the review of the data's gaps are our own work. A high score is not evidence of wrongdoing. One shipyard building aircraft carriers can be the sensible arrangement, so we describe where concentration sits and how it changes without claiming causes. The measure also has limits. It counts prime contractors only, and parent company IDs can lag a merger by 2 to 6 months. It also looks at one buyer at a time, so a vendor can win most of one agency's purchases and still face many rivals elsewhere, and the antitrust cutoffs for a concentrated market serve only as a rough guide.
 
@@ -18,12 +24,12 @@ The proposal, with its references, is `docs/proposal/proposal_v10.md` (PDF: `rep
 
 | Folder | What it holds |
 |---|---|
-| `src/` | The pipeline (Stages 0 to 2), the analyses and the PDF builder |
+| `src/` | The pipeline (Stages 0 to 2), the analyses, the follow-up exploration and the PDF builder |
 | `tests/` | Tests for Stages 0 to 2 and for the measure. They build small tables and fixture zips in a temporary folder and never touch real data. |
 | `viewer/` | The local data-health dashboard and its tests |
 | `config/` | Flag rules, the decision log, published benchmarks, the glossary, and the research findings and sources |
 | `docs/` | The proposal, the integrity report, the research note, the glossary, a guide to the decision log, and notes on the data stages and the choice of source |
-| `reports/` | PDFs of those documents, and the summary tables the figures, dashboard and proposal read |
+| `reports/` | PDFs of those documents, the summary tables the figures, dashboard and proposal read, the exploration tables and figures, the first report and presentation 2 |
 | `tools/` | Builders for the glossary, the research note's appendix and the 297-column guide, and an optional writing-rule checker |
 | `data/` | Not in git. The pipeline builds it on your machine. |
 
@@ -93,6 +99,8 @@ Without Stages 1 and 2, the dashboard tests skip and say why.
 3. **The research note, version 3.** `docs/research/government_documented_gaps_v3.md` (PDF: `reports/research/government_documented_gaps_v3.pdf`). What GAO, inspectors general and others have documented about gaps in this data.
 4. **The glossary.** `docs/glossary_v4.md` (PDF: `reports/glossary_v4.pdf`). Every term the project uses, with its official definition where one exists.
 5. **The decision log guide.** `docs/decision_log.md`. How the entries in `config/decisions.csv` are grouped, and which are the nine main decisions.
+6. **The first report.** `reports/report_v1/report_v1_final.pdf`. The first project report, whose abstract is above.
+7. **Presentation 2.** `reports/presentations/presentation2_concentration_v10.pptx` (PDF: `reports/presentations/presentation2_concentration_v10_preview.pdf`, speaker notes: `reports/presentations/presentation2_v10_speaker_guide.pdf`). Whether federal contract money is going to fewer companies.
 
 ## What is kept outside this repo
 
@@ -100,8 +108,10 @@ Earlier versions of the reports, the working notes and the code from the FY2025 
 
 - Earlier versions of the integrity report, the research note and the glossary, such as `docs/integrity_findings.md`, `docs/integrity_findings_v2.md`, `reports/integrity/integrity_report.pdf`, `reports/integrity/integrity_report_v2.pdf`, `docs/research/government_documented_gaps.md`, `docs/research/government_documented_gaps_v2.md`, `reports/research/government_documented_gaps.pdf` and `docs/glossary.md`.
 - The notes on what changed between versions, `docs/integrity_findings_v3_changes.md` and `docs/research/government_documented_gaps_v3_changes.md`.
+- The exploration's working notes and figure galleries, such as `reports/exploration/figures_gallery_v2.md`, and earlier versions of presentation 2.
 - The pilot's comparison of the archive with USAspending's own download: the `compare/` code, `reports/archive_vs_custom_export_q1fy2025.md` and `.json`, and `reports/reconciliation_fy2025.json`.
 - The summary of the first review of this repo, `docs/reviews/2026-10-07_github/summary.md`.
+- The review of the first report, `docs/reviews/2026-10-24_report_v1/`.
 - The pilot's git history, including commit `3fd729a`, which `docs/data_stages.md` names.
 - Saved copies of the outside sources the reports quote, kept in `data/external/` on the machine that built them. `config/benchmarks.csv` and `config/gov_sources.csv` give each source's address.
 

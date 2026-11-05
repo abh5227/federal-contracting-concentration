@@ -1,0 +1,181 @@
+fiscal_year,rank,awarding_sub_agency_code,awarding_sub_agency_name,small_rows,small_dollars,share_of_year_small_rows_pct
+2008,1,3600,Department of Veterans Affairs,1201340,1298961868.09,43.54
+2008,2,4730,Federal Acquisition Service,680126,388878873.15,24.65
+2008,3,97AS,Defense Logistics Agency,319711,1597459652.61,11.59
+2008,4,2100,Department of the Army,106285,460884466.46,3.85
+2008,5,1700,Department of the Navy,92052,370423571.43,3.34
+2008,6,4740,Public Buildings Service,59921,255057527.69,2.17
+2008,7,1540,Federal Prison System / Bureau of Prisons,48864,153322613.18,1.77
+2008,8,1900,Department of State,27863,130998668.40,1.01
+2008,9,5700,Department of the Air Force,24254,118699667.23,0.88
+2008,10,7008,U.S. Coast Guard,18494,63411881.06,0.67
+2009,1,4730,Federal Acquisition Service,738348,387181489.50,44.35
+2009,2,97AS,Defense Logistics Agency,270483,1321353911.78,16.25
+2009,3,3600,Department of Veterans Affairs,121183,636303307.72,7.28
+2009,4,2100,Department of the Army,96098,421356896.31,5.77
+2009,5,1700,Department of the Navy,89388,360635573.09,5.37
+2009,6,4740,Public Buildings Service,49448,211955321.32,2.97
+2009,7,1540,Federal Prison System / Bureau of Prisons,46497,149772150.43,2.79
+2009,8,1900,Department of State,30676,144413372.59,1.84
+2009,9,5700,Department of the Air Force,22990,107939719.38,1.38
+2009,10,7008,U.S. Coast Guard,18939,66501873.11,1.14
+2010,1,4730,Federal Acquisition Service,662439,389592297.64,41.19
+2010,2,97AS,Defense Logistics Agency,271500,1429842225.97,16.88
+2010,3,3600,Department of Veterans Affairs,119830,623943469.12,7.45
+2010,4,2100,Department of the Army,91489,397845387.04,5.69
+2010,5,1700,Department of the Navy,86911,351532093.76,5.40
+2010,6,4740,Public Buildings Service,57594,251597876.51,3.58
+2010,7,1540,Federal Prison System / Bureau of Prisons,47257,150046694.50,2.94
+2010,8,1900,Department of State,32821,157041483.51,2.04
+2010,9,5700,Department of the Air Force,20780,99230543.31,1.29
+2010,10,7008,U.S. Coast Guard,17323,62693714.70,1.08
+2011,1,4732,Federal Acquisition Service,525379,339589182.39,36.48
+2011,2,97AS,Defense Logistics Agency,257803,1388810571.04,17.90
+2011,3,3600,Department of Veterans Affairs,135929,698503872.07,9.44
+2011,4,2100,Department of the Army,84977,360718699.11,5.90
+2011,5,1700,Department of the Navy,77723,325956851.85,5.40
+2011,6,1540,Federal Prison System / Bureau of Prisons,50278,158396730.44,3.49
+2011,7,4740,Public Buildings Service,40534,180400494.00,2.81
+2011,8,1900,Department of State,34720,165650677.43,2.41
+2011,9,5700,Department of the Air Force,19367,92881691.71,1.34
+2011,10,7008,U.S. Coast Guard,16539,59300508.68,1.15
+2012,1,4732,Federal Acquisition Service,472234,323763835.84,36.82
+2012,2,97AS,Defense Logistics Agency,261671,1417870638.46,20.40
+2012,3,3600,Department of Veterans Affairs,86740,441615408.62,6.76
+2012,4,2100,Department of the Army,70271,306411946.14,5.48
+2012,5,1700,Department of the Navy,69536,294045063.29,5.42
+2012,6,1540,Federal Prison System / Bureau of Prisons,52980,167637069.57,4.13
+2012,7,1900,Department of State,38973,180278870.85,3.04
+2012,8,5700,Department of the Air Force,18064,83692321.01,1.41
+2012,9,7008,U.S. Coast Guard,16247,58641578.34,1.27
+2012,10,4740,Public Buildings Service,12303,54171445.76,0.96
+2013,1,97AS,Defense Logistics Agency,268133,1440981161.65,34.44
+2013,2,3600,Department of Veterans Affairs,81103,418305607.10,10.42
+2013,3,1540,Federal Prison System / Bureau of Prisons,58453,172856941.60,7.51
+2013,4,1700,Department of the Navy,57961,245461482.44,7.44
+2013,5,2100,Department of the Army,53259,234043107.78,6.84
+2013,6,1900,Department of State,40628,187410701.60,5.22
+2013,7,4732,Federal Acquisition Service,23540,122429989.74,3.02
+2013,8,7008,U.S. Coast Guard,14266,53037234.56,1.83
+2013,9,5700,Department of the Air Force,14021,62440982.05,1.80
+2013,10,4740,Public Buildings Service,10039,45850649.80,1.29
+2014,1,97AS,Defense Logistics Agency,268674,1459903218.40,34.62
+2014,2,3600,Department of Veterans Affairs,85217,447172844.90,10.98
+2014,3,1540,Federal Prison System / Bureau of Prisons,58339,172046371.50,7.52
+2014,4,1700,Department of the Navy,55794,242350493.83,7.19
+2014,5,2100,Department of the Army,47583,215781338.65,6.13
+2014,6,1900,Department of State,40575,187421208.97,5.23
+2014,7,4732,Federal Acquisition Service,22873,116392014.13,2.95
+2014,8,5700,Department of the Air Force,19419,94336306.83,2.50
+2014,9,7008,U.S. Coast Guard,13297,50661581.07,1.71
+2014,10,12C2,Forest Service,10049,47703235.06,1.30
+2015,1,97AS,Defense Logistics Agency,2110274,2651458649.43,81.29
+2015,2,3600,Department of Veterans Affairs,81758,428646979.83,3.15
+2015,3,1700,Department of the Navy,53681,227505565.28,2.07
+2015,4,1540,Federal Prison System / Bureau of Prisons,49759,147756827.09,1.92
+2015,5,2100,Department of the Army,42833,193315375.00,1.65
+2015,6,1900,Department of State,40733,186923274.86,1.57
+2015,7,4732,Federal Acquisition Service,20997,105906611.60,0.81
+2015,8,5700,Department of the Air Force,18250,90386133.30,0.70
+2015,9,7008,U.S. Coast Guard,13741,52958267.98,0.53
+2015,10,7529,National Institutes of Health,11706,62633307.75,0.45
+2016,1,97AS,Defense Logistics Agency,2546371,3144810393.78,85.26
+2016,2,3600,Department of Veterans Affairs,76948,423440458.60,2.58
+2016,3,1700,Department of the Navy,50765,215919595.90,1.70
+2016,4,2100,Department of the Army,36997,176458627.87,1.24
+2016,5,1900,Department of State,36696,175883674.74,1.23
+2016,6,1540,Federal Prison System / Bureau of Prisons,36232,121208362.70,1.21
+2016,7,4732,Federal Acquisition Service,17103,84873412.08,0.57
+2016,8,5700,Department of the Air Force,16145,82641204.29,0.54
+2016,9,7008,U.S. Coast Guard,13262,53803805.05,0.44
+2016,10,7529,National Institutes of Health,10223,59044592.94,0.34
+2017,1,97AS,Defense Logistics Agency,2532561,3164436996.19,85.02
+2017,2,3600,Department of Veterans Affairs,73347,404396909.36,2.46
+2017,3,1700,Department of the Navy,48271,202651519.21,1.62
+2017,4,1900,Department of State,35415,171542801.94,1.19
+2017,5,2100,Department of the Army,33676,162075282.99,1.13
+2017,6,4732,Federal Acquisition Service,29223,147267676.84,0.98
+2017,7,1540,Federal Prison System / Bureau of Prisons,26023,93420646.21,0.87
+2017,8,5700,Department of the Air Force,15039,79467576.41,0.50
+2017,9,97AK,Defense Information Systems Agency,14180,40949765.06,0.48
+2017,10,7008,U.S. Coast Guard,13308,53131187.42,0.45
+2018,1,97AS,Defense Logistics Agency,3335400,3801060629.88,89.80
+2018,2,3600,Department of Veterans Affairs,48078,262624334.90,1.29
+2018,3,1700,Department of the Navy,40647,165409490.55,1.09
+2018,4,4732,Federal Acquisition Service,32945,174600620.71,0.89
+2018,5,2100,Department of the Army,29261,141665980.09,0.79
+2018,6,1900,Department of State,27906,123792990.97,0.75
+2018,7,1540,Federal Prison System / Bureau of Prisons,24480,93234556.20,0.66
+2018,8,97AK,Defense Information Systems Agency,19497,32810970.05,0.52
+2018,9,5700,Department of the Air Force,12386,64526700.58,0.33
+2018,10,7008,U.S. Coast Guard,11708,49706175.66,0.32
+2019,1,97AS,Defense Logistics Agency,3202552,3703348795.47,68.47
+2019,2,4732,Federal Acquisition Service,1241327,569502925.95,26.54
+2019,3,1700,Department of the Navy,39413,128380484.18,0.84
+2019,4,97AK,Defense Information Systems Agency,26981,26975383.53,0.58
+2019,5,2100,Department of the Army,23446,102250939.74,0.50
+2019,6,3600,Department of Veterans Affairs,13390,59420624.51,0.29
+2019,7,1540,Federal Prison System / Bureau of Prisons,12352,36103080.48,0.26
+2019,8,1900,Department of State,12298,37821866.17,0.26
+2019,9,12C2,Forest Service,8057,35107207.21,0.17
+2019,10,7008,U.S. Coast Guard,7671,30998122.53,0.16
+2020,1,97AS,Defense Logistics Agency,2936121,3349151708.79,66.52
+2020,2,4732,Federal Acquisition Service,1274072,616854881.13,28.87
+2020,3,1700,Department of the Navy,34257,107604367.05,0.78
+2020,4,97AK,Defense Information Systems Agency,27779,48882320.62,0.63
+2020,5,2100,Department of the Army,20307,84424152.47,0.46
+2020,6,3600,Department of Veterans Affairs,12499,54049062.85,0.28
+2020,7,1900,Department of State,10442,34748490.01,0.24
+2020,8,1540,Federal Prison System / Bureau of Prisons,9496,27607967.85,0.22
+2020,9,7008,U.S. Coast Guard,6886,25612249.33,0.16
+2020,10,5700,Department of the Air Force,6794,30593088.42,0.15
+2021,1,97AS,Defense Logistics Agency,3272142,3584626060.76,71.32
+2021,2,4732,Federal Acquisition Service,1123731,564801988.42,24.49
+2021,3,97AK,Defense Information Systems Agency,34583,36616412.32,0.75
+2021,4,1700,Department of the Navy,31218,103257976.12,0.68
+2021,5,2100,Department of the Army,18402,74899304.85,0.40
+2021,6,1900,Department of State,11548,35697736.14,0.25
+2021,7,3600,Department of Veterans Affairs,10520,48404960.34,0.23
+2021,8,1540,Federal Prison System / Bureau of Prisons,9822,27290527.18,0.21
+2021,9,5700,Department of the Air Force,6667,29473633.86,0.15
+2021,10,12C2,Forest Service,5719,29661487.62,0.12
+2022,1,97AS,Defense Logistics Agency,3281079,3799342013.42,69.04
+2022,2,4732,Federal Acquisition Service,1285776,600307433.39,27.05
+2022,3,97AK,Defense Information Systems Agency,33028,30403657.35,0.69
+2022,4,1700,Department of the Navy,30623,100057530.01,0.64
+2022,5,2100,Department of the Army,16801,67991910.10,0.35
+2022,6,1900,Department of State,15166,46333681.56,0.32
+2022,7,1540,Federal Prison System / Bureau of Prisons,12434,40356883.81,0.26
+2022,8,3600,Department of Veterans Affairs,9572,43911451.26,0.20
+2022,9,5700,Department of the Air Force,6484,29111584.74,0.14
+2022,10,12C2,Forest Service,5081,25459033.67,0.11
+2023,1,97AS,Defense Logistics Agency,3299954,3888753053.44,69.12
+2023,2,4732,Federal Acquisition Service,1291807,699355812.75,27.06
+2023,3,1700,Department of the Navy,33281,105690117.62,0.70
+2023,4,97AK,Defense Information Systems Agency,29909,41145719.83,0.63
+2023,5,1900,Department of State,17574,49990513.26,0.37
+2023,6,2100,Department of the Army,14819,60681458.89,0.31
+2023,7,1540,Federal Prison System / Bureau of Prisons,11016,35249977.32,0.23
+2023,8,3600,Department of Veterans Affairs,8872,40360339.63,0.19
+2023,9,5700,Department of the Air Force,6576,28465774.06,0.14
+2023,10,12C2,Forest Service,5036,25398149.61,0.11
+2024,1,97AS,Defense Logistics Agency,3281325,3928901735.60,69.16
+2024,2,4732,Federal Acquisition Service,1286555,722653726.06,27.12
+2024,3,1700,Department of the Navy,41882,127777944.01,0.88
+2024,4,97AK,Defense Information Systems Agency,19918,37101099.25,0.42
+2024,5,1900,Department of State,15079,44226237.61,0.32
+2024,6,2100,Department of the Army,14363,60430548.27,0.30
+2024,7,1540,Federal Prison System / Bureau of Prisons,13112,40823780.23,0.28
+2024,8,3600,Department of Veterans Affairs,8919,40183214.57,0.19
+2024,9,5700,Department of the Air Force,6298,29137331.41,0.13
+2024,10,12C2,Forest Service,5500,28773813.30,0.12
+2025,1,97AS,Defense Logistics Agency,3313997,3957945023.41,71.30
+2025,2,4732,Federal Acquisition Service,1189247,698701649.06,25.58
+2025,3,1700,Department of the Navy,35154,109034164.83,0.76
+2025,4,1540,Federal Prison System / Bureau of Prisons,13766,43164634.15,0.30
+2025,5,97AK,Defense Information Systems Agency,13531,28891025.32,0.29
+2025,6,2100,Department of the Army,12234,51823298.20,0.26
+2025,7,1900,Department of State,11415,34017959.65,0.25
+2025,8,3600,Department of Veterans Affairs,7768,35690571.25,0.17
+2025,9,5700,Department of the Air Force,6398,27992251.40,0.14
+2025,10,12C2,Forest Service,4072,20551860.37,0.09

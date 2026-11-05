@@ -1,0 +1,11 @@
+example,fiscal_year,agency_code,psc,segment_net,segment_positive_dollars,rows
+"unscored under net, scored under positive only",2019,089,Y153,-1611195.00,200002000.00,3
+"unscored under net, scored under positive only",2018,089,Z181,-151885264.95,80681442.63,9
+"unscored under net, scored under positive only",2023,069,AD61,-17020122.19,71666606.25,51
+"unscored under net, scored under positive only",2020,089,Y153,-56599225.98,55000000.00,2
+"unscored under net, scored under positive only",2025,047,D321,-147389811.72,28625900.54,14
+unscored under both,2013,086,AK16,-110754520.57,0.00,44
+unscored under both,2024,075,AD25,-59836446.01,0.00,13
+unscored under both,2014,086,AK16,-55101047.00,0.00,4
+unscored under both,2012,086,R403,-53563501.00,0.00,1
+unscored under both,2025,075,Y1EC,-47009910.79,0.00,4
