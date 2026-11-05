@@ -1,0 +1,31 @@
+line_set,agencies,rule,lines,pairs,median_change,jumps,jump_share_pct,line_years_unscored_all_agencies
+report's lines,all agencies,baseline,5772,44517,625.3,16998,38.18,0
+report's lines,civilian,baseline,4258,32709,658.2,12911,39.47,0
+report's lines,097,baseline,1514,11808,550.2,4087,34.61,0
+stable lines,all agencies,baseline,979,15424,633.8,5925,38.41,0
+stable lines,civilian,baseline,719,11089,743.2,4710,42.47,0
+stable lines,097,baseline,260,4335,406.4,1215,28.03,0
+report's lines,all agencies,S1,5772,44500,453.8,13445,30.21,21
+report's lines,civilian,S1,4258,32695,490.2,10495,32.1,21
+report's lines,097,S1,1514,11805,360.9,2950,24.99,21
+stable lines,all agencies,S1,979,15412,505.2,5078,32.95,15
+stable lines,civilian,S1,719,11077,615.2,4102,37.03,15
+stable lines,097,S1,260,4335,297.8,976,22.51,15
+report's lines,all agencies,S2,5772,44501,445.5,13205,29.67,20
+report's lines,civilian,S2,4258,32696,479.7,10255,31.36,20
+report's lines,097,S2,1514,11805,357.2,2950,24.99,20
+stable lines,all agencies,S2,979,15414,496.6,5007,32.48,13
+stable lines,civilian,S2,719,11079,600.0,4034,36.41,13
+stable lines,097,S2,260,4335,299.0,973,22.45,13
+report's lines,all agencies,S3,5772,44499,435.7,13119,29.48,24
+report's lines,civilian,S3,4258,32695,478.1,10357,31.68,24
+report's lines,097,S3,1514,11804,330.3,2762,23.4,24
+stable lines,all agencies,S3,979,15407,477.1,4892,31.75,24
+stable lines,civilian,S3,719,11077,596.8,4015,36.25,24
+stable lines,097,S3,260,4330,263.3,877,20.25,24
+report's lines,all agencies,S4,5772,44510,556.0,15724,35.33,6
+report's lines,civilian,S4,4258,32703,600.2,12068,36.9,6
+report's lines,097,S4,1514,11807,450.2,3656,30.96,6
+stable lines,all agencies,S4,979,15417,590.2,5626,36.49,4
+stable lines,civilian,S4,719,11082,695.3,4478,40.41,4
+stable lines,097,S4,260,4335,353.5,1148,26.48,4

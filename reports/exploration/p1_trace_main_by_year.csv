@@ -1,0 +1,7 @@
+fiscal_year,rows,net,net_proposed_handling,segments,vendor_id,product_codes,product_code_differs,vendor_id_differs
+2020,1,3845487.70,3845487.70,"036 x Q201: award net 3845487.70, share 0.18%, HHI 7080.4",N48CBJUK64P1,Q201,,
+2021,3,3701343.70,3701343.70,"036 x Q201: award net 3701343.70, share 0.04%, HHI 9117.3",N48CBJUK64P1,Q201,no,no
+2022,3,3622838.25,3622838.25,"036 x Q201: award net 3622838.25, share 0.02%, HHI 9409.1",N48CBJUK64P1,Q201,no,no
+2023,4,3638622.38,3638622.38,"036 x Q201: award net 3638622.38, share 0.02%, HHI 9553.9",N48CBJUK64P1,Q201,no,no
+2024,2,4160720.33,4160720.33,"036 x Q201: award net 4160720.33, share 0.02%, HHI 6991.2",N48CBJUK64P1,Q201,no,no
+2025,5,555709.88,555709.88,"036 x Q201: award net 555709.88, share 0.00%, HHI 9680.2",DN3ELCWBQJS7,Q201,no,yes

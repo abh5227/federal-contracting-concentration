@@ -1,0 +1,21 @@
+group,line_set,rule,cutoff,lines,rising_pct,rising_pct_after_shuffle,falling_pct,falling_pct_after_shuffle,rising_pct_by_dollars,rising_pct_after_shuffle_by_dollars,falling_pct_by_dollars,falling_pct_after_shuffle_by_dollars
+all,report's lines,averaged,500,5772,37.92,28.2,29.89,28.22,28.57,17.41,17.24,15.44
+all,report's lines,pooled,500,5772,37.56,26.57,28.66,26.58,27.06,15.72,18.50,14.36
+all,report's lines,baseline,500,5772,37.84,28.04,29.7,28.13,26.19,15.77,16.90,15.35
+all,report's lines,S1,500,5772,35.14,25.78,31.08,25.84,25.26,12.34,17.58,11.38
+civilian,report's lines,averaged,250,4258,46.05,36.89,36.75,36.71,36.10,23.07,27.23,22.53
+civilian,report's lines,averaged,500,4258,39.27,29.2,30.67,29.17,28.72,15.28,20.45,15.35
+civilian,report's lines,averaged,1000,4258,29.73,19.05,22.17,19.0,14.92,8.88,14.77,8.71
+civilian,report's lines,pooled,250,4258,45.91,35.15,35.02,35.17,35.85,20.81,26.22,20.42
+civilian,report's lines,pooled,500,4258,39.41,27.36,29.12,27.58,22.14,14.31,21.02,13.85
+civilian,report's lines,pooled,1000,4258,29.83,18.6,22.15,18.55,15.14,7.71,14.22,8.30
+civilian,report's lines,baseline,250,4258,45.87,36.8,36.82,36.57,36.10,22.10,27.97,21.80
+civilian,report's lines,baseline,500,4258,39.08,29.06,30.39,29.06,22.34,14.54,19.11,14.65
+civilian,report's lines,baseline,1000,4258,29.59,18.88,22.12,18.85,14.70,8.41,14.42,8.17
+civilian,report's lines,S1,250,4258,43.87,35.23,37.72,35.33,37.41,20.25,25.40,21.30
+civilian,report's lines,S1,500,4258,36.92,27.06,31.26,27.04,21.31,14.18,18.64,13.25
+civilian,report's lines,S1,1000,4258,27.55,16.85,22.9,16.96,14.98,8.27,14.18,7.81
+defense,report's lines,averaged,500,1514,34.15,25.68,27.68,25.42,28.49,15.86,15.52,17.14
+defense,report's lines,pooled,500,1514,32.36,23.56,27.34,23.94,29.69,14.80,17.15,17.65
+defense,report's lines,baseline,500,1514,34.35,25.7,27.74,25.49,28.25,15.79,15.72,17.12
+defense,report's lines,S1,500,1514,30.12,22.57,30.58,22.69,27.33,11.75,17.03,12.27

@@ -1,0 +1,13 @@
+minimum_absolute_amount,group,timing,pairs,one_test_only,gross_dollars_both_rows
+10000000,likely entry error,same year,866,657,1242958141449.65
+10000000,likely entry error,cross-year,238,232,43539435610.08
+10000000,likely normal accounting,same year,215,0,36827537166.90
+10000000,likely normal accounting,cross-year,413,0,25070826875.25
+100000000,likely entry error,same year,63,54,1202239582681.20
+100000000,likely entry error,cross-year,12,12,33174692650.69
+100000000,likely normal accounting,same year,24,0,27024773772.48
+100000000,likely normal accounting,cross-year,17,0,7357438936.49
+1000000000,likely entry error,same year,9,4,1175123935614.71
+1000000000,likely entry error,cross-year,1,1,27819100854.00
+1000000000,likely normal accounting,same year,3,0,14836897689.90
+1000000000,likely normal accounting,cross-year,0,0,0.00

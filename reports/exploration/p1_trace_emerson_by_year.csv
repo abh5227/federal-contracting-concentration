@@ -1,0 +1,6 @@
+fiscal_year,rows,net,net_proposed_handling,segments,vendor_id,product_codes,product_code_differs,vendor_id_differs
+2008,1,13917176427.00,15252000.00,"097 x Y199: award net 15252000.00, share 0.22%, HHI 159.8",DEKMBJBCJER5,Y199,,
+2009,16,-13901433402.41,491024.59,"097 x Y199: award net 491024.59, share 0.01%, HHI 215.1",DEKMBJBCJER5,Y199,no,no
+2010,7,110933.71,110933.71,"097 x Y199: award net 110933.71, share 0.00%, HHI 98.8",DEKMBJBCJER5,Y199,no,no
+2011,2,43546.54,43546.54,"097 x Y199: award net 43546.54, share 0.00%, HHI 239.0",DEKMBJBCJER5,Y199,no,no
+2012,1,396022.64,396022.64,"097 x Y199: award net 396022.64, share 0.13%, HHI 402.2",DEKMBJBCJER5,Y199,no,no

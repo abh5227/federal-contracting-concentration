@@ -1,0 +1,4 @@
+cutoff,stable_lines,stable_lines_share_of_dollars_pct,stable_rising_pct,stable_rising_pct_after_shuffle,stable_falling_pct,stable_falling_pct_after_shuffle,report_lines_fy2012_fy2020,report_rising_pct,report_rising_pct_after_shuffle,report_falling_pct,report_falling_pct_after_shuffle,recomputed_report_lines,recomputed_report_rising_pct,recomputed_report_rising_pct_after_shuffle,recomputed_report_lines_share_of_dollars_pct
+250,979,19.78,58.12,37.64,27.37,37.74,5772,44.75,36.08,36.11,36.1,5772,44.75,36.08,98.90
+500,979,19.78,51.69,30.12,22.68,30.38,5772,37.92,28.2,29.89,28.22,5772,37.92,28.2,98.90
+1000,979,19.78,41.37,19.54,15.53,20.02,5772,28.38,17.97,21.55,18.02,5772,28.38,17.97,98.90

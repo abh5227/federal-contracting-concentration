@@ -1,0 +1,65 @@
+fiscal_year,source,rows,dollars,share_of_negative_dollars_pct
+2008,award with earlier positive obligations,1653,-604456379.80,17.06
+2008,"award with earlier rows, none positive",2357,-485460943.29,13.70
+2008,award with no earlier row in the data,26040,-2453209994.80,69.24
+2009,award with earlier positive obligations,17729,-2237666804.85,60.82
+2009,"award with earlier rows, none positive",3086,-452553848.66,12.30
+2009,award with no earlier row in the data,17764,-989062100.74,26.88
+2010,award with earlier positive obligations,27366,-4026009615.50,73.04
+2010,"award with earlier rows, none positive",2648,-445118807.84,8.08
+2010,award with no earlier row in the data,12496,-1041125646.71,18.89
+2011,award with earlier positive obligations,39412,-4886131735.36,84.04
+2011,"award with earlier rows, none positive",3177,-316725139.96,5.45
+2011,award with no earlier row in the data,9003,-417021153.63,7.17
+2011,in a Part 2 reversal pair,1,-194463128.25,3.34
+2012,award with earlier positive obligations,50083,-5563254924.75,79.83
+2012,"award with earlier rows, none positive",2540,-255962610.18,3.67
+2012,award with no earlier row in the data,6462,-339123328.64,4.87
+2012,in a Part 2 reversal pair,2,-810492529.17,11.63
+2013,award with earlier positive obligations,55084,-6108708734.38,90.66
+2013,"award with earlier rows, none positive",1280,-141219374.13,2.10
+2013,award with no earlier row in the data,2828,-107660216.89,1.60
+2013,in a Part 2 reversal pair,2,-380186038.00,5.64
+2014,award with earlier positive obligations,51750,-5835198021.34,97.00
+2014,"award with earlier rows, none positive",598,-69779029.79,1.16
+2014,award with no earlier row in the data,1389,-110980351.17,1.84
+2015,award with earlier positive obligations,49420,-5285842710.79,98.07
+2015,"award with earlier rows, none positive",436,-43215310.39,0.80
+2015,award with no earlier row in the data,937,-60799335.65,1.13
+2016,award with earlier positive obligations,51421,-6532708368.57,98.78
+2016,"award with earlier rows, none positive",457,-39726814.32,0.60
+2016,award with no earlier row in the data,802,-40780171.42,0.62
+2017,award with earlier positive obligations,52772,-5150078252.44,94.28
+2017,"award with earlier rows, none positive",287,-31133369.72,0.57
+2017,award with no earlier row in the data,677,-23630376.90,0.43
+2017,in a Part 2 reversal pair,2,-257758552.14,4.72
+2018,award with earlier positive obligations,48855,-5885981015.37,97.90
+2018,"award with earlier rows, none positive",172,-114577495.45,1.91
+2018,award with no earlier row in the data,276,-11829803.46,0.20
+2019,award with earlier positive obligations,48773,-7923121720.32,94.79
+2019,"award with earlier rows, none positive",91,-15302998.53,0.18
+2019,award with no earlier row in the data,256,-220249213.87,2.63
+2019,in a Part 2 reversal pair,1,-200000000.00,2.39
+2020,award with earlier positive obligations,52787,-6514590259.92,94.47
+2020,"award with earlier rows, none positive",78,-6705705.59,0.10
+2020,award with no earlier row in the data,316,-21895270.28,0.32
+2020,in a Part 2 reversal pair,1,-352835230.35,5.12
+2021,award with earlier positive obligations,65544,-8024790524.22,99.71
+2021,"award with earlier rows, none positive",41,-16018054.10,0.20
+2021,award with no earlier row in the data,118,-7344440.37,0.09
+2022,award with earlier positive obligations,51200,-9049587914.97,94.74
+2022,"award with earlier rows, none positive",47,-6775940.11,0.07
+2022,award with no earlier row in the data,130,-65475513.73,0.69
+2022,in a Part 2 reversal pair,2,-429768907.73,4.50
+2023,award with earlier positive obligations,53153,-10039626861.10,98.14
+2023,"award with earlier rows, none positive",37,-3515428.02,0.03
+2023,award with no earlier row in the data,152,-23848244.77,0.23
+2023,in a Part 2 reversal pair,1,-162836758.15,1.59
+2024,award with earlier positive obligations,56242,-11368679740.15,96.27
+2024,"award with earlier rows, none positive",22,-3695422.25,0.03
+2024,award with no earlier row in the data,121,-3861111.12,0.03
+2024,in a Part 2 reversal pair,2,-433490713.00,3.67
+2025,award with earlier positive obligations,57127,-16365893481.75,94.82
+2025,"award with earlier rows, none positive",29,-18949390.22,0.11
+2025,award with no earlier row in the data,81,-22880637.40,0.13
+2025,in a Part 2 reversal pair,3,-852306659.44,4.94
