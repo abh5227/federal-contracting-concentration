@@ -47,6 +47,7 @@ RULES = {
                "net when its HHI is above 2,500, zero otherwise). The 10 cells with the largest change either way.",
     "face_validity": "Each year's V1 score for the cells in FACE_VALIDITY.",
     "example_row": "The largest FY2025 row by amount in the example segment (EXAMPLE: Veterans Affairs, Q201 managed healthcare), as published.",
+    "worked_example": "HHI of the example segment in the last year, worked company by company: each company's share of the positive net, squared, for the three largest and summed for the rest.",
     "competition": "Civilian dollars under V1 by extent_competed group (competed, sole source, follow-on, blank or other) and the share with limited sources on the order, for segments with HHI above 2,500 against the rest. Competition on an order may describe its umbrella contract, which the FPDS data dictionary should confirm.",
     "civilian": "The public-sector view: every awarding agency except the Department of Defense (097), under V1. Top segments are the 10 largest FY2025 civilian cells with HHI above 2,500. Vendor names are the parent name, or the own name, carrying the most dollars that year.",
 }
@@ -288,6 +289,22 @@ def civilian() -> None:
             pv, v, names.get(v, "") if fy == res[-1][0] else "") for fy, n, h, t, pv, v in res])
 
 
+def worked_example() -> None:
+    """HHI worked through company by company for the example segment in FY2025: the three largest, then all the rest."""
+    c = con()
+    rows = c.execute(f"""SELECT vendor, CAST(SUM(net_v1) AS DOUBLE) AS n FROM {VC}
+                         WHERE fiscal_year = {config.LAST_FY} AND ag = '{EXAMPLE[0]}' AND psc = '{EXAMPLE[1]}' AND rows_v1 > 0
+                         GROUP BY 1 HAVING SUM(net_v1) > 0 ORDER BY 2 DESC""").fetchall()
+    total = sum(n for _, n in rows)
+    names = vendor_names([v for v, _ in rows[:3]], config.LAST_FY)
+    out = [(k + 1, names.get(v, v), round(n, 2), round(100 * n / total, 4), round((100 * n / total) ** 2, 2)) for k, (v, n) in enumerate(rows[:3])]
+    rest = rows[3:]
+    out.append(("rest", f"all other {len(rest)} companies", round(sum(n for _, n in rest), 2), round(100 * sum(n for _, n in rest) / total, 4),
+                round(sum((100 * n / total) ** 2 for _, n in rest), 2)))
+    out.append(("total", "HHI", round(total, 2), 100.0, round(sum((100 * n / total) ** 2 for _, n in rows), 2)))
+    write("hhi_worked_example", ["rank", "company", "net", "share_pct", "share_squared"], out)
+
+
 def competition() -> None:
     """How civilian dollars were awarded, in concentrated segments (HHI above 2,500) and in the rest, under V1."""
     pct = lambda col: f"ROUND(100 * SUM({col}) / SUM(v.net_v1), 2)"
@@ -312,7 +329,7 @@ def competition() -> None:
 STEPS = {"spending": spending, "by_year": by_year, "band_changes": band_changes, "by_group": by_group,
          "vendor_floor": vendor_floor, "drivers": drivers, "face_validity": face_validity,
          "example_row": example_row, "civilian": civilian,
-         "competition": competition}
+         "competition": competition, "worked_example": worked_example}
 
 
 def main(argv: list[str] | None = None) -> int:

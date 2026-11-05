@@ -1,132 +1,272 @@
 {
   "title": {
     "title": "Is federal contract money going to fewer companies?",
-    "subtitle": "A first look at the civilian agencies, FY2008 to FY2025\nSuchitra Hole, Shivram Nekkanti, Andy Hannah  |  October 2026",
-    "notes": "Our project asks a simple question: when the government buys something, does the money go to many companies or to a few? Today: the data, how we processed it, how we measure it, and what the first look shows for the civilian agencies."
+    "subtitle": "Market concentration in civilian agency contracts, FY2008 to FY2025\nSuchitra Hole, Shivram Nekkanti, Andy Hannah",
+    "notes": "Our project measures market concentration in federal contracting: when the government buys something, does the money go to many companies or to a few? We look at every civilian agency, every product and every year from FY2008 to FY2025."
+  },
+  "why": {
+    "title": "What concentration is, and why it matters",
+    "risks": [
+      [
+        "$",
+        "Prices can rise over time",
+        "Less pressure on the winner at renewal"
+      ],
+      [
+        "1",
+        "Dependence on one supplier",
+        "No ready alternative if it fails"
+      ],
+      [
+        "↺",
+        "Fewer bidders next time",
+        "Rivals lose the people and know-how"
+      ],
+      [
+        "!",
+        "Less resilience",
+        "One failure hits the whole market"
+      ]
+    ],
+    "takeaway": "Concentration is not wrongdoing: some work only one firm can do. It is a risk worth measuring.",
+    "notes": "Market concentration means a few companies win most of a market's money. Figure 1 shows two markets with the same budget and five companies. On the left the money is shared evenly. On the right, one company gets 80 percent. Why does it matter? Over time the winner faces less price pressure. The government depends on one supplier. Rivals drift away, so fewer firms can bid next time. And if that one company fails, the whole market is affected. But a concentrated market is not wrongdoing: only one shipyard can build an aircraft carrier. That is why we measure it carefully."
   },
   "question": {
-    "title": "The question: many companies, or a few?",
-    "goal": "Our goal: for every civilian agency, product and year, measure whether the money is spread out or goes to a few companies.",
-    "takeaway": "When a few companies win most of an agency's money, the government has less choice and less price pressure. A high score is not wrongdoing: some work only one firm can do.",
-    "notes": "Civilian agencies, everything except Defense, spent about 301 billion dollars on contracts in FY2025. Defense spent another 492 billion, but it buys from a handful of large weapons makers and already studies its own market, so we focus on the civilian side, where no such measure exists. Picture two markets with the same budget. On the left, five companies split it evenly. On the right, one company gets 80 percent. That second market is what we call concentrated."
+    "title": "Our question: where does civilian contract money go?",
+    "points": [
+      [
+        "How much goes to markets a few companies dominate?",
+        "For every civilian agency, product and year"
+      ],
+      [
+        "Is that share growing, and is the growth real?",
+        "Tested against chance"
+      ],
+      [
+        "Where, who, and why?",
+        "Agencies, companies and the policies behind them"
+      ]
+    ],
+    "takeaway": "Defense has a handful of prime contractors and studies its own market. The civilian agencies have no such measure, so we built one.",
+    "notes": "In FY2025 the government spent about 301 billion dollars on civilian contracts, and 492 billion on Defense. Defense buys from a handful of large weapons makers and already studies its own market, so we focus on the civilian agencies. Our three questions: how much civilian money goes to markets that a few companies dominate, whether that share is growing for real, and where, who and why."
   },
   "data": {
     "title": "The data: every federal contract action since FY2008",
-    "source": "Source: USAspending.gov Award Data Archive, contracts, all agencies, release of 2026-09-06.",
-    "takeaway": "Each row says who bought what, from whom, for how much, and whether others could bid. Adding up rows by buyer, product and company shows who wins the money.",
-    "notes": "We downloaded the government's public archive: 18 yearly files and 88.8 million rows. Each row is one contract action. Here is a real one from July 2025: Veterans Affairs paid Optum, part of UnitedHealth Group, 857 million dollars for managed healthcare, and the contract was openly competed. Keep this one in mind: we come back to this market at the end.",
-    "vendorDisplay": "UnitedHealth Group (Optum)"
+    "source": "Source: USAspending.gov Award Data Archive, all agencies, contracts, release of 2026-09-06.",
+    "vendorDisplay": "UnitedHealth Group (Optum)",
+    "takeaway": "Each row says who bought what, from whom, for how much, and whether others could bid. That is all the measure needs.",
+    "notes": "We downloaded the government's public archive: 18 yearly files, 88.8 million rows, 10.5 trillion dollars. Each row is one contract action. Here is a real one from July 2025: Veterans Affairs paid Optum, part of UnitedHealth Group, 857 million dollars for managed healthcare, and the contract was openly competed. We will come back to this market."
   },
   "process": {
     "title": "How we turned 18 zip files into a trusted dataset",
-    "takeaway": "Every number we show traces back to the published files, and our totals agree with the government's own official figures.",
-    "notes": "Before analysing anything, we made sure the data is right. One: we checked every file against its checksum and locked it. Two: we converted the files to a fast format and proved the copy is exact, row by row, to the cent. Three: 62 quality checks on every row found the records that would distort the measure, such as a 13.9 billion dollar entry reversed the next year. Four: we built the analysis tables, and 116 checks confirm they add back to the original. Our yearly totals match GAO's official figures within 0.2 percent."
+    "takeaway": "Every number traces back to the published files, and the totals agree with the government's official figures.",
+    "notes": "Four steps. One: we checked every file against its digital fingerprint and locked it. Two: we converted 88.8 million rows to a fast format, and two independent programs agree on the row count, the dollars to the cent and every field. Three: 62 quality rules ran on every row, looking for duplicates, bad dates, placeholder names and outliers. Four: we added the rows up into 7.85 million company-by-market totals, and 116 checks confirm they add back. Our yearly totals match GAO's official figures within 0.2 percent."
+  },
+  "cleaning": {
+    "title": "Why cleaning matters: one entry can fake a monopoly",
+    "issues": [
+      "A $13.9B entry reversed the next year",
+      "Two $10B rows that are contract ceilings",
+      "Negative totals from money returned",
+      "One placeholder name for many foreign firms",
+      "A placeholder funding agency, FY2008 to FY2010"
+    ],
+    "takeaway": "Without cleaning, one bad entry makes a market of 1,039 companies look like a monopoly.",
+    "notes": "Here is what the quality checks catch. In FY2008 the Army recorded a 13.9 billion dollar entry for Emerson Construction, which it reversed the next year. The real contract was about 16 million dollars. With the entry, Emerson looks like it holds 65 percent of a market of 1,039 companies, and the market scores 4,282, highly concentrated. Net the entry against its reversal and Emerson holds a fraction of a percent, and the market scores 167, very competitive. We found five issues like this, and the team's proposed rules handle each one."
   },
   "segment": {
-    "title": "How we measure: segments, and a score for each",
-    "takeaway": "A segment is one market: one buyer, one kind of product, one year. Its score says how much of that market's money went to the top companies.",
-    "notes": "We cut the spending into segments. A segment is one agency buying one kind of product in one year. For example: Veterans Affairs buying managed healthcare in FY2025. In that segment, 75 companies shared 22.8 billion dollars, and the largest got 98 percent. Each segment gets a score, the HHI, the standard antitrust measure. Square each company's percentage share and add them up. Five equal companies score 2,000. One company with 80 percent scores 6,500. One company with everything scores 10,000. Above 2,500 counts as highly concentrated. Our VA example scores 9,680, near the top."
+    "title": "How we measure: one market at a time",
+    "takeaway": "A segment is one market: one buyer, one kind of product, one year. Above 2,500, the market is highly concentrated.",
+    "notes": "We measure concentration market by market. A segment is one agency buying one kind of product in one year. For example: Veterans Affairs buying managed healthcare in FY2025, where 75 companies shared 22.8 billion dollars. There are about 365 thousand segments in 18 years. Each gets a score, the HHI, from 0 to 10,000. Below 1,500 is competitive, 1,500 to 2,500 is moderate, and above 2,500 is highly concentrated, the bands the Justice Department and FTC use for mergers. Our VA example scores 9,680, near the top."
   },
-  "trend": {
-    "title": "Finding 1: half of civilian money is concentrated",
-    "dipSegment": "contractors operating its buildings and sites",
-    "takeaway": "Since FY2014, a growing share of civilian contract money goes to markets where a few companies win most of it, while civilian contract spending doubled.",
-    "notes": "To turn 18 years of segments into one number per year, we add up the dollars in all segments scoring above 2,500 and divide by all civilian contract dollars. In FY2025 that is 152 billion of 301 billion, or 50 percent. In FY2008 it was 44 percent. It moved between 38 and 44 percent until FY2014, climbed to 53 percent in FY2022, and is at 50 percent now. Why the dip in FY2024? Mostly one Department of Energy segment: contractors operating its buildings and sites, about 17 billion dollars, scored below 2,500 that year. That one segment explains 15 of the 19 billion dollar drop. Also worth knowing: one in three civilian segments has a single company, but those are small purchases, only about 4.5 percent of the money. The concentrated money is in big markets."
-  },
-  "where": {
-    "title": "Finding 2: Veterans Affairs leads, in health care",
-    "agencies": [
-      {
-        "code": "036",
-        "label": "Veterans Affairs"
-      },
-      {
-        "code": "089",
-        "label": "Energy"
-      },
-      {
-        "code": "070",
-        "label": "Homeland Security"
-      },
-      {
-        "code": "075",
-        "label": "Health and Human Services"
-      },
-      {
-        "code": "047",
-        "label": "General Services Admin."
-      },
-      {
-        "code": "080",
-        "label": "NASA"
-      }
-    ],
-    "segmentLabels": [
-      "managed healthcare",
-      "drugs and biologicals",
-      "government health insurance"
-    ],
-    "takeaway": "Veterans Affairs is the largest civilian buyer, and 76% of its money now sits in highly concentrated segments. Three of its health segments put $44B with one company each.",
-    "notes": "Which agencies? This chart shows, for the six largest civilian agencies, how much of each one's money sits in highly concentrated segments, in FY2008 and FY2025. Veterans Affairs jumped from 33 to 76 percent, and it is the largest civilian buyer at 78 billion dollars. GSA doubled, from 17 to 36 percent. Energy, HHS and NASA went down. On the right, the three biggest concentrated civilian segments in FY2025 are all VA health care: managed healthcare, 22.8 billion, 98 percent to UnitedHealth Group. Drugs, 11.7 billion, 98 percent to McKesson. Government health insurance, 9.5 billion, all to TriWest. Together, 44 billion dollars where one company gets almost everything.",
-    "segmentVendors": [
+  "hhi": {
+    "title": "The HHI, worked through with real numbers",
+    "companies": [
       "UnitedHealth Group",
-      "McKesson",
-      "TriWest Healthcare Alliance"
-    ]
+      "Valor Healthcare",
+      "STG International"
+    ],
+    "takeaway": "Squaring makes big shares count much more: one company with 98% scores almost 10,000 on its own.",
+    "notes": "Here is the calculation. Take each company's share of the money, square it, and add them up. Five equal companies: 20 squared is 400, times five is 2,000. One company with 80 percent: 80 squared is 6,400, plus four times 5 squared, 100, gives 6,500. On the right is a real market from our data, VA managed healthcare in FY2025. UnitedHealth Group had 98.39 percent: squared, that is 9,680 on its own. The next two companies add less than half a point, and the other 72 companies together add 0.05. The total HHI is 9,680. Squaring is what makes the score so sensitive to one dominant company."
   },
-  "example": {
-    "title": "Example: how one VA market became concentrated",
-    "takeaway": "In six years this market grew almost 60 times larger and went from 167 companies with no clear leader to one company with 98% of the money.",
-    "notes": "Here is the VA managed healthcare market over time. The grey bars are the money, the orange line is the largest company's share. In FY2019 it was a small market: 389 million dollars, 167 companies, and the largest had 19 percent. Then it grew very fast. By FY2025 it was 22.8 billion dollars, and one company, UnitedHealth Group, had 98 percent. Remember the contract on the data slide: it was openly competed. So concentration is not the same as a lack of competition. Our data shows what happened, not why, and that is the kind of question the next phase will look at."
+  "measure": {
+    "title": "From markets to one number per year",
+    "takeaway": "Our yearly measure: the share of the year's civilian contract dollars that sits in highly concentrated markets.",
+    "notes": "To follow 18 years, we need one number per year. We take every civilian segment, check its HHI, and add up the dollars in segments above 2,500. In FY2025 that is 152 billion dollars out of 301 billion, or 50 percent. That is the number we track from year to year."
+  },
+  "finding1": {
+    "title": "Finding 1: the rise is real, and it is Veterans Affairs",
+    "takeaway": "Civilian concentration rose from 44% to 50%, beyond chance. Take Veterans Affairs out and the rest is flat.",
+    "notes": "The orange line is the share of civilian dollars in highly concentrated markets: 44 percent in FY2008, 50 percent in FY2025. Is that rise real, or just noise? We shuffled the 18 years twenty thousand times. A trend this strong appeared in only about 0.2 percent of shuffles, so the rise is real. But look at the grey line: the same measure without Veterans Affairs. It is flat, 45 percent to 42 percent, and shuffles beat it about half the time. So the rise in civilian concentration is almost entirely Veterans Affairs."
+  },
+  "finding2": {
+    "title": "Finding 2: a few markets drove it, not a broad shift",
+    "agencyLabels": {
+      "Department of Veterans Affairs": "Veterans Affairs",
+      "National Aeronautics and Space Administration": "NASA",
+      "General Services Administration": "General Services Admin.",
+      "Department of the Treasury": "Treasury",
+      "Department of Homeland Security": "Homeland Security",
+      "Department of State": "State",
+      "Department of Transportation": "Transportation"
+    },
+    "takeaway": "Veterans Affairs added more than the whole rise. Thousands of other markets moved in and out of the band and roughly cancelled out.",
+    "notes": "Where did the rise come from? Comparing FY2012 to FY2014 with FY2023 to FY2025, the civilian share rose 7.2 points. Veterans Affairs alone added 11.6 points, more than the whole rise. NASA and several others went the other way. And just 12 markets account for half of all the upward movement. So this is a story about a few specific markets, not the whole government."
+  },
+  "finding3": {
+    "title": "Finding 3: who holds the concentrated markets",
+    "segments": [
+      "VA: managed healthcare",
+      "VA: drugs",
+      "VA: gov. health insurance",
+      "VA: medical exams",
+      "Homeland Security: construction",
+      "Energy: research labs"
+    ],
+    "companies": [
+      "UnitedHealth Group (Optum)",
+      "McKesson",
+      "TriWest Healthcare Alliance",
+      "Leidos",
+      "BCCG (joint venture)",
+      "Fermi Forward Discovery Group"
+    ],
+    "roles": [
+      "Runs VA's community care network",
+      "VA's single drug distributor",
+      "Community care administrator",
+      "Medical evaluation and screening",
+      "Non-building construction",
+      "Operates a DOE research lab"
+    ],
+    "takeaway": "Four of the six largest concentrated civilian markets are VA health care. McKesson's share is for distribution: the drugs come from many makers.",
+    "notes": "These are the six largest highly concentrated civilian markets in FY2025, and the company with the largest share in each. The top three are all Veterans Affairs health care: UnitedHealth Group, through Optum, with 98 percent of managed healthcare; McKesson with 98 percent of drugs; and TriWest with all of government health insurance programs. One caution: McKesson is VA's drug distributor, so its share is for delivery, not for making the drugs, which come from many manufacturers."
+  },
+  "finding4": {
+    "title": "Finding 4: VA health care concentrated by design",
+    "facts": [
+      [
+        "'18",
+        "MISSION Act (June 2018) creates a permanent community care program"
+      ],
+      [
+        "'18",
+        "Network contracts competed: 3 bidders, fixed-price, Optum and TriWest win"
+      ],
+      [
+        "'19",
+        "Regions go live from Dec 2019 to Jun 2021"
+      ],
+      [
+        "$",
+        "Claims pass through the administrator to community doctors"
+      ]
+    ],
+    "takeaway": "VA chose to run community care through one administrator per region. The market concentrated by policy, through a competed contract.",
+    "notes": "Why did VA managed healthcare concentrate? The 2018 MISSION Act created a permanent community care program. VA competed the Community Care Network contracts, three companies bid, and GAO denied a bid protest against the awards to Optum. The regions went live between December 2019 and June 2021, which is exactly when the money in our data jumps, from 389 million to over 22 billion dollars, and one company's share goes to 98 percent. The administrator pays community doctors and hospitals, so the money passes through it to many providers we do not see. GAO and VA's inspector general have both flagged oversight risks in these contracts."
+  },
+  "finding5": {
+    "title": "Finding 5: concentrated, but competed",
+    "same": "Concentrated civilian money was competed as often as the rest of civilian money.",
+    "exception": "Mostly space research, where few organizations can do the work.",
+    "takeaway": "Concentration mostly comes from competed contracts that give one winner the whole market, not from skipping competition.",
+    "notes": "Is concentration a sign that agencies skip competition? Mostly not. In FY2025, 90 percent of the dollars in highly concentrated civilian markets were competed, the same as in all other markets. The pattern is competition for the market: one competition, then one winner for years. NASA is the exception, with over a third of its concentrated dollars sole source, mostly in space research."
+  },
+  "lines": {
+    "title": "Checking our method: is a market's rise real?",
+    "steps": [
+      [
+        "1",
+        "Count the rises",
+        "Lines whose score rose by 500 points or more"
+      ],
+      [
+        "2",
+        "Shuffle each line's years",
+        "How many would rise by luck alone"
+      ],
+      [
+        "3",
+        "Keep the real ones",
+        "Rises that beat their own shuffles, corrected for testing thousands of lines"
+      ]
+    ],
+    "takeaway": "A simple 500-point rule flags too many rises by chance. A rise counts only when it beats its own shuffled years.",
+    "notes": "We also follow each market over time: one agency and one product, FY2008 to FY2025. HHI jumps a lot from year to year with big contracts. If we call a market rising when it gains 500 points, 54 percent of markets rise. But if we shuffle each market's years, 34 percent still rise, so most of those flags are luck. Testing each market against its own shuffles leaves 22 percent as real risers. That is the rule we will use from now on."
   },
   "next": {
     "title": "What it means, and what we do next",
-    "trust": [
-      "The copy is exact",
-      "Totals match GAO",
-      "Codes carry across 18 years"
+    "found": [
+      "Half of civilian money is highly concentrated",
+      "The rise is real, and it is VA",
+      "Concentrated money was competed"
     ],
     "careful": [
-      "One big contract can swing a year",
-      "Many rises are chance"
+      "We see prime contractors only",
+      "HHI shows the outcome, not why",
+      "Single years swing with big awards"
     ],
     "steps": [
-      "Rule for a real rise",
-      "Link changed product codes",
-      "Settle data decisions",
-      "Find what rising markets share"
+      "Settle the data decisions",
+      "Build the cleaned working set",
+      "Group trend shapes, then ask what rising markets share",
+      "Check subcontracts for flagged markets"
     ],
-    "takeaway": "Half of civilian contract money now goes to markets where a few companies win most of it. Next we test which rises are real and what they have in common.",
-    "notes": "To sum up. The data is solid: our copy is exact, it matches GAO, and product codes carry across the 18 years. Two cautions: one big contract can swing a single year, and when we test trend lines, many apparent rises happen by chance, so we need a rule that separates real rises from noise. Next we set that rule, link the product codes that changed, settle our data decisions with our sponsor, and then ask what the markets that became concentrated have in common. Thank you."
+    "takeaway": "Concentration in civilian contracting is real, focused in VA health care, and mostly chosen through competition. Next: what it costs.",
+    "notes": "To sum up. Half of civilian contract money sits in highly concentrated markets. The rise is real, and it is almost entirely Veterans Affairs health care, which concentrated by policy through competed contracts. Keep in mind that our data shows the prime contractor only, that the score shows the outcome and not the reason, and that single years swing with big awards. Next we settle our data decisions with our sponsor, build the cleaned working set, group the trend shapes, and check subcontracts for the flagged markets. The open question for the rest of the project is what this concentration costs. Thank you."
+  },
+  "backup_decisions": {
+    "title": "Backup: the data decisions, in plain words",
+    "rows": [
+      [
+        "A $13.9B entry reversed the next year, and four similar pairs",
+        "Replace each pair with its real net",
+        "Otherwise one company looks dominant"
+      ],
+      [
+        "Two $10B US Mint rows",
+        "Leave out of the score until confirmed",
+        "They look like contract ceilings, not spending"
+      ],
+      [
+        "Money returned makes some company totals negative",
+        "Score only companies with a positive total",
+        "A negative share has no meaning"
+      ],
+      [
+        "One name, MISCELLANEOUS FOREIGN AWARDEES, covers many firms",
+        "Leave out of the score, report its share",
+        "It is not one company"
+      ],
+      [
+        "Rows with no company ID",
+        "Leave out of the score, report their share",
+        "Under 0.01% of dollars"
+      ],
+      [
+        "A placeholder funding agency in FY2008 to FY2010",
+        "Use the buying (awarding) agency",
+        "Complete in every year"
+      ]
+    ],
+    "notes": "These are the data decisions in plain words. Each issue, what we do about it, and why. They are the rules as proposed, and the team still has to confirm them. Together they change the concentration band of under 1 percent of markets."
   },
   "backup_defense": {
-    "title": "Backup: civilian and Defense follow a similar path",
-    "note": "Defense is about 60% of contract dollars. Its FY2024 dip comes from combat ships and fixed-wing aircraft, which fell below 2,500 that year and came back in FY2025.",
-    "notes": "For context, Defense and civilian agencies have followed a similar path, both ending near 50 percent in FY2025."
+    "title": "Backup: Defense and civilian follow a similar path",
+    "notes": "For context, Defense follows a similar path. Its FY2024 dip comes from combat ships and fixed-wing aircraft, which dropped below 2,500 that year and came back."
   },
   "backup_kind": {
     "title": "Backup: civilian services are where concentration grew",
-    "note": "Kind of purchase from the product code: codes starting with a digit are products, A is research, other letters are services.",
-    "notes": "For civilian agencies, the growth is in services: their concentrated share rose from 37 to 48 percent while service spending more than doubled. Research is highly concentrated throughout."
-  },
-  "backup_decisions": {
-    "title": "Backup: the data decisions barely change the picture",
-    "note": "V1 applies the decisions as proposed: reversal pairs replaced by their net, the two US Mint rows, MISCELLANEOUS FOREIGN AWARDEES and rows with no vendor ID left out. V8b also leaves out deobligations larger than the award's obligations that year.",
-    "notes": "With the proposed data decisions, under 1 percent of segments change band over 18 years. The trend only moves in FY2008 to FY2010. V8b needs flags from a pipeline step that is still running."
+    "notes": "Civilian services rose from 37 to 48 percent concentrated while service spending more than doubled. Research is highly concentrated throughout. Products barely moved."
   },
   "backup_codes": {
     "title": "Backup: product codes mostly carry across the code changes",
-    "note": "Product code manuals changed on 2011-10-01 and 2020-10-01. Codes that stopped at either change held almost no dollars. New codes took 87% construction and repair in FY2012, and almost all IT in FY2021.",
-    "notes": "Old codes were almost never retired. New codes were added and some spending moved onto them, mostly construction in FY2012 and IT in FY2021. We will link those codes across the changes."
-  },
-  "backup_noise": {
-    "title": "Backup: yearly swings are larger than the 500-point cutoff",
-    "note": "A line is one agency and one product code, FY2012 to FY2020, with at least 6 scored years and $10 million. Shuffling keeps each line's yearly scores and drops their order, so it shows what noise alone produces.",
-    "notes": "At a 500-point cutoff, 38 percent of lines rise and 28 percent still rise with their years shuffled, so most apparent rises are noise."
+    "note": "The product code manuals changed in FY2012 and FY2021. Old codes were almost never retired. New codes were added and some spending moved onto them, mostly construction in FY2012 and IT in FY2021. So most markets can be followed for all 18 years.",
+    "notes": "We worried that code changes would break our 18-year trend lines. They mostly do not."
   },
   "backup_features": {
     "title": "Backup: some fields change coverage over time",
-    "note": "Set-aside and offers fields are blank on many dollars from FY2018, and most of the blank rows are orders under contract vehicles. The order competition field is blank on 75% to 88% of dollars, since it applies only to some orders.",
-    "notes": "Sole-source share is stable at about a third of dollars. Two fields change coverage in FY2018, which matters for explaining concentration later."
+    "note": "The set-aside and offers fields go blank on many dollars from FY2018, mostly on orders under contract vehicles. The order competition field applies only to some orders, so it is blank on most dollars. These limits matter for explaining concentration later.",
+    "notes": "Sole source is stable at about a third of dollars. Two fields change coverage in FY2018."
   }
 }

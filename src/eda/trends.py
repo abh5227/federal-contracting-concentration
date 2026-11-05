@@ -84,7 +84,11 @@ def series() -> dict[str, tuple[list[int], list[float]]]:
 def yearly() -> None:
     rng = random.Random(SEED)
     rows = []
-    for name, (yrs, ys) in series().items():
+    ser = series()
+    names = list(ser)
+    write("trend_civilian_series", ["fiscal_year", *(n.replace(", ", " ").replace(" ", "_") for n in names)],
+          [(y, *(round(ser[n][1][i], 2) for n in names)) for i, y in enumerate(ser[names[0]][0])])
+    for name, (yrs, ys) in ser.items():
         x = [float(y) for y in yrs]
         obs = (kendall_tau(x, ys), slope(x, ys), late_minus_early(ys))
         ge = [0, 0, 0]
