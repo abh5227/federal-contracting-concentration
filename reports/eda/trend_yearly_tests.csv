@@ -1,0 +1,4 @@
+series,first_year,last_year,first_value_pct,last_value_pct,kendall_tau,tau_p_one_sided,slope_points_per_year,slope_p_one_sided,last6_minus_first6_points,last6_minus_first6_p_one_sided
+"civilian, share of dollars",2008,2025,44.14,50.49,0.464,0.0038,0.529,0.0021,6.54,0.0035
+"civilian without Veterans Affairs, share of dollars",2008,2025,45.38,41.67,0.072,0.3584,0.015,0.4676,0.45,0.4136
+"civilian, share of scored segments (unweighted)",2008,2025,81.0,85.84,0.712,0.0,0.229,0.0,2.68,0.0

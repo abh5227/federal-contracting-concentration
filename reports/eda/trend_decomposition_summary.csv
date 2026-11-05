@@ -1,0 +1,5 @@
+early_window,late_window,share_early_pct,share_late_pct,change_points,segment_group,segments,contribution_points
+FY2012 to FY2014,FY2023 to FY2025,40.53,47.75,7.22,newly concentrated,6004,18.51
+FY2012 to FY2014,FY2023 to FY2025,40.53,47.75,7.22,concentrated in both,10358,0.26
+FY2012 to FY2014,FY2023 to FY2025,40.53,47.75,7.22,never concentrated,14267,0.04
+FY2012 to FY2014,FY2023 to FY2025,40.53,47.75,7.22,no longer concentrated,11595,-11.58
