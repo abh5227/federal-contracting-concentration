@@ -274,6 +274,20 @@ pres.addSection({ title: "Talk" });
   takeaway(s, MSG.question.takeaway);
 }
 
+// 3b. key terms, before the data
+{
+  const s = content("Talk", MSG.terms);
+  MSG.terms.cards.forEach(([term, full, body], i) => {
+    const col = i % 4, row = Math.floor(i / 4), x = 0.5 + col * 2.28, y = 1.0 + row * 1.78, w = 2.13;
+    card(s, x, y, w, 1.63, `term ${i + 1}`);
+    s.addShape(pres.shapes.RECTANGLE, { x, y, w, h: 0.06, fill: { color: [C.a1, C.a2, C.a5, C.a4][col] }, line: { type: "none" }, objectName: `term ${i + 1} band` });
+    text(s, [{ text: term, options: { bold: true, fontSize: 15, breakLine: true } }, { text: full, options: { fontSize: 10, italic: true, color: C.text2, breakLine: true } },
+             { text: body, options: { fontSize: 11, color: C.text1 } }],
+      { x: x + 0.14, y: y + 0.16, w: w - 0.28, h: 1.4, paraSpaceAfter: 3, objectName: `term ${i + 1} text` });
+  });
+  takeaway(s, MSG.terms.takeaway);
+}
+
 // 4. the data
 {
   const s = content("Talk", MSG.data);
@@ -366,7 +380,7 @@ pres.addSection({ title: "Talk" });
   text(s, [{ text: "One segment: one market", options: { bold: true, color: C.bg1, breakLine: true } },
            { text: `${count(exLast.positive_vendors)} companies shared ${bigShort(exLast.net, "ex net")}`, options: { fontSize: 12, color: "E2E5EA" } }],
     { x: 5.7, y: 1.1, w: 3.7, h: 0.85, fontSize: 14, valign: "middle", objectName: "segment result text" });
-  text(s, `${Math.round(segments / 1000)}K segments in 18 years. Every segment gets a concentration score, the HHI, from 0 to 10,000.`,
+  text(s, `${Math.round(segments / 1000)}K segments in 18 years. Every segment gets a concentration score, the HHI (Herfindahl–Hirschman Index), from 0 to 10,000.`,
     { x: 0.5, y: 2.2, w: 9.0, h: 0.32, fontSize: 13, color: C.text2, objectName: "segment count" });
   const sx = 0.5, sw = 9.0, sy = 3.05, toX = (v) => sx + (sw * v) / 10000;
   [[0, 1500, C.a5, "Competitive"], [1500, 2500, C.a4, "Moderate"], [2500, 10000, C.a1, "Highly concentrated: above 2,500"]].forEach(([a, b, color, label], k) => {
@@ -440,132 +454,187 @@ pres.addSection({ title: "Talk" });
   takeaway(s, MSG.measure.takeaway);
 }
 
-// 10. finding 1: the rise is real, and it is Veterans Affairs
+// "How we found it": three numbered steps in one strip under the title, the same on every finding slide.
+function methodStrip(s, steps, y = 0.98) {
+  text(s, "How we found it", { x: 0.5, y, w: 1.3, h: 0.44, fontSize: 11, bold: true, color: C.a1, valign: "middle", objectName: "method label" });
+  steps.forEach((t, i) => {
+    const x = 1.8 + i * 2.58;
+    card(s, x, y, 2.48, 0.44, `method ${i + 1}`);
+    dot(s, x + 0.07, y + 0.08, 0.28, C.a2, String(i + 1), `method ${i + 1}`);
+    text(s, t, { x: x + 0.42, y, w: 2.0, h: 0.44, fontSize: 10, valign: "middle", objectName: `method ${i + 1} text` });
+  });
+}
+
+// 10a. how each finding was tested
+{
+  const s = content("Talk", MSG.methods);
+  [["The question", 1.05], ["The method", 3.55], ["In plain words", 5.9]].forEach(([h, x]) =>
+    text(s, h, { x, y: 0.98, w: 2.4, h: 0.3, fontSize: 11, bold: true, color: C.text2, objectName: `method head ${h}` }));
+  MSG.methods.rows.forEach(([q, method, plain], i) => {
+    const y = 1.32 + i * 0.52;
+    card(s, 0.5, y, 9.0, 0.47, `method row ${i + 1}`, i % 2 ? C.bg1 : C.bg2);
+    dot(s, 0.6, y + 0.07, 0.33, [C.a1, C.a1, C.a2, C.a2, C.a5, C.a4][i], String(i + 1), `method row ${i + 1}`);
+    text(s, q, { x: 1.05, y, w: 2.45, h: 0.47, fontSize: 12, bold: true, valign: "middle", objectName: `method row ${i + 1} question` });
+    text(s, method, { x: 3.55, y, w: 2.3, h: 0.47, fontSize: 12, bold: true, color: C.a1, valign: "middle", objectName: `method row ${i + 1} method` });
+    text(s, plain, { x: 5.9, y, w: 3.5, h: 0.47, fontSize: 11, color: C.text2, valign: "middle", objectName: `method row ${i + 1} plain` });
+  });
+  takeaway(s, MSG.methods.takeaway);
+}
+
+// 11. finding 1: the rise is real, and it is Veterans Affairs
 {
   const s = content("Talk", MSG.finding1);
+  methodStrip(s, MSG.finding1.method);
   const keyAll = "civilian_share_of_dollars", keyNoVA = "civilian_without_Veterans_Affairs_share_of_dollars";
   s.addChart(pres.charts.LINE, [
     { name: "All civilian agencies", labels: years.map(shortYear), values: series.map((r) => need(r[keyAll], "series")) },
     { name: "Civilian agencies without Veterans Affairs", labels: years.map(shortYear), values: series.map((r) => need(r[keyNoVA], "series no va")) },
-  ], { ...axis, x: 0.4, y: 1.0, w: 6.1, h: 3.35, chartColors: [H.accent1, H.accent3], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 5,
+  ], { ...axis, x: 0.4, y: 1.5, w: 6.1, h: 2.85, chartColors: [H.accent1, H.accent3], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 5,
     valAxisMinVal: 20, valAxisMaxVal: 60, valAxisMajorUnit: 10, valAxisLabelFormatCode: '0"%"', showLegend: true, legendPos: "b",
-    showValAxisTitle: true, valAxisTitle: "% of dollars in highly concentrated segments", showCatAxisTitle: true, catAxisTitle: "Fiscal year",
-    objectName: "finding1 chart" });
-  caption(s, "Share of civilian contract dollars in segments with HHI above 2,500, each year.", 0.5, 4.33, 6.0);
-  card(s, 6.75, 1.05, 2.75, 1.55, "test 1", "FBEDE7");
-  text(s, [{ text: "All civilian agencies", options: { bold: true, color: C.a1, breakLine: true } },
-           { text: `${pct(tAll.first_value_pct, 0)} → ${pct(tAll.last_value_pct, 0)}`, options: { bold: true, fontSize: 20, breakLine: true } },
-           { text: `A real rise: shuffled years beat it in only ${(100 * need(tAll.slope_p_one_sided, "p")).toFixed(1)}% of tries`, options: { fontSize: 11, color: C.text2 } }],
-    { x: 6.9, y: 1.12, w: 2.5, h: 1.42, fontSize: 13, objectName: "test 1 text" });
-  card(s, 6.75, 2.75, 2.75, 1.55, "test 2");
-  text(s, [{ text: "Without Veterans Affairs", options: { bold: true, color: C.text2, breakLine: true } },
-           { text: `${pct(tNoVA.first_value_pct, 0)} → ${pct(tNoVA.last_value_pct, 0)}`, options: { bold: true, fontSize: 20, breakLine: true } },
-           { text: `No real trend: shuffled years beat it in ${(100 * need(tNoVA.slope_p_one_sided, "p")).toFixed(0)}% of tries`, options: { fontSize: 11, color: C.text2 } }],
-    { x: 6.9, y: 2.82, w: 2.5, h: 1.42, fontSize: 13, objectName: "test 2 text" });
+    showValAxisTitle: true, valAxisTitle: "% of dollars, HHI above 2,500", showCatAxisTitle: true, catAxisTitle: "Fiscal year", objectName: "finding1 chart" });
+  caption(s, "Share of civilian contract dollars in highly concentrated segments, each year.", 0.5, 4.33, 6.0);
+  [[tAll, "All civilian agencies", "FBEDE7", C.a1, "A real rise", `Only ${(100 * need(tAll.slope_p_one_sided, "p")).toFixed(1)}% of shuffled orders give a trend this steep`],
+   [tNoVA, "Without Veterans Affairs", C.bg2, C.text2, "No real trend", `${(100 * need(tNoVA.slope_p_one_sided, "p")).toFixed(0)}% of shuffled orders give a trend this steep`]].forEach(([t, head, fill, color, verdict, body], k) => {
+    const y = 1.55 + k * 1.42;
+    card(s, 6.75, y, 2.75, 1.3, `test ${k + 1}`, fill);
+    text(s, [{ text: head, options: { bold: true, color, breakLine: true } },
+             { text: `${pct(t.first_value_pct, 0)} → ${pct(t.last_value_pct, 0)}  ${verdict}`, options: { bold: true, fontSize: 14, breakLine: true } },
+             { text: body, options: { fontSize: 10, color: C.text2 } }], { x: 6.88, y: y + 0.06, w: 2.5, h: 1.2, fontSize: 12, objectName: `test ${k + 1} text` });
+  });
   takeaway(s, MSG.finding1.takeaway);
 }
 
-// 11. finding 2: a few markets, not a broad shift
+// 12. finding 2: a few markets, not a broad shift
 {
   const s = content("Talk", MSG.finding2);
-  const show = decompAgency.slice(0, 7);
-  const labels = show.map((r) => MSG.finding2.agencyLabels[r.agency] || r.agency);
-  const vals = show.map((r) => need(r.contribution_points, "contrib"));
-  s.addChart(pres.charts.BAR, [{ name: "Points of change", labels, values: vals }],
-    { ...axis, x: 0.4, y: 1.0, w: 5.9, h: 3.35, barDir: "bar", catAxisOrientation: "maxMin", chartColors: vals.map((v) => (v >= 0 ? H.accent1 : H.accent3)),
-      showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: '+0.0;-0.0', dataLabelFontSize: 11, dataLabelColor: H.dk1,
-      showLegend: false, showValAxisTitle: true, valAxisTitle: "Points of change in the civilian share", valAxisMinVal: -4, valAxisMaxVal: 14, catAxisLabelPos: "low", objectName: "finding2 chart" });
+  methodStrip(s, MSG.finding2.method);
   const sum = decompSummary[0];
-  caption(s, `Each agency's part of the change from FY2012 to FY2014 (${pct(sum.share_early_pct, 1)}) to FY2023 to FY2025 (${pct(sum.share_late_pct, 1)}).`, 0.5, 4.33, 6.0);
-  stat(s, 6.6, 1.1, 2.9, `+${need(sum.change_points, "change").toFixed(1)}`, "points: the whole civilian rise", C.a2, "rise", 32);
-  stat(s, 6.6, 2.25, 2.9, `+${need(decompAgency[0].contribution_points, "va").toFixed(1)}`, "points from Veterans Affairs alone", C.a1, "va", 32);
-  stat(s, 6.6, 3.4, 2.9, `${decompBreadth.segments_for_half_of_positive_contribution}`, "segments make half of all the upward movement", C.a1, "breadth", 32);
+  const show = decompAgency.slice(0, 7);
+  const vals = show.map((r) => need(r.contribution_points, "contrib"));
+  s.addChart(pres.charts.BAR, [{ name: "Points", labels: show.map((r) => MSG.finding2.agencyLabels[r.agency] || r.agency), values: vals }],
+    { ...axis, x: 0.4, y: 1.5, w: 5.9, h: 2.85, barDir: "bar", catAxisOrientation: "maxMin", chartColors: vals.map((v) => (v >= 0 ? H.accent1 : H.accent3)),
+      showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: "+0.0;-0.0", dataLabelFontSize: 11, dataLabelColor: H.dk1, showLegend: false,
+      showValAxisTitle: true, valAxisTitle: "Percentage points added to (or taken from) the civilian share", valAxisMinVal: -4, valAxisMaxVal: 14, catAxisLabelPos: "low",
+      objectName: "finding2 chart" });
+  caption(s, "Each agency's part of the change in the civilian share. Orange adds to it, grey takes away.", 0.5, 4.33, 6.0);
+  card(s, 6.55, 1.55, 2.95, 1.25, "points card", "FBEDE7");
+  text(s, [{ text: "What a point is", options: { bold: true, color: C.a1, breakLine: true } },
+           { text: `${pct(sum.share_early_pct, 1)} → ${pct(sum.share_late_pct, 1)} = +${need(sum.change_points, "chg").toFixed(1)} points`, options: { bold: true, fontSize: 14, breakLine: true } },
+           { text: "One point = one percentage point of the civilian share", options: { fontSize: 10, color: C.text2 } }],
+    { x: 6.68, y: 1.6, w: 2.75, h: 1.15, fontSize: 12, objectName: "points text" });
+  stat(s, 6.55, 2.9, 1.45, `+${need(decompAgency[0].contribution_points, "va").toFixed(1)}`, "points from VA alone", C.a1, "va", 26);
+  stat(s, 8.05, 2.9, 1.45, `${decompBreadth.segments_for_half_of_positive_contribution}`, "markets make half of all the rise", C.a1, "breadth", 26);
   takeaway(s, MSG.finding2.takeaway);
 }
 
-// 12. finding 3: who holds the concentrated markets
+// 13. finding 3: who holds the concentrated markets
 {
   const s = content("Talk", MSG.finding3);
+  methodStrip(s, MSG.finding3.method);
   const top = civTop.slice(0, 6);
-  const labels = top.map((r, i) => `${MSG.finding3.segments[i]}  (${bigShort(r.net, "seg net")})`);
-  s.addChart(pres.charts.BAR, [{ name: "Largest company's share", labels, values: top.map((r) => need(r.largest_share_pct, "share")) }],
-    { ...axis, x: 0.4, y: 1.0, w: 5.6, h: 3.35, barDir: "bar", catAxisOrientation: "maxMin", chartColors: [H.accent1], valAxisMinVal: 0, valAxisMaxVal: 100,
+  s.addChart(pres.charts.BAR, [{ name: "Largest company's share", labels: top.map((r, i) => `${MSG.finding3.segments[i]}  (${bigShort(r.net, "seg net")})`),
+      values: top.map((r) => need(r.largest_share_pct, "share")) }],
+    { ...axis, x: 0.4, y: 1.5, w: 5.6, h: 2.85, barDir: "bar", catAxisOrientation: "maxMin", chartColors: [H.accent1], valAxisMinVal: 0, valAxisMaxVal: 100,
       showValue: true, dataLabelPosition: "inEnd", dataLabelFormatCode: '0"%"', dataLabelFontSize: 11, dataLabelColor: H.lt1, showLegend: false,
-      showValAxisTitle: true, valAxisTitle: "Largest company's share of the segment (%)", catAxisLabelFontSize: 10, objectName: "finding3 chart" });
-  caption(s, `The six largest highly concentrated civilian segments in FY${LAST}, with their size.`, 0.5, 4.33, 5.6);
-  card(s, 6.25, 1.0, 3.25, 3.5, "companies card");
-  text(s, "Who holds them", { x: 6.45, y: 1.08, w: 2.9, h: 0.3, fontSize: 13, bold: true, objectName: "companies head" });
+      showValAxisTitle: true, valAxisTitle: "Largest company's share of the market (%)", catAxisLabelFontSize: 10, objectName: "finding3 chart" });
+  caption(s, `The six largest highly concentrated civilian markets in FY${LAST}, with their size.`, 0.5, 4.33, 5.6);
+  card(s, 6.25, 1.5, 3.25, 3.0, "companies card");
   top.forEach((r, i) => {
-    const y = 1.45 + i * 0.5;
-    dot(s, 6.45, y + 0.04, 0.3, i < 3 ? C.a1 : C.a3, String(i + 1), `company ${i + 1}`);
+    const y = 1.6 + i * 0.48;
+    dot(s, 6.4, y + 0.04, 0.28, i < 3 ? C.a1 : C.a3, String(i + 1), `company ${i + 1}`);
     text(s, [{ text: checkedName(MSG.finding3.companies[i], r.largest_vendor_name), options: { bold: true, breakLine: true } },
-             { text: MSG.finding3.roles[i], options: { fontSize: 10, color: C.text2 } }],
-      { x: 6.85, y, w: 2.6, h: 0.48, fontSize: 12, objectName: `company ${i + 1} text` });
+             { text: MSG.finding3.roles[i], options: { fontSize: 10, color: C.text2 } }], { x: 6.78, y, w: 2.67, h: 0.46, fontSize: 11, objectName: `company ${i + 1} text` });
   });
   takeaway(s, MSG.finding3.takeaway);
 }
 
-// 13. finding 4: why VA managed healthcare concentrated
+// 14. finding 4: why VA managed healthcare concentrated
 {
   const s = content("Talk", MSG.finding4);
+  methodStrip(s, MSG.finding4.method);
   const yrs = exSeg.filter((r) => num(r.fiscal_year) >= 2016);
   s.addChart([
     { type: pres.charts.BAR, data: [{ name: "Money spent ($ billion)", labels: yrs.map((r) => r.fiscal_year), values: yrs.map((r) => need(r.net, "ex net") / 1e9) }],
       options: { chartColors: [H.accent6], barGapWidthPct: 40 } },
     { type: pres.charts.LINE, data: [{ name: "Largest company's share (%)", labels: yrs.map((r) => r.fiscal_year), values: yrs.map((r) => need(r.largest_share_pct, "ex share")) }],
       options: { chartColors: [H.accent1], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 6, secondaryValAxis: true, secondaryCatAxis: true } },
-  ], { ...axis, x: 0.4, y: 1.0, w: 5.7, h: 3.25, showLegend: true, legendPos: "b",
+  ], { ...axis, x: 0.4, y: 1.5, w: 5.7, h: 2.8, showLegend: true, legendPos: "b",
     valAxes: [{ showValAxisTitle: true, valAxisTitle: "$ billion", valAxisMinVal: 0 },
               { showValAxisTitle: true, valAxisTitle: "largest share %", valAxisMinVal: 0, valAxisMaxVal: 100, valGridLine: { style: "none" } }],
     catAxes: [{ catAxisTitle: "" }, { catAxisHidden: true }], objectName: "finding4 chart" });
-  caption(s, "VA managed healthcare: money spent (bars) and the largest company's share (line).", 0.5, 4.3, 5.7);
-  card(s, 6.35, 1.0, 3.15, 3.55, "why card");
-  text(s, "What happened", { x: 6.55, y: 1.08, w: 2.8, h: 0.3, fontSize: 13, bold: true, objectName: "why head" });
+  caption(s, "VA managed healthcare: money spent (bars) and the largest company's share (line).", 0.5, 4.33, 5.7);
+  card(s, 6.35, 1.5, 3.15, 3.0, "why card");
   MSG.finding4.facts.forEach(([glyph, t], i) => {
-    const y = 1.45 + i * 0.77;
-    dot(s, 6.55, y + 0.02, 0.34, [C.a2, C.a5, C.a1, C.a4][i], glyph, `fact ${i + 1}`);
-    text(s, t, { x: 7.0, y, w: 2.4, h: 0.72, fontSize: 11, objectName: `fact ${i + 1} text` });
+    const y = 1.62 + i * 0.72;
+    dot(s, 6.5, y + 0.02, 0.34, [C.a2, C.a5, C.a1, C.a4][i], glyph, `fact ${i + 1}`);
+    text(s, t, { x: 6.95, y, w: 2.45, h: 0.66, fontSize: 11, objectName: `fact ${i + 1} text` });
   });
   takeaway(s, MSG.finding4.takeaway);
 }
 
-// 14. finding 5: concentrated, but competed
+// 15. finding 5: concentrated, but competed
 {
   const s = content("Talk", MSG.finding5);
+  methodStrip(s, MSG.finding5.method);
   const rowOf = (g) => civComp.find((r) => r.fiscal_year === LAST && r.segments === g) || {};
-  const groups = [["Highly concentrated segments", rowOf("concentrated")], ["All other segments", rowOf("rest")]];
-  const comp = groups.map(([, r]) => need(r.competed_pct, "competed")), sole = groups.map(([, r]) => need(r.sole_source_pct, "sole"));
-  s.addChart(pres.charts.BAR, [{ name: "Competed", labels: groups.map((g) => g[0]), values: comp },
-                               { name: "Sole source", labels: groups.map((g) => g[0]), values: sole }],
-    { ...axis, x: 0.4, y: 1.0, w: 5.8, h: 3.35, barDir: "bar", barGrouping: "percentStacked", chartColors: [H.accent5, H.accent4], catAxisOrientation: "maxMin",
+  const groups = [["Highly concentrated markets", rowOf("concentrated")], ["All other markets", rowOf("rest")]];
+  s.addChart(pres.charts.BAR, [{ name: "Competed", labels: groups.map((g) => g[0]), values: groups.map(([, r]) => need(r.competed_pct, "competed")) },
+                               { name: "Sole source", labels: groups.map((g) => g[0]), values: groups.map(([, r]) => need(r.sole_source_pct, "sole")) }],
+    { ...axis, x: 0.4, y: 1.5, w: 5.8, h: 2.85, barDir: "bar", barGrouping: "percentStacked", chartColors: [H.accent5, H.accent4], catAxisOrientation: "maxMin",
       showValue: true, dataLabelPosition: "ctr", dataLabelFormatCode: '0"%"', dataLabelFontSize: 13, dataLabelColor: H.lt1, showLegend: true, legendPos: "b",
-      showValAxisTitle: true, valAxisTitle: "% of the dollars", valAxisMinVal: 0, valAxisMaxVal: 1, valAxisLabelFormatCode: "0%", barGapWidthPct: 50, catAxisLabelFontSize: 12, objectName: "finding5 chart" });
+      showValAxisTitle: true, valAxisTitle: "% of the dollars", valAxisMinVal: 0, valAxisMaxVal: 1, valAxisLabelFormatCode: "0%", barGapWidthPct: 50,
+      catAxisLabelFontSize: 12, objectName: "finding5 chart" });
   caption(s, `How civilian contract dollars were awarded, FY${LAST}.`, 0.5, 4.33, 5.8);
   const nasa = civCompAgency.find((r) => /Aeronautics/.test(r.agency)) || {};
-  card(s, 6.45, 1.05, 3.05, 1.7, "same card");
-  text(s, [{ text: "The same rate", options: { bold: true, color: C.a5, breakLine: true } },
-           { text: MSG.finding5.same, options: { fontSize: 12, color: C.text2 } }], { x: 6.6, y: 1.13, w: 2.8, h: 1.55, fontSize: 15, objectName: "same text" });
-  card(s, 6.45, 2.9, 3.05, 1.45, "exception card");
+  card(s, 6.45, 1.55, 3.05, 1.35, "same card");
+  text(s, [{ text: "The same rate", options: { bold: true, color: C.a5, breakLine: true } }, { text: MSG.finding5.same, options: { fontSize: 11, color: C.text2 } }],
+    { x: 6.6, y: 1.62, w: 2.8, h: 1.22, fontSize: 14, objectName: "same text" });
+  card(s, 6.45, 3.0, 3.05, 1.35, "exception card");
   text(s, [{ text: `Exception: NASA, ${pct(nasa.sole_source_pct, 0, "nasa")} sole source`, options: { bold: true, color: C.a4, breakLine: true } },
-           { text: MSG.finding5.exception, options: { fontSize: 12, color: C.text2 } }], { x: 6.6, y: 2.98, w: 2.8, h: 1.3, fontSize: 14, objectName: "exception text" });
+           { text: MSG.finding5.exception, options: { fontSize: 11, color: C.text2 } }], { x: 6.6, y: 3.07, w: 2.8, h: 1.22, fontSize: 13, objectName: "exception text" });
   takeaway(s, MSG.finding5.takeaway);
 }
 
-// 15. method check: is one market's rise real?
+// 16. what "rising" means, on a real market
+{
+  const s = content("Talk", MSG.rising);
+  const rows = exSeg.filter((r) => r.hhi !== "");
+  const f3 = rows.slice(0, 3), l3 = rows.slice(-3);
+  const mean = (rs) => rs.reduce((a, r) => a + need(r.hhi, "hhi"), 0) / rs.length;
+  const m1 = mean(f3), m2 = mean(l3);
+  s.addChart(pres.charts.LINE, [
+    { name: "HHI each year", labels: rows.map((r) => shortYear(r.fiscal_year)), values: rows.map((r) => need(r.hhi, "hhi")) },
+    { name: "Average of the first 3 years", labels: rows.map((r) => shortYear(r.fiscal_year)), values: rows.map((r, i) => (i < 3 ? m1 : null)) },
+    { name: "Average of the last 3 years", labels: rows.map((r) => shortYear(r.fiscal_year)), values: rows.map((r, i) => (i >= rows.length - 3 ? m2 : null)) },
+  ], { ...axis, x: 0.4, y: 1.0, w: 6.0, h: 3.35, chartColors: [H.accent6, H.accent2, H.accent1], lineSize: 3, lineDataSymbol: "circle", lineDataSymbolSize: 5,
+    valAxisMinVal: 0, valAxisMaxVal: 10000, valAxisMajorUnit: 2500, showLegend: true, legendPos: "b", showValAxisTitle: true, valAxisTitle: "HHI",
+    showCatAxisTitle: true, catAxisTitle: "Fiscal year", objectName: "rising chart" });
+  caption(s, "One trend line: VA managed healthcare, FY2008 to FY2025.", 0.5, 4.33, 6.0);
+  card(s, 6.65, 1.0, 2.85, 3.35, "rule card");
+  text(s, [{ text: "The rule", options: { bold: true, color: C.a1, breakLine: true } }, { text: MSG.rising.rule, options: { fontSize: 12, breakLine: true } }],
+    { x: 6.8, y: 1.08, w: 2.6, h: 1.2, fontSize: 14, paraSpaceAfter: 4, objectName: "rule text" });
+  text(s, [{ text: `${count(m1)} → ${count(m2)}`, options: { bold: true, fontSize: 20, color: C.a1, breakLine: true, fontFace: THEME.headFontFace } },
+           { text: `A gain of ${count(m2 - m1)} points: this market is rising`, options: { fontSize: 11, color: C.text2 } }],
+    { x: 6.8, y: 2.35, w: 2.6, h: 0.85, objectName: "rule example" });
+  text(s, MSG.rising.why, { x: 6.8, y: 3.25, w: 2.6, h: 1.0, fontSize: 11, color: C.text2, objectName: "rule why" });
+  takeaway(s, MSG.rising.takeaway);
+}
+
+// 17. the shuffle test: is a market's rise real?
 {
   const s = content("Talk", MSG.lines);
   const n = need(linesTested.lines, "lines");
   const vals = [need(chance500.rising_pct, "rising"), need(chance500.rising_pct_shuffled, "shuffled"), need(linesTested.tested_risers_pct_of_lines, "tested")];
-  s.addChart(pres.charts.BAR, [{ name: "% of trend lines", labels: ["Rise 500+ points", "Rise 500+ with years shuffled", "Rise that beats its own shuffles"], values: vals }],
-    { ...axis, x: 0.4, y: 1.0, w: 5.6, h: 3.35, barDir: "col", chartColors: [H.accent3, H.accent6, H.accent1], valAxisMinVal: 0, valAxisMaxVal: 60,
+  s.addChart(pres.charts.BAR, [{ name: "% of markets", labels: ["A. Pass the 500-point rule", "B. Would pass by luck (shuffled)", "C. Pass the shuffle test"], values: vals }],
+    { ...axis, x: 0.4, y: 1.0, w: 5.4, h: 3.35, barDir: "col", chartColors: [H.accent3, H.accent6, H.accent1], valAxisMinVal: 0, valAxisMaxVal: 60,
       showValue: true, dataLabelPosition: "outEnd", dataLabelFormatCode: '0"%"', dataLabelFontSize: 12, dataLabelColor: H.dk1, showLegend: false,
       showValAxisTitle: true, valAxisTitle: `% of ${count(n)} civilian trend lines`, barGapWidthPct: 45, catAxisLabelFontSize: 10, objectName: "lines chart" });
-  caption(s, "A trend line is one agency and one product over FY2008 to FY2025.", 0.5, 4.33, 5.6);
+  caption(s, "Civilian trend lines (one agency, one product) with 6+ years and $10M+.", 0.5, 4.33, 5.4);
   MSG.lines.steps.forEach(([glyph, head, body], i) => {
-    const y = 1.05 + i * 1.12;
-    dot(s, 6.3, y, 0.42, [C.a3, C.a6, C.a1][i], glyph, `lines step ${i + 1}`);
+    const y = 1.0 + i * 1.12;
+    dot(s, 6.05, y, 0.42, [C.a3, C.a6, C.a1][i], glyph, `lines step ${i + 1}`);
     text(s, [{ text: head, options: { bold: true, breakLine: true } }, { text: body, options: { fontSize: 11, color: C.text2 } }],
-      { x: 6.85, y: y - 0.04, w: 2.65, h: 1.05, fontSize: 13, objectName: `lines step ${i + 1} text` });
+      { x: 6.6, y: y - 0.04, w: 2.9, h: 1.08, fontSize: 13, objectName: `lines step ${i + 1} text` });
   });
   takeaway(s, MSG.lines.takeaway);
 }

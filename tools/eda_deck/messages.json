@@ -50,6 +50,53 @@
     "takeaway": "Defense has a handful of prime contractors and studies its own market. The civilian agencies have no such measure, so we built one.",
     "notes": "In FY2025 the government spent about 301 billion dollars on civilian contracts, and 492 billion on Defense. Defense buys from a handful of large weapons makers and already studies its own market, so we focus on the civilian agencies. Our three questions: how much civilian money goes to markets that a few companies dominate, whether that share is growing for real, and where, who and why."
   },
+  "terms": {
+    "title": "Key terms used in this talk",
+    "cards": [
+      [
+        "HHI",
+        "Herfindahl–Hirschman Index",
+        "A concentration score from 0 (money spread out) to 10,000 (one company has it all)"
+      ],
+      [
+        "Segment",
+        "also called a market",
+        "One agency buying one kind of product in one year"
+      ],
+      [
+        "Highly concentrated",
+        "from U.S. merger guidelines",
+        "A segment whose HHI is above 2,500"
+      ],
+      [
+        "Fiscal year (FY)",
+        "the government's budget year",
+        "October 1 to September 30. FY2025 ended on September 30, 2025"
+      ],
+      [
+        "Civilian agencies",
+        "our focus",
+        "Every federal agency except the Department of Defense (DoD)"
+      ],
+      [
+        "Prime contractor",
+        "what the data records",
+        "The company the government signs the contract with directly"
+      ],
+      [
+        "Competed / sole source",
+        "how a contract is awarded",
+        "Other companies could bid / one company was chosen directly"
+      ],
+      [
+        "GAO",
+        "Government Accountability Office",
+        "Congress's auditor. It publishes the official yearly contract totals"
+      ]
+    ],
+    "takeaway": "These terms come up on every slide that follows.",
+    "notes": "Before the data, the key terms. HHI stands for the Herfindahl–Hirschman Index, named after the economists Orris Herfindahl and Albert Hirschman. It is the standard measure of market concentration that the U.S. Justice Department and the Federal Trade Commission use to review mergers. It runs from near 0, money spread across many companies, to 10,000, one company with everything. A segment, or market, is one agency buying one kind of product in one year. Highly concentrated means an HHI above 2,500. A fiscal year runs October to September. Civilian agencies are everything except Defense. The data records the prime contractor, the company the government signs with directly. Competed means others could bid, and sole source means one company was chosen directly. GAO is the Government Accountability Office, Congress's auditor."
+  },
   "data": {
     "title": "The data: every federal contract action since FY2008",
     "source": "Source: USAspending.gov Award Data Archive, all agencies, contracts, release of 2026-09-06.",
@@ -80,24 +127,66 @@
     "notes": "We measure concentration market by market. A segment is one agency buying one kind of product in one year. For example: Veterans Affairs buying managed healthcare in FY2025, where 75 companies shared 22.8 billion dollars. There are about 365 thousand segments in 18 years. Each gets a score, the HHI, from 0 to 10,000. Below 1,500 is competitive, 1,500 to 2,500 is moderate, and above 2,500 is highly concentrated, the bands the Justice Department and FTC use for mergers. Our VA example scores 9,680, near the top."
   },
   "hhi": {
-    "title": "The HHI, worked through with real numbers",
+    "title": "The Herfindahl–Hirschman Index (HHI), worked through",
     "companies": [
       "UnitedHealth Group",
       "Valor Healthcare",
       "STG International"
     ],
     "takeaway": "Squaring makes big shares count much more: one company with 98% scores almost 10,000 on its own.",
-    "notes": "Here is the calculation. Take each company's share of the money, square it, and add them up. Five equal companies: 20 squared is 400, times five is 2,000. One company with 80 percent: 80 squared is 6,400, plus four times 5 squared, 100, gives 6,500. On the right is a real market from our data, VA managed healthcare in FY2025. UnitedHealth Group had 98.39 percent: squared, that is 9,680 on its own. The next two companies add less than half a point, and the other 72 companies together add 0.05. The total HHI is 9,680. Squaring is what makes the score so sensitive to one dominant company."
+    "notes": "HHI stands for the Herfindahl–Hirschman Index. Here is the calculation. Take each company's share of the money, square it, and add them up. Five equal companies: 20 squared is 400, times five is 2,000. One company with 80 percent: 80 squared is 6,400, plus four times 5 squared, 100, gives 6,500. On the right is a real market from our data, VA managed healthcare in FY2025. UnitedHealth Group had 98.39 percent: squared, that is 9,680 on its own. The next two companies add less than half a point, and the other 72 companies together add 0.05. The total HHI is 9,680. Squaring is what makes the score so sensitive to one dominant company."
   },
   "measure": {
     "title": "From markets to one number per year",
     "takeaway": "Our yearly measure: the share of the year's civilian contract dollars that sits in highly concentrated markets.",
     "notes": "To follow 18 years, we need one number per year. We take every civilian segment, check its HHI, and add up the dollars in segments above 2,500. In FY2025 that is 152 billion dollars out of 301 billion, or 50 percent. That is the number we track from year to year."
   },
+  "methods": {
+    "title": "How we tested each finding",
+    "rows": [
+      [
+        "Is the civilian rise real?",
+        "Shuffle (permutation) test",
+        "Would a trend this steep appear if the 18 years were in random order?"
+      ],
+      [
+        "Where did the rise come from?",
+        "Decomposition",
+        "Split the change into each market's part. The parts add up exactly"
+      ],
+      [
+        "Who holds the markets?",
+        "Ranking",
+        "The largest concentrated markets, and the company with the most money in each"
+      ],
+      [
+        "Why did VA concentrate?",
+        "Case study and policy record",
+        "Follow one market, then match it to the laws and contracts"
+      ],
+      [
+        "Was the money competed?",
+        "Breakdown by award type",
+        "Share of dollars competed against sole source"
+      ],
+      [
+        "Is one market's rise real?",
+        "Per-market shuffle test",
+        "Does a market's rise beat its own shuffled years?"
+      ]
+    ],
+    "takeaway": "Every test asks one question: is the pattern bigger than what chance, or one big contract, would produce?",
+    "notes": "Each finding comes from a specific method. For the trend, a shuffle test, also called a permutation test: if the years were in random order, how often would we see a trend this steep? For where the rise came from, a decomposition that splits the change into each market's part, so the parts add up exactly to the total. For who, a ranking of the largest concentrated markets. For why, a case study of one market matched to the policy record. For competition, a breakdown of dollars by how they were awarded. And for single markets, the same shuffle idea applied to each market on its own. The next slides show each one."
+  },
   "finding1": {
     "title": "Finding 1: the rise is real, and it is Veterans Affairs",
     "takeaway": "Civilian concentration rose from 44% to 50%, beyond chance. Take Veterans Affairs out and the rest is flat.",
-    "notes": "The orange line is the share of civilian dollars in highly concentrated markets: 44 percent in FY2008, 50 percent in FY2025. Is that rise real, or just noise? We shuffled the 18 years twenty thousand times. A trend this strong appeared in only about 0.2 percent of shuffles, so the rise is real. But look at the grey line: the same measure without Veterans Affairs. It is flat, 45 percent to 42 percent, and shuffles beat it about half the time. So the rise in civilian concentration is almost entirely Veterans Affairs."
+    "notes": "How we tested it: we computed the yearly share, then how steep its trend is over 18 years. Then we shuffled the 18 yearly values into random order 20,000 times and measured the trend each time. If the real trend is steeper than almost all the shuffled ones, it is unlikely to be chance. The orange line is all civilian agencies: 44 percent in FY2008, 50 percent in FY2025, and only about 0.2 percent of shuffles are as steep, so the rise is real. The grey line is the same measure without Veterans Affairs. It goes from 45 to 42 percent, and about half of the shuffles are as steep, so there is no real trend. The rise in civilian concentration is almost entirely Veterans Affairs.",
+    "method": [
+      "Compute each year's share (the yearly measure), then its trend",
+      "Shuffle the 18 years 20,000 times and refit the trend",
+      "Real if few shuffles are as steep. Redo without VA"
+    ]
   },
   "finding2": {
     "title": "Finding 2: a few markets drove it, not a broad shift",
@@ -111,7 +200,12 @@
       "Department of Transportation": "Transportation"
     },
     "takeaway": "Veterans Affairs added more than the whole rise. Thousands of other markets moved in and out of the band and roughly cancelled out.",
-    "notes": "Where did the rise come from? Comparing FY2012 to FY2014 with FY2023 to FY2025, the civilian share rose 7.2 points. Veterans Affairs alone added 11.6 points, more than the whole rise. NASA and several others went the other way. And just 12 markets account for half of all the upward movement. So this is a story about a few specific markets, not the whole government."
+    "notes": "First, what the numbers mean. The civilian share, the yearly measure, was 40.5 percent in FY2012 to FY2014 and 47.8 percent in FY2023 to FY2025, a rise of 7.2 percentage points. We use 3-year windows so one big year cannot drive the result. Then we split those 7.2 points into the part each market contributed: its concentrated dollars as a share of all civilian dollars, then and now. The difference is that market's part, and all the parts add up exactly to 7.2. Adding the parts by agency gives this chart. Veterans Affairs added 11.6 points, more than the whole rise, because other agencies, led by NASA, took about 4 points away. And just 12 markets make up half of all the upward movement.",
+    "method": [
+      "Compare FY2012 to FY2014 with FY2023 to FY2025",
+      "Each market: its concentrated $ ÷ all civilian $, then and now",
+      "The difference is its part. Add the parts by agency"
+    ]
   },
   "finding3": {
     "title": "Finding 3: who holds the concentrated markets",
@@ -140,7 +234,12 @@
       "Operates a DOE research lab"
     ],
     "takeaway": "Four of the six largest concentrated civilian markets are VA health care. McKesson's share is for distribution: the drugs come from many makers.",
-    "notes": "These are the six largest highly concentrated civilian markets in FY2025, and the company with the largest share in each. The top three are all Veterans Affairs health care: UnitedHealth Group, through Optum, with 98 percent of managed healthcare; McKesson with 98 percent of drugs; and TriWest with all of government health insurance programs. One caution: McKesson is VA's drug distributor, so its share is for delivery, not for making the drugs, which come from many manufacturers."
+    "notes": "These are the six largest highly concentrated civilian markets in FY2025, and the company with the largest share in each. The top three are all Veterans Affairs health care: UnitedHealth Group, through Optum, with 98 percent of managed healthcare; McKesson with 98 percent of drugs; and TriWest with all of government health insurance programs. One caution: McKesson is VA's drug distributor, so its share is for delivery, not for making the drugs, which come from many manufacturers.",
+    "method": [
+      "Take the FY2025 civilian markets above 2,500",
+      "Rank them by dollars",
+      "Name the company with the most money in each (its parent)"
+    ]
   },
   "finding4": {
     "title": "Finding 4: VA health care concentrated by design",
@@ -163,36 +262,53 @@
       ]
     ],
     "takeaway": "VA chose to run community care through one administrator per region. The market concentrated by policy, through a competed contract.",
-    "notes": "Why did VA managed healthcare concentrate? The 2018 MISSION Act created a permanent community care program. VA competed the Community Care Network contracts, three companies bid, and GAO denied a bid protest against the awards to Optum. The regions went live between December 2019 and June 2021, which is exactly when the money in our data jumps, from 389 million to over 22 billion dollars, and one company's share goes to 98 percent. The administrator pays community doctors and hospitals, so the money passes through it to many providers we do not see. GAO and VA's inspector general have both flagged oversight risks in these contracts."
+    "notes": "Why did VA managed healthcare concentrate? The 2018 MISSION Act created a permanent community care program. VA competed the Community Care Network contracts, three companies bid, and GAO denied a bid protest against the awards to Optum. The regions went live between December 2019 and June 2021, which is exactly when the money in our data jumps, from 389 million to over 22 billion dollars, and one company's share goes to 98 percent. The administrator pays community doctors and hospitals, so the money passes through it to many providers we do not see. GAO and VA's inspector general have both flagged oversight risks in these contracts.",
+    "method": [
+      "Follow the top VA market year by year",
+      "Read the laws and GAO, VA and inspector general records",
+      "Match the dates to the jump in the data"
+    ]
   },
   "finding5": {
     "title": "Finding 5: concentrated, but competed",
     "same": "Concentrated civilian money was competed as often as the rest of civilian money.",
     "exception": "Mostly space research, where few organizations can do the work.",
     "takeaway": "Concentration mostly comes from competed contracts that give one winner the whole market, not from skipping competition.",
-    "notes": "Is concentration a sign that agencies skip competition? Mostly not. In FY2025, 90 percent of the dollars in highly concentrated civilian markets were competed, the same as in all other markets. The pattern is competition for the market: one competition, then one winner for years. NASA is the exception, with over a third of its concentrated dollars sole source, mostly in space research."
+    "notes": "Is concentration a sign that agencies skip competition? Mostly not. In FY2025, 90 percent of the dollars in highly concentrated civilian markets were competed, the same as in all other markets. The pattern is competition for the market: one competition, then one winner for years. NASA is the exception, with over a third of its concentrated dollars sole source, mostly in space research.",
+    "method": [
+      "Read each contract action's competition field",
+      "Group the dollars: competed or sole source",
+      "Compare concentrated markets with all the others"
+    ]
+  },
+  "rising": {
+    "title": "What counts as a rising market?",
+    "rule": "Compare a market's average HHI in its last 3 years with its first 3 years. A gain of 500 points or more counts as rising: the rule in our proposal.",
+    "why": "Averaging 3 years softens one big contract. Single years still swing a lot, so the next slide tests each rise against chance.",
+    "takeaway": "A trend line follows one market for up to 18 years. Rising means its score climbed by at least 500 points.",
+    "notes": "Now we move from all civilian money to single markets. A trend line follows one market, one agency and one product, for up to 18 years. Here is VA managed healthcare. To call a market rising, our proposal compares the average score of its first three years with its last three. Here it went from 437 in FY2008 to FY2010 to 8,742 in FY2023 to FY2025, a gain of over 8,300 points, so it is clearly rising. Averaging three years softens the effect of one big contract, but scores still swing a lot from year to year."
   },
   "lines": {
-    "title": "Checking our method: is a market's rise real?",
+    "title": "Is a market's rise real? The shuffle test",
     "steps": [
       [
-        "1",
-        "Count the rises",
-        "Lines whose score rose by 500 points or more"
+        "A",
+        "Apply the rule to every market",
+        "A gain of 500+ points from the first 3 to the last 3 years"
       ],
       [
-        "2",
-        "Shuffle each line's years",
-        "How many would rise by luck alone"
+        "B",
+        "Shuffle each market's years",
+        "Keep its scores, mix their order, measure the gain again, 500 times. Rises here are luck"
       ],
       [
-        "3",
-        "Keep the real ones",
-        "Rises that beat their own shuffles, corrected for testing thousands of lines"
+        "C",
+        "Keep rises that beat their shuffles",
+        "The real gain beats nearly all its shuffles, with a correction so at most 1 in 10 kept is luck"
       ]
     ],
-    "takeaway": "A simple 500-point rule flags too many rises by chance. A rise counts only when it beats its own shuffled years.",
-    "notes": "We also follow each market over time: one agency and one product, FY2008 to FY2025. HHI jumps a lot from year to year with big contracts. If we call a market rising when it gains 500 points, 54 percent of markets rise. But if we shuffle each market's years, 34 percent still rise, so most of those flags are luck. Testing each market against its own shuffles leaves 22 percent as real risers. That is the rule we will use from now on."
+    "takeaway": "Most markets that pass the simple rule would pass by luck. The shuffle test keeps only the rises that are real.",
+    "notes": "Bar A: 54 percent of civilian markets pass the 500-point rule. Is that real? Bar B: we shuffled each market's yearly scores into random order, 500 times, and measured the gain again. Even in random order, 34 percent pass. So most of the markets in bar A could have passed by luck. Bar C: we keep a market only when its real gain beats nearly all of its own shuffles, with a standard correction, called Benjamini-Hochberg, so that at most about one in ten of the markets we keep is a false alarm. That leaves 22 percent of markets with a rise we can trust. This is the rule we will use from now on."
   },
   "next": {
     "title": "What it means, and what we do next",
